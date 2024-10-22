@@ -1,7 +1,7 @@
 # PointOfSaleSystem
 
-Vilnius University, 3rd course Software Engineering Design course, group project on creating point of sales system for bars, cafes, restaurants and beauty sector.
+Vilnius University, 3rd course Software Engineering Design course, group project on creating point of sales system for bars, cafes, restaurants and beauty sector (hairdresser, spa, massages, etc).
 
 Team name: karbiratoriai
 
-## [Naming Convention](https://github.com/ktaranov/naming-convention/blob/master/C%23%20Coding%20Standards%20and%20Naming%20Conventions.md)
+## [Naming Conventions](https://github.com/ktaranov/naming-convention/blob/master/C%23%20Coding%20Standards%20and%20Naming%20Conventions.md)
