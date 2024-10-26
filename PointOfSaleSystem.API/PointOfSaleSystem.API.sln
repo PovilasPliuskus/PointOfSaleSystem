@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSaleSystem.API", "PointOfSaleSystem.API.csproj", "{E471801B-8A79-4046-8E17-C27CD1AE428B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSaleSystem.API", "PointOfSaleSystem.API.csproj", "{D8CE6A48-D605-4482-B85A-5B070C594649}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E471801B-8A79-4046-8E17-C27CD1AE428B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E471801B-8A79-4046-8E17-C27CD1AE428B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E471801B-8A79-4046-8E17-C27CD1AE428B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E471801B-8A79-4046-8E17-C27CD1AE428B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8CE6A48-D605-4482-B85A-5B070C594649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8CE6A48-D605-4482-B85A-5B070C594649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8CE6A48-D605-4482-B85A-5B070C594649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8CE6A48-D605-4482-B85A-5B070C594649}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {81527A7A-2AAB-45C1-BBDD-C03B41083BAD}
+		SolutionGuid = {E79C1521-3694-4909-9242-25E38830BB72}
 	EndGlobalSection
 EndGlobal
