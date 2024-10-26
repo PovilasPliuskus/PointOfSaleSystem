@@ -1,6 +1,6 @@
 ﻿namespace PointOfSaleSystem.API.Models.Enums
 {
-    public enum EmployeeStatus
+    public enum EmployeeStatusEnum
     {
         None = 0,
         Waiter = 1,
