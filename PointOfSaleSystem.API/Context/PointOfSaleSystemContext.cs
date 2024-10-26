@@ -21,5 +21,42 @@ namespace PointOfSaleSystem.API.Context
         public DbSet<FullOrderEntity> FullOrders { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<EstablishmentEntity>()
+                .HasOne(e => e.Company)
+                .WithMany(com => com.Establishments)
+                .HasForeignKey(e => e.fkCompanyId);
+
+            modelBuilder.Entity<CompanyProductEntity>()
+                .HasOne(cp => cp.Company)
+                .WithMany(com => com.CompanyProducts)
+                .HasForeignKey(cp => cp.fkCompanyId);
+
+            modelBuilder.Entity<CompanyServiceEntity>()
+                .HasOne(cs => cs.Company)
+                .WithMany(com => com.CompanyServices)
+                .HasForeignKey(cs => cs.fkCompanyId);
+
+            modelBuilder.Entity<EstablishmentProductEntity>()
+                .HasOne(ep => ep.Establishment)
+                .WithMany(e => e.EstablishmentProducts)
+                .HasForeignKey(ep => ep.fkEstablishmentId);
+
+            modelBuilder.Entity<EstablishmentServiceEntity>()
+                .HasOne(es => es.Establishment)
+                .WithMany(e => e.EstablishmentServices)
+                .HasForeignKey(es => es.fkEstablishmentId);
+
+            modelBuilder.Entity<EmployeeEntity>()
+                .HasOne(e => e.Establishment)
+                .WithMany(est => est.Employees)
+                .HasForeignKey(e => e.fkEstablishmentId);
+
+            modelBuilder.Entity<OrderEntity>()
+                .HasOne(o => o.FullOrder)
+                .WithMany(fo => fo.Orders)
+                .HasForeignKey(o => o.fkFullOrder);
+        }
     }
 }

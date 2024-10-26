@@ -15,9 +15,12 @@ namespace PointOfSaleSystem.API.Models.Entities
         public uint AmountInStock { get; set; }
 
         [Required]
-        public required CurrencyEnum Currency { get; set; }
+        public CurrencyEnum Currency { get; set; }
 
         [Required]
-        public required EstablishmentEntity Establishment { get; set; }
+        public Guid fkEstablishmentId { get; set; }
+
+        [ForeignKey(nameof(fkEstablishmentId))]
+        public EstablishmentEntity Establishment { get; set; }
     }
 }

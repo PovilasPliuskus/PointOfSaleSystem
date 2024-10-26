@@ -4,5 +4,6 @@
     {
         public ICollection<EstablishmentProduct>? EstablishmentProducts { get; set; }
         public ICollection<EstablishmentService>? EstablishmentServices { get; set; }
+        public required FullOrder FullOrder { get; set; }
     }
 }

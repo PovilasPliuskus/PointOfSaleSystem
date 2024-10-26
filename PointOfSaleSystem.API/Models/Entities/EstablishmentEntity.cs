@@ -10,6 +10,9 @@ namespace PointOfSaleSystem.API.Models.Entities
         public int Code { get; set; }
 
         [Required]
+        public Guid fkCompanyId { get; set; }
+
+        [ForeignKey(nameof(fkCompanyId))]
         public CompanyEntity Company { get; set; }
 
         [Required]

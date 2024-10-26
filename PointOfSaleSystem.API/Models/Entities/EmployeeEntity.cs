@@ -19,10 +19,10 @@ namespace PointOfSaleSystem.API.Models.Entities
         public EmployeeStatusEnum Status { get; set; }
 
         [Required]
-        public int fkEstablishmentId { get; set; }
+        public Guid fkEstablishmentId { get; set; }
 
         [ForeignKey(nameof(fkEstablishmentId))]
-        public required EstablishmentEntity Establishment { get; set; }
+        public EstablishmentEntity Establishment { get; set; }
 
         [Required]
         [StringLength(50)]

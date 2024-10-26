@@ -11,5 +11,11 @@ namespace PointOfSaleSystem.API.Models.Entities
 
         [Required]
         public ICollection<EstablishmentServiceEntity>? EstablishmentServices { get; set; }
+
+        [Required]
+        public Guid fkFullOrder {  get; set; }
+
+        [ForeignKey(nameof(fkFullOrder))]
+        public FullOrderEntity FullOrder { get; set; }
     }
 }
