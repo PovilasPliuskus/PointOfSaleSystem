@@ -1,8 +1,7 @@
 ﻿namespace PointOfSaleSystem.API.Models
 {
-    public class FullOrder
+    public class FullOrder : BaseModel
     {
-        public int Id { get; set; }
         public required ICollection<Order> Orders { get; set; }
     }
 }
