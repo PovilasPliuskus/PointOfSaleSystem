@@ -7,9 +7,9 @@ namespace PointOfSaleSystem.API.Models.Entities
     public class CompanyProductEntity : BaseModelEntity
     {
         [Required]
-        public required bool AlcoholicBeverage { get; set; }
+        public bool AlcoholicBeverage { get; set; }
 
         [Required]
-        public required CompanyEntity Company { get; set; }
+        public CompanyEntity Company { get; set; }
     }
 }

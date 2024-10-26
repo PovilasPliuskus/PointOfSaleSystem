@@ -8,12 +8,13 @@ namespace PointOfSaleSystem.API.Models.Entities
     public class EstablishmentServiceEntity : BaseModelEntity
     {
         [Required]
-        public required decimal Price { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Price { get; set; }
 
         [Required]
-        public required CurrencyEnum Currency { get; set; }
+        public CurrencyEnum Currency { get; set; }
 
         [Required]
-        public required EstablishmentEntity Establishment { get; set; }
+        public EstablishmentEntity Establishment { get; set; }
     }
 }

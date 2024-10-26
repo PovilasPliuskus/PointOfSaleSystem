@@ -8,10 +8,11 @@ namespace PointOfSaleSystem.API.Models.Entities
     public class EstablishmentProductEntity : BaseModelEntity
     {
         [Required]
-        public required decimal Price { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Price { get; set; }
 
         [Required]
-        public required uint AmountInStock { get; set; }
+        public uint AmountInStock { get; set; }
 
         [Required]
         public required CurrencyEnum Currency { get; set; }

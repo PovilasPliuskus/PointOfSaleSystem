@@ -9,27 +9,27 @@ namespace PointOfSaleSystem.API.Models.Entities
     {
         [Required]
         [StringLength(255)]
-        public required string Surname { get; set; }
+        public string Surname { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public required decimal Salary { get; set; }
+        public decimal Salary { get; set; }
 
         [Required]
-        public required EmployeeStatusEnum Status { get; set; }
+        public EmployeeStatusEnum Status { get; set; }
 
         [Required]
-        public required int fkEstablishmentId { get; set; }
+        public int fkEstablishmentId { get; set; }
 
         [ForeignKey(nameof(fkEstablishmentId))]
         public required EstablishmentEntity Establishment { get; set; }
 
         [Required]
         [StringLength(50)]
-        public required string LoginUsername { get; set; }
+        public string LoginUsername { get; set; }
 
         [Required]
         [StringLength(255)]
-        public required string LoginPasswordHashed { get; set; }
+        public string LoginPasswordHashed { get; set; }
     }
 }

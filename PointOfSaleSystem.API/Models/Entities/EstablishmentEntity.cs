@@ -7,10 +7,10 @@ namespace PointOfSaleSystem.API.Models.Entities
     public class EstablishmentEntity : BaseModelEntity
     {
         [Required]
-        public required int Code { get; set; }
+        public int Code { get; set; }
 
         [Required]
-        public required CompanyEntity Company { get; set; }
+        public CompanyEntity Company { get; set; }
 
         [Required]
         public ICollection<EmployeeEntity>? Employees { get; set; }

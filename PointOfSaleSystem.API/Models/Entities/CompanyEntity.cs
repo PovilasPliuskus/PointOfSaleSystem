@@ -8,7 +8,7 @@ namespace PointOfSaleSystem.API.Models.Entities
     {
         [Required]
         [StringLength(100)]
-        public string Code { get; set; } = string.Empty;
+        public string Code { get; set; }
         public ICollection<EstablishmentEntity>? Establishments { get; set; }
         public ICollection<CompanyProductEntity>? CompanyProducts { get; set; }
         public ICollection<CompanyServiceEntity>? CompanyServices { get; set; }

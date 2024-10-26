@@ -7,6 +7,6 @@ namespace PointOfSaleSystem.API.Models.Entities
     public class FullOrderEntity : BaseModelEntity
     {
         [Required]
-        public required ICollection<OrderEntity> Orders { get; set; }
+        public ICollection<OrderEntity> Orders { get; set; }
     }
 }
