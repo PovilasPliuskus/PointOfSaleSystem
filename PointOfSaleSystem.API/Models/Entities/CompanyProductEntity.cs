@@ -10,6 +10,9 @@ namespace PointOfSaleSystem.API.Models.Entities
         public required bool AlcoholicBeverage { get; set; }
 
         [Required]
+        public required int fkCompanyId { get; set; }
+
+        [ForeignKey(nameof(fkCompanyId))]
         public required CompanyEntity Company { get; set; }
     }
 }

@@ -14,6 +14,9 @@ namespace PointOfSaleSystem.API.Models.Entities
         public required CurrencyEnum Currency { get; set; }
 
         [Required]
+        public required int fkEstablishmentId { get; set; }
+
+        [ForeignKey(nameof(fkEstablishmentId))]
         public required EstablishmentEntity Establishment { get; set; }
     }
 }

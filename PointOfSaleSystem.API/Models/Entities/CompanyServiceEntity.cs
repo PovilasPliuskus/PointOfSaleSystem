@@ -7,6 +7,9 @@ namespace PointOfSaleSystem.API.Models.Entities
     public class CompanyServiceEntity : BaseModelEntity
     {
         [Required]
+        public required int fkCompanyId { get; set; }
+
+        [ForeignKey(nameof(fkCompanyId))]
         public required CompanyEntity Company { get; set; }
     }
 }
