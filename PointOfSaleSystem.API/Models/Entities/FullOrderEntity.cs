@@ -7,8 +7,10 @@ namespace PointOfSaleSystem.API.Models.Entities
     [Table("FullOrder")]
     public class FullOrderEntity : BaseModelEntity
     {
-        [Required]
-        public ICollection<OrderEntity> Orders { get; set; }
+        public Guid fkOrderId { get; set; }
+
+        [ForeignKey(nameof(fkOrderId))]
+        public OrderEntity Order { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

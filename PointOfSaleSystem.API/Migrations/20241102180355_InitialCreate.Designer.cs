@@ -12,7 +12,7 @@ using PointOfSaleSystem.API.Context;
 namespace PointOfSaleSystem.API.Migrations
 {
     [DbContext(typeof(PointOfSaleSystemContext))]
-    [Migration("20241026200920_InitialCreate")]
+    [Migration("20241102180355_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -48,11 +48,9 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("fkCreatedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkModifiedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -88,11 +86,9 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkCreatedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkModifiedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -127,11 +123,9 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkCreatedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkModifiedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -184,14 +178,12 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("fkCreatedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("fkEstablishmentId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkModifiedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -211,8 +203,10 @@ namespace PointOfSaleSystem.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Code")
-                        .HasColumnType("integer");
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -229,11 +223,9 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkCreatedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkModifiedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -264,9 +256,6 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<Guid?>("OrderEntityId")
-                        .HasColumnType("uuid");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -277,19 +266,15 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("fkCreatedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("fkEstablishmentId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkModifiedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderEntityId");
 
                     b.HasIndex("fkCreatedByEmployee");
 
@@ -314,9 +299,6 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<Guid?>("OrderEntityId")
-                        .HasColumnType("uuid");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -327,19 +309,15 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("fkCreatedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("fkEstablishmentId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkModifiedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderEntityId");
 
                     b.HasIndex("fkCreatedByEmployee");
 
@@ -353,7 +331,9 @@ namespace PointOfSaleSystem.API.Migrations
             modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.FullOrderEntity", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("fkOrderId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -374,18 +354,18 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("fkCreatedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkModifiedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "fkOrderId");
 
                     b.HasIndex("fkCreatedByEmployee");
 
                     b.HasIndex("fkModifiedByEmployee");
+
+                    b.HasIndex("fkOrderId");
 
                     b.ToTable("FullOrder");
                 });
@@ -395,6 +375,9 @@ namespace PointOfSaleSystem.API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -408,21 +391,24 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("fkCreatedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("fkFullOrder")
+                    b.Property<Guid?>("fkEstablishmentProduct")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("fkEstablishmentService")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("fkModifiedByEmployee")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("fkCreatedByEmployee");
 
-                    b.HasIndex("fkFullOrder");
+                    b.HasIndex("fkEstablishmentProduct");
+
+                    b.HasIndex("fkEstablishmentService");
 
                     b.HasIndex("fkModifiedByEmployee");
 
@@ -433,15 +419,11 @@ namespace PointOfSaleSystem.API.Migrations
                 {
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "CreatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkCreatedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkCreatedByEmployee");
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkModifiedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkModifiedByEmployee");
 
                     b.Navigation("CreatedByEmployee");
 
@@ -458,15 +440,11 @@ namespace PointOfSaleSystem.API.Migrations
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "CreatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkCreatedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkCreatedByEmployee");
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkModifiedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkModifiedByEmployee");
 
                     b.Navigation("Company");
 
@@ -485,15 +463,11 @@ namespace PointOfSaleSystem.API.Migrations
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "CreatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkCreatedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkCreatedByEmployee");
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkModifiedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkModifiedByEmployee");
 
                     b.Navigation("Company");
 
@@ -506,9 +480,7 @@ namespace PointOfSaleSystem.API.Migrations
                 {
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "CreatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkCreatedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkCreatedByEmployee");
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EstablishmentEntity", "Establishment")
                         .WithMany("Employees")
@@ -518,9 +490,7 @@ namespace PointOfSaleSystem.API.Migrations
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkModifiedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkModifiedByEmployee");
 
                     b.Navigation("CreatedByEmployee");
 
@@ -539,15 +509,11 @@ namespace PointOfSaleSystem.API.Migrations
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "CreatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkCreatedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkCreatedByEmployee");
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkModifiedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkModifiedByEmployee");
 
                     b.Navigation("Company");
 
@@ -558,15 +524,9 @@ namespace PointOfSaleSystem.API.Migrations
 
             modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.EstablishmentProductEntity", b =>
                 {
-                    b.HasOne("PointOfSaleSystem.API.Models.Entities.OrderEntity", null)
-                        .WithMany("EstablishmentProducts")
-                        .HasForeignKey("OrderEntityId");
-
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "CreatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkCreatedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkCreatedByEmployee");
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EstablishmentEntity", "Establishment")
                         .WithMany("EstablishmentProducts")
@@ -576,9 +536,7 @@ namespace PointOfSaleSystem.API.Migrations
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkModifiedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkModifiedByEmployee");
 
                     b.Navigation("CreatedByEmployee");
 
@@ -589,15 +547,9 @@ namespace PointOfSaleSystem.API.Migrations
 
             modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.EstablishmentServiceEntity", b =>
                 {
-                    b.HasOne("PointOfSaleSystem.API.Models.Entities.OrderEntity", null)
-                        .WithMany("EstablishmentServices")
-                        .HasForeignKey("OrderEntityId");
-
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "CreatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkCreatedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkCreatedByEmployee");
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EstablishmentEntity", "Establishment")
                         .WithMany("EstablishmentServices")
@@ -607,9 +559,7 @@ namespace PointOfSaleSystem.API.Migrations
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkModifiedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkModifiedByEmployee");
 
                     b.Navigation("CreatedByEmployee");
 
@@ -622,17 +572,21 @@ namespace PointOfSaleSystem.API.Migrations
                 {
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "CreatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkCreatedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkCreatedByEmployee");
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkModifiedByEmployee")
+                        .HasForeignKey("fkModifiedByEmployee");
+
+                    b.HasOne("PointOfSaleSystem.API.Models.Entities.OrderEntity", "Order")
+                        .WithMany()
+                        .HasForeignKey("fkOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CreatedByEmployee");
+
+                    b.Navigation("Order");
 
                     b.Navigation("UpdatedByEmployee");
                 });
@@ -641,25 +595,25 @@ namespace PointOfSaleSystem.API.Migrations
                 {
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "CreatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkCreatedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkCreatedByEmployee");
 
-                    b.HasOne("PointOfSaleSystem.API.Models.Entities.FullOrderEntity", "FullOrder")
-                        .WithMany("Orders")
-                        .HasForeignKey("fkFullOrder")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("PointOfSaleSystem.API.Models.Entities.EstablishmentProductEntity", "EstablishmentProduct")
+                        .WithMany()
+                        .HasForeignKey("fkEstablishmentProduct");
+
+                    b.HasOne("PointOfSaleSystem.API.Models.Entities.EstablishmentServiceEntity", "EstablishmentService")
+                        .WithMany()
+                        .HasForeignKey("fkEstablishmentService");
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
-                        .HasForeignKey("fkModifiedByEmployee")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fkModifiedByEmployee");
 
                     b.Navigation("CreatedByEmployee");
 
-                    b.Navigation("FullOrder");
+                    b.Navigation("EstablishmentProduct");
+
+                    b.Navigation("EstablishmentService");
 
                     b.Navigation("UpdatedByEmployee");
                 });
@@ -677,18 +631,6 @@ namespace PointOfSaleSystem.API.Migrations
                 {
                     b.Navigation("Employees");
 
-                    b.Navigation("EstablishmentProducts");
-
-                    b.Navigation("EstablishmentServices");
-                });
-
-            modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.FullOrderEntity", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.OrderEntity", b =>
-                {
                     b.Navigation("EstablishmentProducts");
 
                     b.Navigation("EstablishmentServices");
