@@ -6,6 +6,18 @@ Team name: karbiratoriai
 
 ## [Naming Conventions](https://github.com/ktaranov/naming-convention/blob/master/C%23%20Coding%20Standards%20and%20Naming%20Conventions.md)
 
+## Setup Database
+
+Setup local Postgres database with the default credentials:
+
+- User Id = postgres
+- Password = root
+
+To get the lastest migrations to your local database run:
+
+- `dotnet ef database update `, if using CLI
+- go to 'Tools' -> 'NuGet Package Manager' -> 'Package Manager Console' and enter `update-database`
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
