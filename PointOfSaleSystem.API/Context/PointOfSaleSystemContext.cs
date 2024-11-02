@@ -23,6 +23,9 @@ namespace PointOfSaleSystem.API.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<FullOrderEntity>()
+                .HasKey(fo => new { fo.Id, fo.fkOrderId });
+
             modelBuilder.Entity<EstablishmentEntity>()
                 .HasOne(e => e.Company)
                 .WithMany(com => com.Establishments)
@@ -52,11 +55,6 @@ namespace PointOfSaleSystem.API.Context
                 .HasOne(e => e.Establishment)
                 .WithMany(est => est.Employees)
                 .HasForeignKey(e => e.fkEstablishmentId);
-
-            modelBuilder.Entity<OrderEntity>()
-                .HasOne(o => o.FullOrder)
-                .WithMany(fo => fo.Orders)
-                .HasForeignKey(o => o.fkFullOrder);
         }
     }
 }

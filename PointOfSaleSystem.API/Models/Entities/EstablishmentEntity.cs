@@ -7,7 +7,8 @@ namespace PointOfSaleSystem.API.Models.Entities
     public class EstablishmentEntity : BaseModelEntity
     {
         [Required]
-        public int Code { get; set; }
+        [StringLength(100)]
+        public string Code { get; set; }
 
         [Required]
         public Guid fkCompanyId { get; set; }

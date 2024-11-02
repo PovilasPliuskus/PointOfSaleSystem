@@ -18,16 +18,14 @@ namespace PointOfSaleSystem.API.Models.Entities
         [Required]
         public DateTime UpdateTime { get; set; }
 
-        [Required]
         public Guid? fkCreatedByEmployee { get; set; }
 
         [ForeignKey(nameof(fkCreatedByEmployee))]
-        public EmployeeEntity CreatedByEmployee { get; set; }
+        public EmployeeEntity? CreatedByEmployee { get; set; }
 
-        [Required]
         public Guid? fkModifiedByEmployee { get; set; }
 
         [ForeignKey(nameof(fkModifiedByEmployee))]
-        public EmployeeEntity UpdatedByEmployee { get; set; }
+        public EmployeeEntity? UpdatedByEmployee { get; set; }
     }
 }
