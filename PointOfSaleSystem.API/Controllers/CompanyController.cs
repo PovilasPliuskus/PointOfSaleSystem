@@ -11,32 +11,32 @@ namespace PointOfSaleSystem.API.Controllers
 
         }
 
-        [HttpPost("business")]
-        public async Task<IActionResult> CreateBusiness()
+        [HttpPost("company")]
+        public async Task<IActionResult> CreateCompany()
         {
             return Ok();
         }
 
-        [HttpGet("business")]
-        public async Task<IActionResult> GetBusinesses()
+        [HttpGet("company")]
+        public async Task<IActionResult> GetCompanies()
         {
             return Ok();
         }
 
-        [HttpGet("business/{businessId}")]
-        public async Task<IActionResult> GetBusiness()
+        [HttpGet("company/{companyId}")]
+        public async Task<IActionResult> GetCompany()
         {
             return Ok();
         }
 
-        [HttpPut("business/{businessId}")]
-        public async Task<IActionResult> UpdateBusiness()
+        [HttpPut("company/{companyId}")]
+        public async Task<IActionResult> UpdateCompany()
         {
             return Ok();
         }
 
-        [HttpDelete("business/{businessId}")]
-        public async Task<IActionResult> DeleteBusiness()
+        [HttpDelete("company/{companyId}")]
+        public async Task<IActionResult> DeleteCompany()
         {
             return Ok();
         }
