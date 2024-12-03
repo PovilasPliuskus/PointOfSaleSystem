@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PointOfSaleSystem.API.Context;
 
@@ -9,6 +10,8 @@ builder.Services.AddDbContext<PointOfSaleSystemContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<PointOfSaleSystemContext>();
+builder.Services.AddTransient<IMapper, Mapper>();
 
 var app = builder.Build();
 
