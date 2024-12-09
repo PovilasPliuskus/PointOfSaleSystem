@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using PointOfSaleSystem.API.Context;
 using PointOfSaleSystem.API.Models.Entities;
 using PointOfSaleSystem.API.Models;
+using PointOfSaleSystem.API.Repositories.Interfaces;
+using PointOfSaleSystem.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,7 @@ builder.Services.AddSingleton(mapperConfig.CreateMapper());
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 
 var app = builder.Build();
 
