@@ -29,9 +29,10 @@ namespace PointOfSaleSystem.API.Controllers
         }
 
         [HttpGet("company/{companyId}")]
-        public async Task<IActionResult> GetCompany()
+        public async Task<IActionResult> GetCompany(Guid companyId)
         {
-            return Ok();
+            Company company = _companyService.GetCompany(companyId);
+            return Ok(company);
         }
 
         [HttpPut("company/{companyId}")]

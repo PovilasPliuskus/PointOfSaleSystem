@@ -13,6 +13,11 @@ namespace PointOfSaleSystem.API.Services
             _companyRepository = companyRepository;
         }
 
+        public Company GetCompany(Guid id)
+        {
+            return _companyRepository.Get(id);
+        }
+
         public List<Company> GetAllCompanies()
         {
             return _companyRepository.GetAll();
