@@ -1,5 +1,6 @@
 ﻿using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Repositories.Interfaces;
+using PointOfSaleSystem.API.RequestBodies.Company;
 using PointOfSaleSystem.API.Services.Interfaces;
 
 namespace PointOfSaleSystem.API.Services
@@ -26,6 +27,11 @@ namespace PointOfSaleSystem.API.Services
         public List<Company> GetAllCompanies()
         {
             return _companyRepository.GetAll();
+        }
+
+        public void UpdateCompany(UpdateCompanyRequest request)
+        {
+            _companyRepository.Update(request);
         }
 
         public void DeleteCompany(Guid id)

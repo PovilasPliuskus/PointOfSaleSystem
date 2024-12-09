@@ -8,7 +8,7 @@ namespace PointOfSaleSystem.API.Repositories.Interfaces
         public void Create(Company company);
         public Company Get(Guid id);
         public List<Company> GetAll();
-        public void Update(Guid id, UpdateCompanyRequest request);
+        public void Update(UpdateCompanyRequest request);
         public void Delete(Guid id);
     }
 }
