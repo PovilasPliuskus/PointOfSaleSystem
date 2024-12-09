@@ -157,14 +157,47 @@ function Companies() {
   };
 
   // Delete action
-  const handleDelete = () => {
+  // Delete action
+  const handleDelete = async () => {
     if (selectedCompanyDetails) {
       const confirmDelete = window.confirm(
         `Are you sure you want to delete ${selectedCompanyDetails.name}?`
       );
+
       if (confirmDelete) {
-        alert(`Deleted company: ${selectedCompanyDetails.name}`);
-        // Ideally, here you would call the delete API endpoint
+        try {
+          const response = await fetch(
+            `https://localhost:44309/api/company/${selectedCompanyDetails.id}`,
+            {
+              method: "DELETE",
+              credentials: "include",
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to delete the company.");
+          }
+
+          alert("Company deleted successfully.");
+
+          // Refresh the company list after successful deletion
+          const updatedResponse = await fetch(
+            "https://localhost:44309/api/company",
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+
+          const updatedCompanies = await updatedResponse.json();
+          setCompanies(updatedCompanies);
+
+          // Clear the selected company details if the deleted one is still active
+          setSelectedCompanyDetails(null);
+        } catch (error) {
+          console.error("Error deleting company:", error);
+          alert("Failed to delete company.");
+        }
       }
     }
   };

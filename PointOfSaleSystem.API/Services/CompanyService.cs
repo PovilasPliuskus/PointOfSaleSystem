@@ -27,5 +27,11 @@ namespace PointOfSaleSystem.API.Services
         {
             return _companyRepository.GetAll();
         }
+
+        public void DeleteCompany(Guid id)
+        {
+            _companyRepository.Delete(id);
+        }
+
     }
 }

@@ -43,8 +43,9 @@ namespace PointOfSaleSystem.API.Controllers
         }
 
         [HttpDelete("company/{companyId}")]
-        public async Task<IActionResult> DeleteCompany()
+        public async Task<IActionResult> DeleteCompany(Guid companyId)
         {
+            _companyService.DeleteCompany(companyId);
             return Ok();
         }
     }
