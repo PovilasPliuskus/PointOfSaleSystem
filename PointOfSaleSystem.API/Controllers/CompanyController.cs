@@ -16,8 +16,9 @@ namespace PointOfSaleSystem.API.Controllers
         }
 
         [HttpPost("company")]
-        public async Task<IActionResult> CreateCompany()
+        public async Task<IActionResult> CreateCompany(Company company)
         {
+            _companyService.CreateCompany(company);
             return Ok();
         }
 

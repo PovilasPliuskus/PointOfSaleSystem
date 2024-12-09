@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "./Pagination";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { v4 as uuidv4 } from "uuid";
 
 // Interface for initial company data
 interface Company {
@@ -31,6 +32,10 @@ function Companies() {
   const [selectedCompanyDetails, setSelectedCompanyDetails] =
     useState<CompanyDetails | null>(null);
 
+  const [showModal, setShowModal] = useState(false);
+  const [newCompanyCode, setNewCompanyCode] = useState("");
+  const [newCompanyName, setNewCompanyName] = useState("");
+
   const totalItems = companies.length;
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -54,6 +59,22 @@ function Companies() {
 
     fetchCompanies();
   }, []);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+
+    setNewCompanyCode("");
+
+    setNewCompanyName("");
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    if (name === "code") setNewCompanyCode(value);
+
+    if (name === "name") setNewCompanyName(value);
+  };
 
   // Handle row clicks to show detailed information
   const handleRowClick = async (index: number, companyId: string) => {
@@ -79,6 +100,52 @@ function Companies() {
       } catch (error) {
         console.error("Error fetching company details:", error);
       }
+    }
+  };
+
+  const handleSave = async () => {
+    const newCompany = {
+      id: uuidv4(), // Generate a UUID
+      code: newCompanyCode,
+      name: newCompanyName,
+      receiveTime: new Date().toISOString(),
+      updateTime: new Date().toISOString(),
+      createdByEmployeeId: "00000000-0000-0000-0000-000000000000",
+      modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000",
+      establishments: [],
+      companyProducts: [],
+      companyServices: [],
+    };
+
+    try {
+      const response = await fetch("https://localhost:44309/api/company", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCompany),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save company");
+      }
+
+      alert("Company added successfully");
+      setShowModal(false);
+
+      // Refresh the company list after adding a new company
+      const updatedResponse = await fetch(
+        "https://localhost:44309/api/company",
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      const updatedCompanies = await updatedResponse.json();
+      setCompanies(updatedCompanies);
+    } catch (error) {
+      console.error("Error saving company:", error);
+      alert("Failed to add company");
     }
   };
 
@@ -202,9 +269,76 @@ function Companies() {
           onPageSizeChange={setPageSize}
         />
         <div className="d-flex justify-content-end mt-3">
-          <button className="btn btn-success btn-lg">Add Company</button>
+          <button className="btn btn-success btn-lg" onClick={toggleModal}>
+            Add Company
+          </button>
         </div>
       </div>
+      {/* Add Company Modal */}
+
+      {showModal && (
+        <div className="modal fade show" style={{ display: "block" }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Add New Company</h5>
+
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={toggleModal}
+                ></button>
+              </div>
+
+              <div className="modal-body">
+                <form>
+                  <div className="mb-3">
+                    <label className="form-label">Company Code</label>
+
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="code"
+                      value={newCompanyCode}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Company Name</label>
+
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="name"
+                      value={newCompanyName}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </form>
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={toggleModal}
+                >
+                  Close
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={handleSave}
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
