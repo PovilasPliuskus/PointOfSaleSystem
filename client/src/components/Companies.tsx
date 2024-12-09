@@ -3,13 +3,11 @@ import Pagination from "./Pagination";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { v4 as uuidv4 } from "uuid";
 
-// Interface for initial company data
 interface Company {
   id: string;
   name: string;
 }
 
-// Interface for detailed company information
 interface CompanyDetails {
   code: string;
   establishments: any[];
@@ -64,7 +62,6 @@ function Companies() {
     setShowModal(!showModal);
 
     setNewCompanyCode("");
-
     setNewCompanyName("");
   };
 
@@ -72,7 +69,6 @@ function Companies() {
     const { name, value } = e.target;
 
     if (name === "code") setNewCompanyCode(value);
-
     if (name === "name") setNewCompanyName(value);
   };
 
@@ -104,59 +100,117 @@ function Companies() {
   };
 
   const handleSave = async () => {
-    const newCompany = {
-      id: uuidv4(), // Generate a UUID
-      code: newCompanyCode,
-      name: newCompanyName,
-      receiveTime: new Date().toISOString(),
-      updateTime: new Date().toISOString(),
-      createdByEmployeeId: "00000000-0000-0000-0000-000000000000",
-      modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000",
-      establishments: [],
-      companyProducts: [],
-      companyServices: [],
-    };
+    if (selectedCompanyDetails) {
+      // Update existing company
+      const updatedCompany = {
+        ...selectedCompanyDetails, // Spread existing details
+        code: newCompanyCode,
+        name: newCompanyName,
+        // Update timestamps if necessary
+      };
 
-    try {
-      const response = await fetch("https://localhost:44309/api/company", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newCompany),
-      });
+      try {
+        const response = await fetch(
+          `https://localhost:44309/api/company/${selectedCompanyDetails.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: selectedCompanyDetails.id,
+              code: updatedCompany.code,
+              name: updatedCompany.name,
+            }),
+          }
+        );
 
-      if (!response.ok) {
-        throw new Error("Failed to save company");
-      }
-
-      alert("Company added successfully");
-      setShowModal(false);
-
-      // Refresh the company list after adding a new company
-      const updatedResponse = await fetch(
-        "https://localhost:44309/api/company",
-        {
-          method: "GET",
-          credentials: "include",
+        if (!response.ok) {
+          throw new Error("Failed to update company");
         }
-      );
-      const updatedCompanies = await updatedResponse.json();
-      setCompanies(updatedCompanies);
-    } catch (error) {
-      console.error("Error saving company:", error);
-      alert("Failed to add company");
+
+        alert("Company updated successfully!");
+        setShowModal(false);
+
+        // Update company list after successful update
+        const updatedResponse = await fetch(
+          "https://localhost:44309/api/company",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        const updatedCompanies = await updatedResponse.json();
+        setCompanies(updatedCompanies);
+
+        // Clear selected details if updated company is still active
+        setSelectedCompanyDetails(null);
+      } catch (error) {
+        console.error("Error updating company:", error);
+      }
+    } else {
+      // Add new company
+      const newCompany = {
+        id: uuidv4(), // Generate a UUID
+        code: newCompanyCode,
+        name: newCompanyName,
+        receiveTime: new Date().toISOString(),
+        updateTime: new Date().toISOString(),
+        createdByEmployeeId: "00000000-0000-0000-0000-000000000000",
+        modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000",
+        establishments: [],
+        companyProducts: [],
+        companyServices: [],
+      };
+
+      try {
+        const response = await fetch("https://localhost:44309/api/company", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newCompany),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to save company");
+        }
+
+        alert("Company added successfully");
+        setShowModal(false);
+
+        // Refresh the company list after adding a new company
+        const updatedResponse = await fetch(
+          "https://localhost:44309/api/company",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        const updatedCompanies = await updatedResponse.json();
+        setCompanies(updatedCompanies);
+      } catch (error) {
+        console.error("Error saving company:", error);
+        alert("Failed to add company");
+      }
     }
   };
 
   // Edit action
-  const handleEdit = () => {
+  const handleEdit = async () => {
     if (selectedCompanyDetails) {
-      alert(`Editing company: ${selectedCompanyDetails.name}`);
+      // Set editing state (if needed)
+      // ...
+
+      // Pre-populate edit form with company details
+      setNewCompanyCode(selectedCompanyDetails.code);
+      setNewCompanyName(selectedCompanyDetails.name);
+
+      // Open edit modal (if using a modal for editing)
+      setShowModal(true);
     }
   };
 
-  // Delete action
   // Delete action
   const handleDelete = async () => {
     if (selectedCompanyDetails) {
@@ -308,26 +362,24 @@ function Companies() {
         </div>
       </div>
       {/* Add Company Modal */}
-
       {showModal && (
         <div className="modal fade show" style={{ display: "block" }}>
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Add New Company</h5>
-
+                <h5 className="modal-title">
+                  {selectedCompanyDetails ? "Edit Company" : "Add New Company"}
+                </h5>
                 <button
                   type="button"
                   className="btn-close"
                   onClick={toggleModal}
                 ></button>
               </div>
-
               <div className="modal-body">
                 <form>
                   <div className="mb-3">
                     <label className="form-label">Company Code</label>
-
                     <input
                       type="text"
                       className="form-control"
@@ -336,10 +388,8 @@ function Companies() {
                       onChange={handleInputChange}
                     />
                   </div>
-
                   <div className="mb-3">
                     <label className="form-label">Company Name</label>
-
                     <input
                       type="text"
                       className="form-control"
@@ -350,7 +400,6 @@ function Companies() {
                   </div>
                 </form>
               </div>
-
               <div className="modal-footer">
                 <button
                   type="button"
@@ -359,10 +408,9 @@ function Companies() {
                 >
                   Close
                 </button>
-
                 <button
                   type="button"
-                  className="btn btn-success"
+                  className="btn btn-primary"
                   onClick={handleSave}
                 >
                   Save Changes

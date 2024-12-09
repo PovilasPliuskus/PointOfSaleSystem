@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PointOfSaleSystem.API.Models;
+using PointOfSaleSystem.API.RequestBodies.Company;
 using PointOfSaleSystem.API.Services.Interfaces;
 
 namespace PointOfSaleSystem.API.Controllers
@@ -37,8 +38,9 @@ namespace PointOfSaleSystem.API.Controllers
         }
 
         [HttpPut("company/{companyId}")]
-        public async Task<IActionResult> UpdateCompany()
+        public async Task<IActionResult> UpdateCompany(UpdateCompanyRequest request)
         {
+            _companyService.UpdateCompany(request);
             return Ok();
         }
 

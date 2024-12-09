@@ -48,10 +48,10 @@ namespace PointOfSaleSystem.API.Repositories
             return companies;
         }
 
-        public void Update(Guid id, UpdateCompanyRequest request)
+        public void Update(UpdateCompanyRequest request)
         {
-            CompanyEntity? companyEntity = GetCompanyEntity(id)
-                ?? throw new Exception($"Company with Id {id} not found.");
+            CompanyEntity? companyEntity = GetCompanyEntity(request.Id)
+                ?? throw new Exception($"Company with Id {request.Id} not found.");
 
             companyEntity.Code = request.Code;
             companyEntity.Name = request.Name;
