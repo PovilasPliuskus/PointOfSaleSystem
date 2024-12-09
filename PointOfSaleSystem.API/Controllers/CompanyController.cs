@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PointOfSaleSystem.API.Models;
+using PointOfSaleSystem.API.Services.Interfaces;
 
 namespace PointOfSaleSystem.API.Controllers
 {
@@ -6,9 +8,11 @@ namespace PointOfSaleSystem.API.Controllers
     [Route("api/")]
     public class CompanyController : ControllerBase
     {
-        public CompanyController()
-        {
+        private readonly ICompanyService _companyService;
 
+        public CompanyController(ICompanyService companyService)
+        {
+            _companyService = companyService;
         }
 
         [HttpPost("company")]
@@ -20,7 +24,8 @@ namespace PointOfSaleSystem.API.Controllers
         [HttpGet("company")]
         public async Task<IActionResult> GetCompanies()
         {
-            return Ok();
+            List<Company> companies = _companyService.GetAllCompanies();
+            return Ok(companies);
         }
 
         [HttpGet("company/{companyId}")]
