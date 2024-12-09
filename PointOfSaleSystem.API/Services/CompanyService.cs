@@ -33,7 +33,7 @@ namespace PointOfSaleSystem.API.Services
         {
             _companyRepository.Update(request);
         }
-
+        
         public void DeleteCompany(Guid id)
         {
             _companyRepository.Delete(id);
