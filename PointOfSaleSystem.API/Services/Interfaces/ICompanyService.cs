@@ -1,14 +1,15 @@
 ﻿using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.RequestBodies.Company;
+using PointOfSaleSystem.API.RequestBodies.Employee;
 
 namespace PointOfSaleSystem.API.Services.Interfaces
 {
-    public interface ICompanyService
+    public interface IEmployeeService
     {
-        public void CreateCompany(Company company);
-        public Company GetCompany(Guid id);
-        public List<Company> GetAllCompanies();
-        public void UpdateCompany(UpdateCompanyRequest request);
-        public void DeleteCompany(Guid id);
+        public void CreateEmployee(Employee employee);
+        public Employee GetEmployee(Guid id);
+        public List<Employee> GetAllEmployees();
+        public void UpdateEmployee(UpdateEmployeeRequest request);
+        public void DeleteEmployee(Guid id);
     }
 }
