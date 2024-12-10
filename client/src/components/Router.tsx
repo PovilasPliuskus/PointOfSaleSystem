@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import Companies from "./Companies";
+import Orders from "./Orders";
 
 const RouterComponent: React.FC = () => {
   return (
@@ -9,6 +10,7 @@ const RouterComponent: React.FC = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/Companies" element={<Companies />} />
+        <Route path="/Orders" element={<Orders />} />
       </Routes>
     </Router>
   );
