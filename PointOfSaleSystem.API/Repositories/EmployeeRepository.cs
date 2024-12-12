@@ -2,6 +2,7 @@
 using PointOfSaleSystem.API.Context;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Models.Entities;
+using PointOfSaleSystem.API.Models.Enums;
 using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.Company;
 using PointOfSaleSystem.API.RequestBodies.Employee;
@@ -57,12 +58,12 @@ namespace PointOfSaleSystem.API.Repositories
 
             if(request.Surname != null)
                 employeeEntity.Surname = request.Surname;
-            if(request.Salary != null)
+            if(request.Salary != 0)
                 employeeEntity.Salary = request.Salary;
-            if(request.Status != null)
+            if(request.Status != EmployeeStatusEnum.None)
                 employeeEntity.Status = request.Status;
             if(request.Establishment != null)
-                employeeEntity.Establishment = request.Establishment;
+                employeeEntity.fkEstablishmentId = request.Establishment.Id;
             if(request.LoginUsername != null)
                 employeeEntity.LoginUsername = request.LoginUsername;
             if(request.LoginPasswordHashed != null)

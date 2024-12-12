@@ -35,7 +35,7 @@ namespace PointOfSaleSystem.API.Controllers
         public async Task<IActionResult> GetEmployee(Guid employeeID)
         {
             Employee employee = _employeeService.GetEmployee(employeeID);
-            return Ok(company);
+            return Ok(employee);
         }
 
         [HttpPut("employee/{employeeID}")]
