@@ -5,6 +5,8 @@ function Login() {
       <a href="/Companies">Companies</a>
       <br />
       <a href="/Orders">Orders</a>
+      <br />
+      <a href="/CleanCompanies">TEST</a>
     </>
   );
 }

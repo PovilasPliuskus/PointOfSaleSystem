@@ -1,14 +1,14 @@
 import React from "react";
-import { CompanyDetails } from "./interfaces";
+import { Company } from "./interfaces";
 
 interface CompanyExpandedRowDetailsProps {
-  companyDetails: CompanyDetails;
-  onEdit: () => void;
-  onDelete: () => void;
+  selectedCompany: Company;
+  onEdit: (compamyId: string) => void;
+  onDelete: (compamyId: string) => void;
 }
 
 const CompanyExpendedRowDetails: React.FC<CompanyExpandedRowDetailsProps> = ({
-  companyDetails,
+  selectedCompany,
   onEdit,
   onDelete,
 }) => {
@@ -17,33 +17,34 @@ const CompanyExpendedRowDetails: React.FC<CompanyExpandedRowDetailsProps> = ({
       <td colSpan={2}>
         <div className="border p-2">
           <p>
-            <strong>Company Name:</strong> {companyDetails.name}
+            <strong>Company Name:</strong> {selectedCompany.name}
           </p>
           <p>
-            <strong>Code:</strong> {companyDetails.code}
+            <strong>Code:</strong> {selectedCompany.code}
           </p>
           <p>
             <strong>Receive Time:</strong>{" "}
-            {new Date(companyDetails.receiveTime).toLocaleString()}
+            {new Date(selectedCompany.receiveTime).toLocaleString()}
           </p>
           <p>
             <strong>Update Time:</strong>{" "}
-            {new Date(companyDetails.updateTime).toLocaleString()}
+            {new Date(selectedCompany.updateTime).toLocaleString()}
           </p>
           <p>
-            <strong>Created By Employee ID:</strong>{" "}
-            {companyDetails.createdByEmployeeId}
+            <strong>Created By Employee ID: </strong>{" "}
+            {selectedCompany.createdByEmployee}
           </p>
           <p>
             <strong>Modified By Employee ID:</strong>{" "}
-            {companyDetails.modifiedByEmployeeId}
+            {selectedCompany.updatedByEmployee}
           </p>
           <p>
             <strong>Establishments:</strong>{" "}
-            {companyDetails.establishments.length > 0 ? (
+            {selectedCompany.establishments &&
+            selectedCompany.establishments.length > 0 ? (
               <ul>
-                {companyDetails.establishments.map((est, idx) => (
-                  <li key={idx}>{est}</li>
+                {selectedCompany.establishments.map((est, idx) => (
+                  <li key={idx}>{est.name}</li>
                 ))}
               </ul>
             ) : (
@@ -52,10 +53,11 @@ const CompanyExpendedRowDetails: React.FC<CompanyExpandedRowDetailsProps> = ({
           </p>
           <p>
             <strong>Company Products:</strong>{" "}
-            {companyDetails.companyProducts.length > 0 ? (
+            {selectedCompany.companyProducts &&
+            selectedCompany.companyProducts.length > 0 ? (
               <ul>
-                {companyDetails.companyProducts.map((prod, idx) => (
-                  <li key={idx}>{prod}</li>
+                {selectedCompany.companyProducts.map((prod, idx) => (
+                  <li key={idx}>{prod.name}</li>
                 ))}
               </ul>
             ) : (
@@ -64,10 +66,11 @@ const CompanyExpendedRowDetails: React.FC<CompanyExpandedRowDetailsProps> = ({
           </p>
           <p>
             <strong>Company Services:</strong>{" "}
-            {companyDetails.companyServices.length > 0 ? (
+            {selectedCompany.companyServices &&
+            selectedCompany.companyServices.length > 0 ? (
               <ul>
-                {companyDetails.companyServices.map((serv, idx) => (
-                  <li key={idx}>{serv}</li>
+                {selectedCompany.companyServices.map((serv, idx) => (
+                  <li key={idx}>{serv.name}</li>
                 ))}
               </ul>
             ) : (
@@ -75,10 +78,16 @@ const CompanyExpendedRowDetails: React.FC<CompanyExpandedRowDetailsProps> = ({
             )}
           </p>
           <div className="mt-2">
-            <button className="btn btn-warning me-2" onClick={onEdit}>
+            <button
+              className="btn btn-warning me-2"
+              onClick={() => onEdit(selectedCompany.id)}
+            >
               Edit
             </button>
-            <button className="btn btn-danger" onClick={onDelete}>
+            <button
+              className="btn btn-danger"
+              onClick={() => onDelete(selectedCompany.id)}
+            >
               Delete
             </button>
           </div>
