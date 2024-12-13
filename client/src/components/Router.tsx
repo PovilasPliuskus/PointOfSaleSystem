@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Login";
-import Companies from "./Companies";
+import Companies from "./company/Companies";
 import Orders from "./Orders";
 
 const RouterComponent: React.FC = () => {
