@@ -12,7 +12,7 @@ const FullOrderExpandedRowDetails: React.FC<
 > = ({ selectedFullOrder, onEdit, onDelete }) => {
   return (
     <tr>
-      <td colSpan={2}>
+      <td colSpan={4}>
         <div className="border p-2">
           <p>
             <strong>Name:</strong> {selectedFullOrder.name}
@@ -39,6 +39,18 @@ const FullOrderExpandedRowDetails: React.FC<
           <p>
             <strong>Modified By Employee ID:</strong>{" "}
             {selectedFullOrder.modifiedByEmployeeId}
+          </p>
+          <p>
+            <strong>Orders:</strong>{" "}
+            {selectedFullOrder.orders && selectedFullOrder.orders.length > 0 ? (
+              <ul>
+                {selectedFullOrder.orders.map((order, idx) => (
+                  <li key={idx}>{order.name}</li>
+                ))}
+              </ul>
+            ) : (
+              "No orders"
+            )}
           </p>
           <div className="mt-2">
             <button

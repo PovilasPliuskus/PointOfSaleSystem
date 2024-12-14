@@ -2,6 +2,7 @@ import React from "react";
 import { FullOrderObject } from "../../scripts/interfaces";
 import FullOrderExpandedRowDetails from "./FullOrderExpandedRowDetails";
 import { getCurrencyDisplay } from "../../scripts/enums/CurrencyEnum";
+import { getFullOrderStatusDisplay } from "../../scripts/enums/FullOrderStatusEnum";
 
 interface FullOrderTableProps {
   fullOrders: FullOrderObject[];
@@ -35,6 +36,7 @@ const FullOrderTable: React.FC<FullOrderTableProps> = ({
           <th scope="col">#</th>
           <th scope="col">Full Order Name</th>
           <th scope="col">Currency</th>
+          <th scope="col">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -49,6 +51,7 @@ const FullOrderTable: React.FC<FullOrderTableProps> = ({
                 <th scope="row">{globalIndex + 1}</th>
                 <td>{fullOrder.name}</td>
                 <td>{getCurrencyDisplay(fullOrder.currency)}</td>
+                <td>{getFullOrderStatusDisplay(fullOrder.status)}</td>
               </tr>
 
               {expandedRow === globalIndex && selectedFullOrder && (

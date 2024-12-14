@@ -51,7 +51,7 @@ const EditFullOrderModal: React.FC<AddFullOrderModalProps> = ({
               <div className="mb-3">
                 <label className="form-label">Add Order Tip</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   name="tip"
                   value={newFullOrderTip}
