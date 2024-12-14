@@ -40,7 +40,9 @@ namespace PointOfSaleSystem.API.Repositories
 
         public List<FullOrder> GetAll()
         {
-            List<FullOrderEntity> fullOrderEntity = _context.FullOrders.ToList();
+            List<FullOrderEntity> fullOrderEntity = _context.FullOrders
+                .Include(fo => fo.Orders)
+                .ToList();
 
             List<FullOrder> fullOrders = _mapper.Map<List<FullOrder>>(fullOrderEntity);
 

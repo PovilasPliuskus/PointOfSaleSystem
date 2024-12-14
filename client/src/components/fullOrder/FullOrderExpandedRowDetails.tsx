@@ -1,5 +1,5 @@
 import { FullOrderObject } from "../../scripts/interfaces";
-import { getFullOrderStatusDisplay } from "./FullOrderStatusEnum";
+import { getFullOrderStatusDisplay } from "../../scripts/enums/FullOrderStatusEnum";
 
 interface FullOrderExpandedRowDetailsProps {
   selectedFullOrder: FullOrderObject;

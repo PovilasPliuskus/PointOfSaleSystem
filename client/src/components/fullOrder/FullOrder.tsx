@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  CreateFullOrderRequest,
   FullOrderObject,
   UpdateFullOrderRequest,
 } from "../../scripts/interfaces";
@@ -122,7 +123,7 @@ function FullOrder() {
 
   const handleAddSaveFullOrder = async () => {
     console.log("Pressed Edit Save");
-    const newFullOrder: FullOrderObject = {
+    const newFullOrder: CreateFullOrderRequest = {
       id: uuidv4(),
       name: newAddFullOrderName,
       updateTime: new Date().toISOString(),

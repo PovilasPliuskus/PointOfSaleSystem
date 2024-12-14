@@ -1,4 +1,4 @@
-import { FullOrderObject, UpdateFullOrderRequest } from "./interfaces";
+import { CreateFullOrderRequest, UpdateFullOrderRequest } from "./interfaces";
 
 export const fetchAllFullOrders = async (): Promise<any> => {
   try {
@@ -95,7 +95,7 @@ export const UpdateFullOrder = async (
 };
 
 export const AddFullOrder = async (
-  newFullOrder: FullOrderObject
+  newFullOrder: CreateFullOrderRequest
 ): Promise<any> => {
   try {
     const response = await fetch(`https://localhost:44309/api/fullOrder`, {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.RequestBodies.FullOrder;
+using PointOfSaleSystem.API.ResponseBodies.FullOrder;
 using PointOfSaleSystem.API.Services.Interfaces;
 
 namespace PointOfSaleSystem.API.Controllers
@@ -26,14 +27,14 @@ namespace PointOfSaleSystem.API.Controllers
         [HttpGet("fullOrder")]
         public async Task<IActionResult> GetFullOrders()
         {
-            List<FullOrder> fullOrders = _fullOrderService.GetAllFullOrders();
+            List<GetFullOrderResponse> fullOrders = _fullOrderService.GetAllFullOrders();
             return Ok(fullOrders);
         }
 
         [HttpGet("fullOrder/{fullOrderId}")]
         public async Task<IActionResult> GetFullOrder(Guid fullOrderId)
         {
-            FullOrder fullOrder = _fullOrderService.GetFullOrder(fullOrderId);
+            GetFullOrderResponse fullOrder = _fullOrderService.GetFullOrder(fullOrderId);
             return Ok(fullOrder);
         }
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { FullOrderObject } from "../../scripts/interfaces";
 import FullOrderExpandedRowDetails from "./FullOrderExpandedRowDetails";
+import { getCurrencyDisplay } from "../../scripts/enums/CurrencyEnum";
 
 interface FullOrderTableProps {
   fullOrders: FullOrderObject[];
@@ -33,19 +34,21 @@ const FullOrderTable: React.FC<FullOrderTableProps> = ({
         <tr>
           <th scope="col">#</th>
           <th scope="col">Full Order Name</th>
+          <th scope="col">Currency</th>
         </tr>
       </thead>
       <tbody>
-        {paginatedFullOrders.map((company, index) => {
+        {paginatedFullOrders.map((fullOrder, index) => {
           const globalIndex = (currentPage - 1) * pageSize + index;
           return (
-            <React.Fragment key={company.id}>
+            <React.Fragment key={fullOrder.id}>
               <tr
-                onClick={() => handleRowClick(globalIndex, company.id)}
+                onClick={() => handleRowClick(globalIndex, fullOrder.id)}
                 style={{ cursor: "pointer" }}
               >
                 <th scope="row">{globalIndex + 1}</th>
-                <td>{company.name}</td>
+                <td>{fullOrder.name}</td>
+                <td>{getCurrencyDisplay(fullOrder.currency)}</td>
               </tr>
 
               {expandedRow === globalIndex && selectedFullOrder && (
