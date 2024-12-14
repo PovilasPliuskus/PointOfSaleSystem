@@ -81,18 +81,40 @@ function FullOrder() {
     setShowAddModal(!showAddModal);
   };
 
-  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === "name") setNewEditFullOrderName(value);
-    if (name === "status") setNewEditFullOrderStatus(Number(value));
-    if (name === "tip") setNewEditFullOrderTip(parseFloat(value));
+  const handleEditInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = e.target;
+
+    if (type === "select-one") {
+      if (name === "status") {
+        setNewEditFullOrderStatus(Number(value));
+      }
+    } else if (type === "text" || type === "number") {
+      if (name === "name") {
+        setNewEditFullOrderName(value);
+      } else if (name === "tip") {
+        setNewEditFullOrderTip(parseFloat(value));
+      }
+    }
   };
 
-  const handleAddInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === "name") setNewAddFullOrderName(value);
-    if (name === "status") setNewAddFullOrderStatus(Number(value));
-    if (name === "tip") setNewAddFullOrderTip(parseFloat(value));
+  const handleAddInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = e.target;
+
+    if (type === "select-one") {
+      if (name === "status") {
+        setNewEditFullOrderStatus(Number(value));
+      }
+    } else if (type === "text" || type === "number") {
+      if (name === "name") {
+        setNewEditFullOrderName(value);
+      } else if (name === "tip") {
+        setNewEditFullOrderTip(parseFloat(value));
+      }
+    }
   };
 
   const handleEditSaveFullOrder = async () => {

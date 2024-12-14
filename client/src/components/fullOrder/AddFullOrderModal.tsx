@@ -1,3 +1,5 @@
+import { FullOrderStatusDisplay } from "../../scripts/enums/FullOrderStatusEnum";
+
 interface AddFullOrderModalProps {
   showModal: boolean;
   newFullOrderTip: number;
@@ -5,7 +7,9 @@ interface AddFullOrderModalProps {
   newFullOrderName: string;
 
   toggleModal: () => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   handleSave: () => void;
 }
 
@@ -39,14 +43,21 @@ const EditFullOrderModal: React.FC<AddFullOrderModalProps> = ({
                 ></input>
               </div>
               <div className="mb-3">
-                <label className="form-label">Add Order Status</label>
-                <input
-                  type="text"
-                  className="form-control"
+                <label className="form-label">Full Order Status</label>
+                <select
+                  className="form-select"
                   name="status"
                   value={newFullOrderStatus}
                   onChange={handleInputChange}
-                />
+                >
+                  {Object.entries(FullOrderStatusDisplay).map(
+                    ([key, value]) => (
+                      <option key={key} value={key}>
+                        {value}
+                      </option>
+                    )
+                  )}
+                </select>
               </div>
               <div className="mb-3">
                 <label className="form-label">Add Order Tip</label>
