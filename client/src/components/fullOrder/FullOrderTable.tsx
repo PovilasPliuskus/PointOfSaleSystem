@@ -35,6 +35,7 @@ const FullOrderTable: React.FC<FullOrderTableProps> = ({
         <tr>
           <th scope="col">#</th>
           <th scope="col">Full Order Name</th>
+          <th scope="col">Total Price</th>
           <th scope="col">Currency</th>
           <th scope="col">Status</th>
         </tr>
@@ -50,6 +51,7 @@ const FullOrderTable: React.FC<FullOrderTableProps> = ({
               >
                 <th scope="row">{globalIndex + 1}</th>
                 <td>{fullOrder.name}</td>
+                <td>{fullOrder.totalPrice}</td>
                 <td>{getCurrencyDisplay(fullOrder.currency)}</td>
                 <td>{getFullOrderStatusDisplay(fullOrder.status)}</td>
               </tr>

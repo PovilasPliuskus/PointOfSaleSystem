@@ -22,6 +22,7 @@ export interface FullOrderObject {
   tip: number;
   status: number;
   currency: number;
+  totalPrice: number;
 }
 
 export interface CreateFullOrderRequest {
@@ -34,19 +35,6 @@ export interface CreateFullOrderRequest {
   orders: Order[];
   tip: number;
   status: number;
-}
-
-export interface GetFullOrderObject {
-  id: string;
-  name: string;
-  receiveTime: string;
-  updateTime: string;
-  createdByEmployeeId: string;
-  modifiedByEmployeeId: string;
-  orders: Order[];
-  tip: number;
-  status: number;
-  currency: number;
 }
 
 export interface Order {

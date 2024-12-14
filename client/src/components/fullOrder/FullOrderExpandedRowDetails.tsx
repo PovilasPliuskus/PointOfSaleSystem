@@ -12,7 +12,7 @@ const FullOrderExpandedRowDetails: React.FC<
 > = ({ selectedFullOrder, onEdit, onDelete }) => {
   return (
     <tr>
-      <td colSpan={4}>
+      <td colSpan={5}>
         <div className="border p-2">
           <p>
             <strong>Name:</strong> {selectedFullOrder.name}

@@ -37,9 +37,12 @@ namespace PointOfSaleSystem.API.Services
 
             CurrencyEnum fullOrderCurrency = GetFullOrderCurrency(fullOrder);
 
+            decimal totalPrice = GetFullOrderTotalPrice(fullOrder);
+
             GetFullOrderResponse response = _mapper.Map<GetFullOrderResponse>(fullOrder);
 
             response.Currency = fullOrderCurrency;
+            response.TotalPrice = totalPrice;
 
             return response;
         }
@@ -54,9 +57,12 @@ namespace PointOfSaleSystem.API.Services
             {
                 CurrencyEnum fullOrderCurrency = GetFullOrderCurrency(fullOrder);
 
+                decimal totalPrice = GetFullOrderTotalPrice(fullOrder);
+
                 GetFullOrderResponse response = _mapper.Map<GetFullOrderResponse>(fullOrder);
 
                 response.Currency = fullOrderCurrency;
+                response.TotalPrice = totalPrice;
 
                 fullResponse.Add(response);
             }
@@ -105,6 +111,28 @@ namespace PointOfSaleSystem.API.Services
             }
 
             return CurrencyEnum.None;
+        }
+
+        private decimal GetFullOrderTotalPrice(FullOrder fullOrder)
+        {
+            decimal totalPrice = 0;
+
+            foreach (Order order in fullOrder.Orders)
+            {
+                if (order.EstablishmentProductId is not null)
+                {
+                    EstablishmentProduct establishmentProduct = _establishmentProductRepository.Get((Guid)order.EstablishmentProductId);
+                    totalPrice += establishmentProduct.Price;
+                }
+
+                if (order.EstablishmentServiceId is not null)
+                {
+                    EstablishmentService establishmentService = _establishmentServiceRepository.Get((Guid)order.EstablishmentServiceId);
+                    totalPrice += establishmentService.Price;
+                }
+            }
+
+            return totalPrice;
         }
     }
 }
