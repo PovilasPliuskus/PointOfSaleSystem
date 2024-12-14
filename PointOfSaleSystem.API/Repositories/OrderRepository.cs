@@ -54,6 +54,7 @@ namespace PointOfSaleSystem.API.Repositories
 
             orderEntity.Count = request.Count;
             orderEntity.Name = request.Name;
+            orderEntity.UpdateTime = request.UpdateTime;
 
             _context.Update(orderEntity);
 

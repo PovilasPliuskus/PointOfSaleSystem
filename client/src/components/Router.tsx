@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Login";
-import Orders from "./Orders";
+import Orders from "./order/Orders";
 import Company from "./company/Company";
 import FullOrder from "./fullOrder/FullOrder";
 

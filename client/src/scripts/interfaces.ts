@@ -1,3 +1,4 @@
+// Company
 export interface CompanyObject {
   id: string;
   name: string;
@@ -11,6 +12,14 @@ export interface CompanyObject {
   companyServices: CompanyService[] | null;
 }
 
+export interface UpdateCompanyRequest {
+  id: string;
+  code: string;
+  name: string;
+  updateTime: string;
+}
+
+// FullOrder
 export interface FullOrderObject {
   id: string;
   name: string;
@@ -18,7 +27,7 @@ export interface FullOrderObject {
   updateTime: string;
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
-  orders: Order[];
+  orders: OrderObject[];
   tip: number;
   status: number;
   currency: number;
@@ -32,12 +41,21 @@ export interface CreateFullOrderRequest {
   updateTime: string;
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
-  orders: Order[];
+  orders: OrderObject[];
   tip: number;
   status: number;
 }
 
-export interface Order {
+export interface UpdateFullOrderRequest {
+  id: string;
+  tip: number;
+  status: number;
+  name: string;
+  updateTime: string;
+}
+
+// Order
+export interface OrderObject {
   id: string;
   name: string;
   receiveTime: string;
@@ -49,6 +67,26 @@ export interface Order {
   count: number;
 }
 
+export interface CreateOrderRequest {
+  id: string;
+  name: string;
+  receiveTime: string;
+  updateTime: string;
+  createdByEmployeeId: string;
+  modifiedByEmployeeId: string;
+  establishmentProductId: string;
+  establishmentServiceId: string;
+  count: number;
+}
+
+export interface UpdateOrderRequest {
+  id: string;
+  name: string;
+  count: number;
+  updateTime: string;
+}
+
+// CompanyService
 export interface CompanyService {
   id: string;
   name: string;
@@ -58,6 +96,7 @@ export interface CompanyService {
   modifiedByEmployeeId: string;
 }
 
+// CompanyProduct
 export interface CompanyProduct {
   id: string;
   name: string;
@@ -68,6 +107,7 @@ export interface CompanyProduct {
   alcoholicBeverage: boolean;
 }
 
+// Establishment
 export interface Establishment {
   id: string;
   name: string;
@@ -81,6 +121,7 @@ export interface Establishment {
   establishmentServices: EstablishmentService[] | null;
 }
 
+// Employee
 export interface Employee {
   id: string;
   name: string;
@@ -95,6 +136,7 @@ export interface Employee {
   LoginPasswordHashed: string;
 }
 
+// EstablishmentProduct
 export interface EstablishmentProduct {
   id: string;
   name: string;
@@ -107,6 +149,7 @@ export interface EstablishmentProduct {
   currency: number;
 }
 
+// EstablishmentService
 export interface EstablishmentService {
   id: string;
   name: string;
@@ -116,19 +159,4 @@ export interface EstablishmentService {
   modifiedByEmployeeId: string;
   price: number;
   currency: number;
-}
-
-export interface UpdateCompanyRequest {
-  id: string;
-  code: string;
-  name: string;
-  updateTime: string;
-}
-
-export interface UpdateFullOrderRequest {
-  id: string;
-  tip: number;
-  status: number;
-  name: string;
-  updateTime: string;
 }
