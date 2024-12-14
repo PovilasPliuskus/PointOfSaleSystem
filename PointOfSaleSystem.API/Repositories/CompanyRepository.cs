@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PointOfSaleSystem.API.Context;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Models.Entities;
@@ -55,6 +56,7 @@ namespace PointOfSaleSystem.API.Repositories
 
             companyEntity.Code = request.Code;
             companyEntity.Name = request.Name;
+            companyEntity.UpdateTime = request.UpdateTime;
 
             _context.Update(companyEntity);
 
@@ -66,6 +68,20 @@ namespace PointOfSaleSystem.API.Repositories
             CompanyEntity? companyEntity = GetCompanyEntity(id)
                 ?? throw new Exception($"Company with Id {id} not found.");
 
+            var establishmentServiceId = companyEntity.Establishments
+                .SelectMany(e => e.EstablishmentServices)
+                .FirstOrDefault()?.Id;
+
+            if (establishmentServiceId != null)
+            {
+                var ordersToDelete = _context.Orders
+                    .Where(o => o.fkEstablishmentService == establishmentServiceId)
+                    .ToList();
+
+                _context.Orders.RemoveRange(ordersToDelete);
+                _context.SaveChanges();
+            }
+
             _context.Companies.Remove(companyEntity);
 
             _context.SaveChanges();
@@ -73,7 +89,16 @@ namespace PointOfSaleSystem.API.Repositories
 
         private CompanyEntity? GetCompanyEntity(Guid id)
         {
-            return _context.Companies.FirstOrDefault(c => c.Id == id);
+            return _context.Companies
+                .Include(c => c.Establishments)
+                    .ThenInclude(e => e.Employees)
+                .Include(c => c.Establishments)
+                    .ThenInclude(e => e.EstablishmentProducts)
+                .Include(c => c.Establishments)
+                    .ThenInclude(e => e.EstablishmentServices)
+                .Include(c => c.CompanyProducts)
+                .Include(c => c.CompanyServices)
+                .FirstOrDefault(c => c.Id == id);
         }
     }
 }
