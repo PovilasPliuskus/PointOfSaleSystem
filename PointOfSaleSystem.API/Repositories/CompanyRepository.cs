@@ -5,7 +5,6 @@ using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Models.Entities;
 using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.Company;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PointOfSaleSystem.API.Repositories
 {

@@ -1,7 +1,4 @@
-import {
-  CompanyObject,
-  UpdateCompanyRequest,
-} from "../components/company/interfaces";
+import { CompanyObject, UpdateCompanyRequest } from "./interfaces";
 
 export const fetchAllCompanies = async (): Promise<any> => {
   try {

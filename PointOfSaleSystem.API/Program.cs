@@ -54,6 +54,9 @@ var mapperConfig = new MapperConfiguration(cfg =>
     cfg.CreateMap<Order, OrderEntity>()
         .ForMember(dest => dest.fkEstablishmentProduct, opt => opt.MapFrom(src => src.EstablishmentProductId))
         .ForMember(dest => dest.fkEstablishmentService, opt => opt.MapFrom(src => src.EstablishmentServiceId));
+
+    cfg.CreateMap<FullOrderEntity, FullOrder>();
+    cfg.CreateMap<FullOrder, FullOrderEntity>();
 });
 
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
@@ -65,6 +68,8 @@ builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 builder.Services.AddTransient<ICompanyService, PointOfSaleSystem.API.Services.CompanyService>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IFullOrderRepository, FullOrderRepository>();
+builder.Services.AddTransient<IFullOrderService, FullOrderService>();
 
 var app = builder.Build();
 

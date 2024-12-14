@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CompanyObject, UpdateCompanyRequest } from "./interfaces";
+import { CompanyObject, UpdateCompanyRequest } from "../../scripts/interfaces";
 import CompanyTable from "./CompanyTable";
 import Pagination from "../Pagination";
 import {

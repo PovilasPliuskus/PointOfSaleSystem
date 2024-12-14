@@ -11,7 +11,7 @@ export interface CompanyObject {
   companyServices: CompanyService[] | null;
 }
 
-export interface FullOrder {
+export interface FullOrderObject {
   id: string;
   name: string;
   receiveTime: string;
@@ -107,6 +107,14 @@ export interface EstablishmentService {
 export interface UpdateCompanyRequest {
   id: string;
   code: string;
+  name: string;
+  updateTime: string;
+}
+
+export interface UpdateFullOrderRequest {
+  id: string;
+  tip: number;
+  status: number;
   name: string;
   updateTime: string;
 }

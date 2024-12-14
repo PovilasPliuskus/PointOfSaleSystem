@@ -1,27 +1,27 @@
 import React from "react";
-import { CompanyObject } from "../../scripts/interfaces";
-import CompanyExpendedRowDetails from "./CompanyExpandedRowDetails";
+import { FullOrderObject } from "../../scripts/interfaces";
+import FullOrderExpandedRowDetails from "./FullOrderExpandedRowDetails";
 
-interface CompanyTableProps {
-  companies: CompanyObject[];
-  paginatedCompanies: CompanyObject[];
+interface FullOrderTableProps {
+  fullOrders: FullOrderObject[];
+  paginatedFullOrders: FullOrderObject[];
   currentPage: number;
   pageSize: number;
   expandedRow: number | null;
-  selectedCompany: CompanyObject | null;
+  selectedFullOrder: FullOrderObject | null;
 
-  handleRowClick: (index: number, companyId: string) => void;
-  handleEditClick: (companyId: string) => void;
-  handleDeleteClick: (companyId: string) => void;
+  handleRowClick: (index: number, fullOrderId: string) => void;
+  handleEditClick: (fullOrderId: string) => void;
+  handleDeleteClick: (fullOrderId: string) => void;
 }
 
-const CompanyTable: React.FC<CompanyTableProps> = ({
-  companies,
-  paginatedCompanies,
+const FullOrderTable: React.FC<FullOrderTableProps> = ({
+  fullOrders,
+  paginatedFullOrders,
   currentPage,
   pageSize,
   expandedRow,
-  selectedCompany,
+  selectedFullOrder,
 
   handleRowClick,
   handleEditClick,
@@ -32,11 +32,11 @@ const CompanyTable: React.FC<CompanyTableProps> = ({
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Company Name</th>
+          <th scope="col">Full Order Name</th>
         </tr>
       </thead>
       <tbody>
-        {paginatedCompanies.map((company, index) => {
+        {paginatedFullOrders.map((company, index) => {
           const globalIndex = (currentPage - 1) * pageSize + index;
           return (
             <React.Fragment key={company.id}>
@@ -48,9 +48,9 @@ const CompanyTable: React.FC<CompanyTableProps> = ({
                 <td>{company.name}</td>
               </tr>
 
-              {expandedRow === globalIndex && selectedCompany && (
-                <CompanyExpendedRowDetails
-                  selectedCompany={selectedCompany}
+              {expandedRow === globalIndex && selectedFullOrder && (
+                <FullOrderExpandedRowDetails
+                  selectedFullOrder={selectedFullOrder}
                   onEdit={handleEditClick}
                   onDelete={handleDeleteClick}
                 />
@@ -63,4 +63,4 @@ const CompanyTable: React.FC<CompanyTableProps> = ({
   );
 };
 
-export default CompanyTable;
+export default FullOrderTable;

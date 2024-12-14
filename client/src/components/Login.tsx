@@ -6,6 +6,7 @@ function Login() {
       <br />
       <a href="/Orders">Orders</a>
       <br />
+      <a href="/FullOrders">Full Orders</a>
     </>
   );
 }
