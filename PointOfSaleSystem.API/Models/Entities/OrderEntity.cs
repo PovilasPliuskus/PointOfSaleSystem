@@ -6,7 +6,7 @@ namespace PointOfSaleSystem.API.Models.Entities
     [Table("Order")]
     public class OrderEntity : BaseModelEntity
     {
-        public Guid? fkEstablishmentProduct {  get; set; }
+        public Guid? fkEstablishmentProduct { get; set; }
 
         [ForeignKey(nameof(fkEstablishmentProduct))]
         public EstablishmentProductEntity EstablishmentProduct { get; set; }
@@ -18,5 +18,11 @@ namespace PointOfSaleSystem.API.Models.Entities
 
         [Required]
         public int Count { get; set; }
+
+        [Required]
+        public Guid fkFullOrderId { get; set; }
+
+        [ForeignKey(nameof(fkFullOrderId))]
+        public FullOrderEntity FullOrder { get; set; }
     }
 }

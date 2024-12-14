@@ -68,15 +68,33 @@ namespace PointOfSaleSystem.API.Repositories
             CompanyEntity? companyEntity = GetCompanyEntity(id)
                 ?? throw new Exception($"Company with Id {id} not found.");
 
-            var establishmentServiceId = companyEntity.Establishments
+            var establishmentServiceIds = companyEntity.Establishments
                 .SelectMany(e => e.EstablishmentServices)
-                .FirstOrDefault()?.Id;
+                .Select(es => es.Id)
+                .ToList();
 
-            if (establishmentServiceId != null)
+            var establishmentProductIds = companyEntity.Establishments
+                .SelectMany(e => e.EstablishmentProducts)
+                .Select(ep => ep.Id)
+                .ToList();
+
+            if (establishmentServiceIds.Any() || establishmentProductIds.Any())
             {
                 var ordersToDelete = _context.Orders
-                    .Where(o => o.fkEstablishmentService == establishmentServiceId)
+                    .Where(o => (o.fkEstablishmentService.HasValue && establishmentServiceIds.Contains(o.fkEstablishmentService.Value)) ||
+                                (o.fkEstablishmentProduct.HasValue && establishmentProductIds.Contains(o.fkEstablishmentProduct.Value)))
                     .ToList();
+
+                var fullOrders = _context.FullOrders.ToList();
+
+                foreach (var order in ordersToDelete)
+                {
+                    var matchinFullOrder = fullOrders.FirstOrDefault(fo => fo.Id == order.fkFullOrderId);
+                    if (matchinFullOrder is not null)
+                    {
+                        _context.FullOrders.Remove(matchinFullOrder);
+                    }
+                }
 
                 _context.Orders.RemoveRange(ordersToDelete);
                 _context.SaveChanges();

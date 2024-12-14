@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PointOfSaleSystem.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class FixOrderRelationships : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -142,6 +142,34 @@ namespace PointOfSaleSystem.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FullOrder",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Tip = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    ReceiveTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    fkCreatedByEmployee = table.Column<Guid>(type: "uuid", nullable: true),
+                    fkModifiedByEmployee = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FullOrder", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FullOrder_Employee_fkCreatedByEmployee",
+                        column: x => x.fkCreatedByEmployee,
+                        principalTable: "Employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_FullOrder_Employee_fkModifiedByEmployee",
+                        column: x => x.fkModifiedByEmployee,
+                        principalTable: "Employee",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EstablishmentProduct",
                 columns: table => new
                 {
@@ -220,6 +248,7 @@ namespace PointOfSaleSystem.API.Migrations
                     fkEstablishmentProduct = table.Column<Guid>(type: "uuid", nullable: true),
                     fkEstablishmentService = table.Column<Guid>(type: "uuid", nullable: true),
                     Count = table.Column<int>(type: "integer", nullable: false),
+                    fkFullOrderId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     ReceiveTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -243,45 +272,18 @@ namespace PointOfSaleSystem.API.Migrations
                         name: "FK_Order_EstablishmentProduct_fkEstablishmentProduct",
                         column: x => x.fkEstablishmentProduct,
                         principalTable: "EstablishmentProduct",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Order_EstablishmentService_fkEstablishmentService",
                         column: x => x.fkEstablishmentService,
                         principalTable: "EstablishmentService",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FullOrder",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    fkOrderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Tip = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    ReceiveTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    fkCreatedByEmployee = table.Column<Guid>(type: "uuid", nullable: true),
-                    fkModifiedByEmployee = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FullOrder", x => new { x.Id, x.fkOrderId });
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FullOrder_Employee_fkCreatedByEmployee",
-                        column: x => x.fkCreatedByEmployee,
-                        principalTable: "Employee",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_FullOrder_Employee_fkModifiedByEmployee",
-                        column: x => x.fkModifiedByEmployee,
-                        principalTable: "Employee",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_FullOrder_Order_fkOrderId",
-                        column: x => x.fkOrderId,
-                        principalTable: "Order",
+                        name: "FK_Order_FullOrder_fkFullOrderId",
+                        column: x => x.fkFullOrderId,
+                        principalTable: "FullOrder",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -397,11 +399,6 @@ namespace PointOfSaleSystem.API.Migrations
                 column: "fkModifiedByEmployee");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FullOrder_fkOrderId",
-                table: "FullOrder",
-                column: "fkOrderId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Order_fkCreatedByEmployee",
                 table: "Order",
                 column: "fkCreatedByEmployee");
@@ -415,6 +412,11 @@ namespace PointOfSaleSystem.API.Migrations
                 name: "IX_Order_fkEstablishmentService",
                 table: "Order",
                 column: "fkEstablishmentService");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_fkFullOrderId",
+                table: "Order",
+                column: "fkFullOrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_fkModifiedByEmployee",
@@ -498,9 +500,6 @@ namespace PointOfSaleSystem.API.Migrations
                 name: "CompanyService");
 
             migrationBuilder.DropTable(
-                name: "FullOrder");
-
-            migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
@@ -508,6 +507,9 @@ namespace PointOfSaleSystem.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "EstablishmentService");
+
+            migrationBuilder.DropTable(
+                name: "FullOrder");
 
             migrationBuilder.DropTable(
                 name: "Employee");
