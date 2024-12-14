@@ -56,6 +56,7 @@ namespace PointOfSaleSystem.API.Repositories
 
             companyEntity.Code = request.Code;
             companyEntity.Name = request.Name;
+            companyEntity.UpdateTime = request.UpdateTime;
 
             _context.Update(companyEntity);
 
@@ -66,6 +67,20 @@ namespace PointOfSaleSystem.API.Repositories
         {
             CompanyEntity? companyEntity = GetCompanyEntity(id)
                 ?? throw new Exception($"Company with Id {id} not found.");
+
+            var establishmentServiceId = companyEntity.Establishments
+                .SelectMany(e => e.EstablishmentServices)
+                .FirstOrDefault()?.Id;
+
+            if (establishmentServiceId != null)
+            {
+                var ordersToDelete = _context.Orders
+                    .Where(o => o.fkEstablishmentService == establishmentServiceId)
+                    .ToList();
+
+                _context.Orders.RemoveRange(ordersToDelete);
+                _context.SaveChanges();
+            }
 
             _context.Companies.Remove(companyEntity);
 

@@ -1,14 +1,14 @@
 import React from "react";
-import { Company } from "./interfaces";
+import { CompanyObject } from "./interfaces";
 import CompanyExpendedRowDetails from "./CompanyExpandedRowDetails";
 
 interface CompanyTableProps {
-  companies: Company[];
-  paginatedCompanies: Company[];
+  companies: CompanyObject[];
+  paginatedCompanies: CompanyObject[];
   currentPage: number;
   pageSize: number;
   expandedRow: number | null;
-  selectedCompany: Company | null;
+  selectedCompany: CompanyObject | null;
 
   handleRowClick: (index: number, companyId: string) => void;
   handleEditClick: (companyId: string) => void;

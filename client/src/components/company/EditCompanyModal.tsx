@@ -1,17 +1,17 @@
-interface AddCompanyModalProps {
+interface EditCompanyModalProps {
   showModal: boolean;
-  newCompanyName: string;
   newCompanyCode: string;
+  newCompanyName: string;
 
   toggleModal: () => void;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSave: () => void;
 }
 
-const AddCompanyModal: React.FC<AddCompanyModalProps> = ({
+const EditCompanyModal: React.FC<EditCompanyModalProps> = ({
   showModal,
-  newCompanyName,
   newCompanyCode,
+  newCompanyName,
   toggleModal,
   handleInputChange,
   handleSave,
@@ -22,7 +22,7 @@ const AddCompanyModal: React.FC<AddCompanyModalProps> = ({
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Add New Company</h5>
+            <h5 className="modal-title">Edit Company</h5>
           </div>
           <div className="modal-body">
             <form>
@@ -70,4 +70,4 @@ const AddCompanyModal: React.FC<AddCompanyModalProps> = ({
   );
 };
 
-export default AddCompanyModal;
+export default EditCompanyModal;

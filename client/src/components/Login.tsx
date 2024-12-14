@@ -6,7 +6,6 @@ function Login() {
       <br />
       <a href="/Orders">Orders</a>
       <br />
-      <a href="/CleanCompanies">TEST</a>
     </>
   );
 }

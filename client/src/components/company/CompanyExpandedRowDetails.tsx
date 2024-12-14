@@ -1,8 +1,8 @@
 import React from "react";
-import { Company } from "./interfaces";
+import { CompanyObject } from "./interfaces";
 
 interface CompanyExpandedRowDetailsProps {
-  selectedCompany: Company;
+  selectedCompany: CompanyObject;
   onEdit: (compamyId: string) => void;
   onDelete: (compamyId: string) => void;
 }
@@ -32,11 +32,11 @@ const CompanyExpendedRowDetails: React.FC<CompanyExpandedRowDetailsProps> = ({
           </p>
           <p>
             <strong>Created By Employee ID: </strong>{" "}
-            {selectedCompany.createdByEmployee}
+            {selectedCompany.createdByEmployeeId}
           </p>
           <p>
             <strong>Modified By Employee ID:</strong>{" "}
-            {selectedCompany.updatedByEmployee}
+            {selectedCompany.modifiedByEmployeeId}
           </p>
           <p>
             <strong>Establishments:</strong>{" "}
