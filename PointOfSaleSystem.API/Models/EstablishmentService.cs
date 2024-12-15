@@ -6,6 +6,5 @@ namespace PointOfSaleSystem.API.Models
     {
         public required decimal Price { get; set; }
         public required CurrencyEnum Currency { get; set; }
-        public required Establishment Establishment { get; set; }
     }
 }

@@ -32,6 +32,21 @@ var mapperConfig = new MapperConfiguration(cfg =>
     cfg.CreateMap<EstablishmentEntity, Establishment>();
     cfg.CreateMap<Establishment, EstablishmentEntity>();
 
+    cfg.CreateMap<CompanyProductEntity, CompanyProduct>();
+    cfg.CreateMap<CompanyProduct, CompanyProductEntity>();
+
+    cfg.CreateMap<CompanyServiceEntity, PointOfSaleSystem.API.Models.CompanyService>();
+    cfg.CreateMap<PointOfSaleSystem.API.Models.CompanyService, CompanyServiceEntity>();
+
+    cfg.CreateMap<EmployeeEntity, Employee>();
+    cfg.CreateMap<Employee, EmployeeEntity>();
+
+    cfg.CreateMap<EstablishmentProductEntity, EstablishmentProduct>();
+    cfg.CreateMap<EstablishmentProduct, EstablishmentProductEntity>();
+
+    cfg.CreateMap<EstablishmentServiceEntity, EstablishmentService>();
+    cfg.CreateMap<EstablishmentService, EstablishmentServiceEntity>();
+
     cfg.CreateMap<OrderEntity, Order>()
         .ForMember(dest => dest.EstablishmentProductId, opt => opt.MapFrom(src => src.fkEstablishmentProduct))
         .ForMember(dest => dest.EstablishmentServiceId, opt => opt.MapFrom(src => src.fkEstablishmentService));

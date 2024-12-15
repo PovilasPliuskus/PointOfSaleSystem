@@ -29,32 +29,50 @@ namespace PointOfSaleSystem.API.Context
             modelBuilder.Entity<EstablishmentEntity>()
                 .HasOne(e => e.Company)
                 .WithMany(com => com.Establishments)
-                .HasForeignKey(e => e.fkCompanyId);
+                .HasForeignKey(e => e.fkCompanyId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CompanyProductEntity>()
                 .HasOne(cp => cp.Company)
                 .WithMany(com => com.CompanyProducts)
-                .HasForeignKey(cp => cp.fkCompanyId);
+                .HasForeignKey(cp => cp.fkCompanyId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CompanyServiceEntity>()
                 .HasOne(cs => cs.Company)
                 .WithMany(com => com.CompanyServices)
-                .HasForeignKey(cs => cs.fkCompanyId);
+                .HasForeignKey(cs => cs.fkCompanyId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<EstablishmentProductEntity>()
                 .HasOne(ep => ep.Establishment)
                 .WithMany(e => e.EstablishmentProducts)
-                .HasForeignKey(ep => ep.fkEstablishmentId);
+                .HasForeignKey(ep => ep.fkEstablishmentId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<EstablishmentServiceEntity>()
                 .HasOne(es => es.Establishment)
                 .WithMany(e => e.EstablishmentServices)
-                .HasForeignKey(es => es.fkEstablishmentId);
+                .HasForeignKey(es => es.fkEstablishmentId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<EmployeeEntity>()
                 .HasOne(e => e.Establishment)
                 .WithMany(est => est.Employees)
-                .HasForeignKey(e => e.fkEstablishmentId);
+                .HasForeignKey(e => e.fkEstablishmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderEntity>()
+                .HasOne(o => o.EstablishmentService)
+                .WithMany()
+                .HasForeignKey(o => o.fkEstablishmentService)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderEntity>()
+                .HasOne(o => o.EstablishmentProduct)
+                .WithMany()
+                .HasForeignKey(o => o.fkEstablishmentProduct)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
