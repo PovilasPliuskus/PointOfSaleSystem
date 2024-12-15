@@ -1,3 +1,4 @@
+import { FullOrderStatusEnum } from "../../scripts/enums/FullOrderStatusEnum";
 import { FullOrderObject } from "../../scripts/interfaces";
 
 interface AddOrderModalProps {
@@ -50,11 +51,16 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({
                   onChange={handleInputChange}
                 >
                   <option value="">Select and order</option>
-                  {fullOrders.map((fullOrder) => (
-                    <option key={fullOrder.id} value={fullOrder.id}>
-                      {fullOrder.name}
-                    </option>
-                  ))}
+                  {fullOrders
+                    .filter(
+                      (FullOrder) =>
+                        FullOrder.status === FullOrderStatusEnum.Open
+                    )
+                    .map((fullOrder) => (
+                      <option key={fullOrder.id} value={fullOrder.id}>
+                        {fullOrder.name}
+                      </option>
+                    ))}
                 </select>
               </div>
               <div className="mb-3">
