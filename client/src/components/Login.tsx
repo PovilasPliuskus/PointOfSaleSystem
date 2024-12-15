@@ -6,6 +6,8 @@ function Login() {
       <br />
       <a href="/Establishments">Establishments</a>
       <br />
+      <a href="/EstablishmentProducts">EstablishmentProducts</a>
+      <br />
       <a href="/Orders">Orders</a>
       <br />
       <a href="/FullOrders">Full Orders</a>

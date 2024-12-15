@@ -119,7 +119,7 @@ export interface EstablishmentObject {
   modifiedByEmployeeId: string;
   code: string;
   employees: Employee[] | null;
-  establishmentProducts: EstablishmentProduct[] | null;
+  establishmentProducts: EstablishmentProductObject[] | null;
   establishmentServices: EstablishmentService[] | null;
 }
 
@@ -132,7 +132,7 @@ export interface CreateEstablishmentRequest {
   modifiedByEmployeeId: string;
   code: string;
   employees: Employee[] | null;
-  establishmentProducts: EstablishmentProduct[] | null;
+  establishmentProducts: EstablishmentProductObject[] | null;
   establishmentServices: EstablishmentService[] | null;
   fkCompanyId: string;
 }
@@ -160,7 +160,7 @@ export interface Employee {
 }
 
 // EstablishmentProduct
-export interface EstablishmentProduct {
+export interface EstablishmentProductObject {
   id: string;
   name: string;
   receiveTime: string;
@@ -170,6 +170,30 @@ export interface EstablishmentProduct {
   price: number;
   amountInStock: number;
   currency: number;
+  orders: OrderObject[] | null;
+}
+
+export interface CreateEstablishmentProductRequest {
+  id: string;
+  name: string;
+  receiveTime: string;
+  updateTime: string;
+  createdByEmployeeId: string;
+  modifiedByEmployeeId: string;
+  price: number;
+  amountInStock: number;
+  currency: number;
+  orders: OrderObject[] | null;
+  fkEstablishmentId: string;
+}
+
+export interface UpdateEstablishmentProductRequest {
+  id: string;
+  name: string;
+  price: number;
+  amountInStock: number;
+  currency: number;
+  updateTime: string;
 }
 
 // EstablishmentService
