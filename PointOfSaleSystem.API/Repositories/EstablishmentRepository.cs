@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PointOfSaleSystem.API.Context;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Models.Entities;
@@ -28,6 +29,7 @@ namespace PointOfSaleSystem.API.Repositories
         public Establishment Get(Guid id)
         {
             EstablishmentEntity? establishmentEntity = GetEstablishmentEntity(id);
+
             return establishmentEntity is null
                 ? throw new Exception($"Establishment with Id {id} not found.")
                 : _mapper.Map<Establishment>(establishmentEntity);
@@ -35,8 +37,14 @@ namespace PointOfSaleSystem.API.Repositories
 
         public List<Establishment> GetAll()
         {
-            List<EstablishmentEntity> establishmentEntities = _context.Establishments.ToList();
+            List<EstablishmentEntity> establishmentEntities = _context.Establishments
+                .Include(e => e.Employees)
+                .Include(e => e.EstablishmentProducts)
+                .Include(e => e.EstablishmentServices)
+                .ToList();
+
             List<Establishment> establishments = _mapper.Map<List<Establishment>>(establishmentEntities);
+
             return establishments;
         }
 

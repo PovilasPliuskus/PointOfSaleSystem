@@ -100,7 +100,7 @@ namespace PointOfSaleSystem.API.Services
                 }
             }
 
-            List<EstablishmentService> establishmentServices = _establishmentServiceRepository.GetAll();
+            List<Models.EstablishmentService> establishmentServices = _establishmentServiceRepository.GetAll();
 
             foreach(var service in establishmentServices)
             {
@@ -127,7 +127,7 @@ namespace PointOfSaleSystem.API.Services
 
                 if (order.EstablishmentServiceId is not null)
                 {
-                    EstablishmentService establishmentService = _establishmentServiceRepository.Get((Guid)order.EstablishmentServiceId);
+                    Models.EstablishmentService establishmentService = _establishmentServiceRepository.Get((Guid)order.EstablishmentServiceId);
                     totalPrice += establishmentService.Price;
                 }
             }
