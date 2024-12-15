@@ -229,7 +229,7 @@ function Order() {
       <EditOrderModal
         showModal={showEditModal}
         toggleModal={toggleEditOrderModal}
-        newOrderCount={newAddOrderCount}
+        newOrderCount={newEditOrderCount}
         newOrderName={newEditOrderName}
         handleInputChange={handleEditInputChange}
         handleSave={handleEditSaveOrder}
