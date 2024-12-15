@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.RequestBodies.Order;
+using PointOfSaleSystem.API.ResponseBodies.Order;
 using PointOfSaleSystem.API.Services.Interfaces;
 
 namespace PointOfSaleSystem.API.Controllers
@@ -16,7 +17,7 @@ namespace PointOfSaleSystem.API.Controllers
         }
 
         [HttpPost("order")]
-        public async Task<IActionResult> CreateOrder(Order order)
+        public async Task<IActionResult> CreateOrder(AddOrderRequest order)
         {
             _orderService.CreateOrder(order);
             return Ok();
@@ -25,14 +26,14 @@ namespace PointOfSaleSystem.API.Controllers
         [HttpGet("order")]
         public async Task<IActionResult> GetOrders()
         {
-            List<Order> orders = _orderService.GetAllOrders();
+            List<GetOrderResponse> orders = _orderService.GetAllOrders();
             return Ok(orders);
         }
 
         [HttpGet("order/{orderId}")]
         public async Task<IActionResult> GetOrder(Guid orderId)
         {
-            Order order = _orderService.GetOrder(orderId);
+            GetOrderResponse order = _orderService.GetOrder(orderId);
             return Ok(order);
         }
 

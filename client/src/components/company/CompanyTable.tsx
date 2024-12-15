@@ -1,5 +1,5 @@
 import React from "react";
-import { CompanyObject } from "./interfaces";
+import { CompanyObject } from "../../scripts/interfaces";
 import CompanyExpendedRowDetails from "./CompanyExpandedRowDetails";
 
 interface CompanyTableProps {

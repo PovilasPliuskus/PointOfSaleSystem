@@ -1,7 +1,6 @@
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.Establishment;
-using PointOfSaleSystem.API.Services.Interfaces;
 
 namespace PointOfSaleSystem.API.Services
 {

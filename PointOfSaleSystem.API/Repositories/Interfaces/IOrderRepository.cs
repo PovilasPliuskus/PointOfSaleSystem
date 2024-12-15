@@ -5,7 +5,7 @@ namespace PointOfSaleSystem.API.Repositories.Interfaces
 {
     public interface IOrderRepository
     {
-        public void Create(Order order);
+        public void Create(AddOrderRequest order);
         public Order Get(Guid id);
         public List<Order> GetAll();
         public void Update(UpdateOrderRequest request);

@@ -7,6 +7,9 @@ using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.Repositories;
 using PointOfSaleSystem.API.Services.Interfaces;
 using PointOfSaleSystem.API.Services;
+using PointOfSaleSystem.API.ResponseBodies.FullOrder;
+using PointOfSaleSystem.API.ResponseBodies.Order;
+using PointOfSaleSystem.API.RequestBodies.Order;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +57,18 @@ var mapperConfig = new MapperConfiguration(cfg =>
     cfg.CreateMap<Order, OrderEntity>()
         .ForMember(dest => dest.fkEstablishmentProduct, opt => opt.MapFrom(src => src.EstablishmentProductId))
         .ForMember(dest => dest.fkEstablishmentService, opt => opt.MapFrom(src => src.EstablishmentServiceId));
+
+    cfg.CreateMap<FullOrderEntity, FullOrder>();
+    cfg.CreateMap<FullOrder, FullOrderEntity>();
+
+    cfg.CreateMap<GetFullOrderResponse, FullOrder>();
+    cfg.CreateMap<FullOrder, GetFullOrderResponse>();
+
+    cfg.CreateMap<GetOrderResponse, Order>();
+    cfg.CreateMap<Order, GetOrderResponse>();
+
+    cfg.CreateMap<AddOrderRequest, OrderEntity>();
+    cfg.CreateMap<OrderEntity, AddOrderRequest>();
 });
 
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
@@ -65,6 +80,10 @@ builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 builder.Services.AddTransient<ICompanyService, PointOfSaleSystem.API.Services.CompanyService>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IFullOrderRepository, FullOrderRepository>();
+builder.Services.AddTransient<IFullOrderService, FullOrderService>();
+builder.Services.AddTransient<IEstablishmentProductRepository, EstablishmentProductRepository>();
+builder.Services.AddTransient<IEstablishmentServiceRepository, EstablishmentServiceRepository>();
 builder.Services.AddTransient<IEstablishmentRepository, EstablishmentRepository>();
 builder.Services.AddTransient<IEstablishmentService, PointOfSaleSystem.API.Services.EstablishmentService>();
 

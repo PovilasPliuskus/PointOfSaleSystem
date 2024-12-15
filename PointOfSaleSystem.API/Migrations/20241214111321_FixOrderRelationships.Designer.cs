@@ -12,8 +12,8 @@ using PointOfSaleSystem.API.Context;
 namespace PointOfSaleSystem.API.Migrations
 {
     [DbContext(typeof(PointOfSaleSystemContext))]
-    [Migration("20241213224106_AddCascadeDelete")]
-    partial class AddCascadeDelete
+    [Migration("20241214111321_FixOrderRelationships")]
+    partial class FixOrderRelationships
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -331,9 +331,7 @@ namespace PointOfSaleSystem.API.Migrations
             modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.FullOrderEntity", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("fkOrderId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -359,13 +357,11 @@ namespace PointOfSaleSystem.API.Migrations
                     b.Property<Guid?>("fkModifiedByEmployee")
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id", "fkOrderId");
+                    b.HasKey("Id");
 
                     b.HasIndex("fkCreatedByEmployee");
 
                     b.HasIndex("fkModifiedByEmployee");
-
-                    b.HasIndex("fkOrderId");
 
                     b.ToTable("FullOrder");
                 });
@@ -399,6 +395,9 @@ namespace PointOfSaleSystem.API.Migrations
                     b.Property<Guid?>("fkEstablishmentService")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("fkFullOrderId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("fkModifiedByEmployee")
                         .HasColumnType("uuid");
 
@@ -409,6 +408,8 @@ namespace PointOfSaleSystem.API.Migrations
                     b.HasIndex("fkEstablishmentProduct");
 
                     b.HasIndex("fkEstablishmentService");
+
+                    b.HasIndex("fkFullOrderId");
 
                     b.HasIndex("fkModifiedByEmployee");
 
@@ -578,15 +579,7 @@ namespace PointOfSaleSystem.API.Migrations
                         .WithMany()
                         .HasForeignKey("fkModifiedByEmployee");
 
-                    b.HasOne("PointOfSaleSystem.API.Models.Entities.OrderEntity", "Order")
-                        .WithMany()
-                        .HasForeignKey("fkOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("CreatedByEmployee");
-
-                    b.Navigation("Order");
 
                     b.Navigation("UpdatedByEmployee");
                 });
@@ -598,14 +591,20 @@ namespace PointOfSaleSystem.API.Migrations
                         .HasForeignKey("fkCreatedByEmployee");
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EstablishmentProductEntity", "EstablishmentProduct")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("fkEstablishmentProduct")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EstablishmentServiceEntity", "EstablishmentService")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("fkEstablishmentService")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PointOfSaleSystem.API.Models.Entities.FullOrderEntity", "FullOrder")
+                        .WithMany("Orders")
+                        .HasForeignKey("fkFullOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
@@ -616,6 +615,8 @@ namespace PointOfSaleSystem.API.Migrations
                     b.Navigation("EstablishmentProduct");
 
                     b.Navigation("EstablishmentService");
+
+                    b.Navigation("FullOrder");
 
                     b.Navigation("UpdatedByEmployee");
                 });
@@ -636,6 +637,21 @@ namespace PointOfSaleSystem.API.Migrations
                     b.Navigation("EstablishmentProducts");
 
                     b.Navigation("EstablishmentServices");
+                });
+
+            modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.EstablishmentProductEntity", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.EstablishmentServiceEntity", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.FullOrderEntity", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

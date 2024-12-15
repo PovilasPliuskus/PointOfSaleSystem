@@ -1,4 +1,5 @@
 DELETE FROM public."Order";
+DELETE FROM public."FullOrder";
 DELETE FROM public."EstablishmentService";
 DELETE FROM public."EstablishmentProduct";
 DELETE FROM public."CompanyService";
@@ -68,11 +69,16 @@ VALUES
     ('45f2f79d-28ec-4149-a5d0-30a87f3c6265', '15.14', '1', 'b045ecea-f3bb-4ffb-a4cc-9bcfa08c4957', 'Public Pool', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
     ('ca86f3fe-e4a4-41dc-b602-83f5a025a5a0', '12.99', '1', '9cfee38e-0229-49f9-85ef-c98441ce721e', 'Haircut', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
 
-INSERT INTO public."Order" ("Id", "fkEstablishmentProduct", "fkEstablishmentService", "Count", "Name", "ReceiveTime", "UpdateTime", "fkCreatedByEmployee", "fkModifiedByEmployee")
+INSERT INTO public."FullOrder" ("Id", "Tip", "Status", "Name", "ReceiveTime", "UpdateTime", "fkCreatedByEmployee", "fkModifiedByEmployee")
 VALUES
-    ('9408ccab-bc42-471e-9018-031022a31c04', '07587c33-910c-4241-8219-b68107274fe5', NULL, 1, 'Coca-Cola', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
-    ('53103090-6874-4741-ad05-a41fecf6f61b', 'e393efeb-a58a-423e-b5c2-55d212e9cd02', NULL, 2, 'Mohito Cocktail', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
-    ('6aa095e3-c36a-4dc1-bb67-736e6a4b9170', 'd8e402c5-efa5-4bd9-9b57-4d9f84e39a41', NULL, 3, 'Shrimps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
-    ('f3793747-11cd-46a4-b116-b21272e65410', NULL, '45f2f79d-28ec-4149-a5d0-30a87f3c6265', 1, 'Public Pool', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
-    ('8c42b5b1-803b-4815-adba-78c7f3779b47', NULL, 'ca86f3fe-e4a4-41dc-b602-83f5a025a5a0', 1, 'Fancy Haircut', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
-    ('c8481d10-25a2-47cc-a37e-9062c856d2c3', '1336f86d-2c87-4cdd-8dcb-a36f477ebf1a', NULL, 2, 'French Fries', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+    ('a53fab32-85b9-4e37-b91d-9d72b3118f55', '10.00', '1', 'Table1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
+    ('250c7f3b-ec47-4416-b075-3d3987ca7d4b', '7.50', '1', 'Pool', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
+    ('46332d6c-ecfc-4c41-a189-7555adb32bd1', '2.00', '2', 'Hairdressing Chair', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+
+INSERT INTO public."Order" ("Id", "fkEstablishmentProduct", "fkEstablishmentService", "Count", "Name", "ReceiveTime", "UpdateTime", "fkCreatedByEmployee", "fkModifiedByEmployee", "fkFullOrderId")
+VALUES
+    ('9408ccab-bc42-471e-9018-031022a31c04', '07587c33-910c-4241-8219-b68107274fe5', NULL, 1, 'Coca-Cola', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL, 'a53fab32-85b9-4e37-b91d-9d72b3118f55'),
+    ('53103090-6874-4741-ad05-a41fecf6f61b', 'dd08f1ad-0af2-4397-b8f4-acca39274b78', NULL, 1, 'ChickenBurger', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL, 'a53fab32-85b9-4e37-b91d-9d72b3118f55'),
+    ('c8481d10-25a2-47cc-a37e-9062c856d2c3', '1336f86d-2c87-4cdd-8dcb-a36f477ebf1a', NULL, 2, 'French Fries', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL, 'a53fab32-85b9-4e37-b91d-9d72b3118f55'),
+    ('f3793747-11cd-46a4-b116-b21272e65410', NULL, '45f2f79d-28ec-4149-a5d0-30a87f3c6265', 1, 'Public Pool', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL, '250c7f3b-ec47-4416-b075-3d3987ca7d4b'),
+    ('8c42b5b1-803b-4815-adba-78c7f3779b47', NULL, 'ca86f3fe-e4a4-41dc-b602-83f5a025a5a0', 1, 'Fancy Haircut', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL, '46332d6c-ecfc-4c41-a189-7555adb32bd1');

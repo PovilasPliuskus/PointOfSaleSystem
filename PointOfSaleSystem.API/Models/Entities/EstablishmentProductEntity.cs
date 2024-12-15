@@ -22,5 +22,7 @@ namespace PointOfSaleSystem.API.Models.Entities
 
         [ForeignKey(nameof(fkEstablishmentId))]
         public EstablishmentEntity Establishment { get; set; }
+
+        public ICollection<OrderEntity>? Orders { get; set; }
     }
 }
