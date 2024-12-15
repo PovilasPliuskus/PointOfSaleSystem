@@ -8,6 +8,7 @@ using PointOfSaleSystem.API.Repositories;
 using PointOfSaleSystem.API.Services.Interfaces;
 using PointOfSaleSystem.API.Services;
 using PointOfSaleSystem.API.ResponseBodies.FullOrder;
+using PointOfSaleSystem.API.ResponseBodies.Order;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +62,9 @@ var mapperConfig = new MapperConfiguration(cfg =>
 
     cfg.CreateMap<GetFullOrderResponse, FullOrder>();
     cfg.CreateMap<FullOrder, GetFullOrderResponse>();
+
+    cfg.CreateMap<GetOrderResponse, Order>();
+    cfg.CreateMap<Order, GetOrderResponse>();
 });
 
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
@@ -76,6 +80,7 @@ builder.Services.AddTransient<IFullOrderRepository, FullOrderRepository>();
 builder.Services.AddTransient<IFullOrderService, FullOrderService>();
 builder.Services.AddTransient<IEstablishmentProductRepository, EstablishmentProductRepository>();
 builder.Services.AddTransient<IEstablishmentServiceRepository, EstablishmentServiceRepository>();
+builder.Services.AddTransient<IEstablishmentRepository, EstablishmentRepostitory>();
 
 var app = builder.Build();
 

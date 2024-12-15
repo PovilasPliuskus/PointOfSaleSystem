@@ -65,6 +65,7 @@ export interface OrderObject {
   establishmentProductId: string;
   establishmentServiceId: string;
   count: number;
+  fullOrderId: string;
 }
 
 export interface CreateOrderRequest {
@@ -74,8 +75,8 @@ export interface CreateOrderRequest {
   updateTime: string;
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
-  establishmentProductId: string;
-  establishmentServiceId: string;
+  establishmentProductId: string | null;
+  establishmentServiceId: string | null;
   count: number;
 }
 

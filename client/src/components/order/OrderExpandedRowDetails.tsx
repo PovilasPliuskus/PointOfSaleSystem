@@ -1,4 +1,6 @@
-import { OrderObject } from "../../scripts/interfaces";
+import { useEffect, useState } from "react";
+import { fetchFullOrder } from "../../scripts/fullOrderFunctions";
+import { FullOrderObject, OrderObject } from "../../scripts/interfaces";
 
 interface OrderExpandedRowDetailsProps {
   selectedOrder: OrderObject;
@@ -11,6 +13,17 @@ const OrderExpandedRowDetails: React.FC<OrderExpandedRowDetailsProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const [fullOrder, setFullOrder] = useState<FullOrderObject | null>(null);
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      setFullOrder(null);
+      const result = await fetchFullOrder(selectedOrder.fullOrderId);
+      setFullOrder(result);
+    };
+    fetchOrder();
+  }, [selectedOrder.fullOrderId]);
+
   return (
     <tr>
       <td colSpan={2}>
@@ -36,6 +49,17 @@ const OrderExpandedRowDetails: React.FC<OrderExpandedRowDetailsProps> = ({
           <p>
             <strong>Modified By Employee ID:</strong>{" "}
             {selectedOrder.modifiedByEmployeeId}
+          </p>
+          <p>
+            <strong>Establishment Service ID:</strong>{" "}
+            {selectedOrder.establishmentServiceId}
+          </p>
+          <p>
+            <strong>Establishment Product ID:</strong>{" "}
+            {selectedOrder.establishmentProductId}
+          </p>
+          <p>
+            <strong>FullOrder:</strong> {fullOrder?.name || "Loading..."}
           </p>
           <div className="mt-2">
             <button

@@ -45,7 +45,10 @@ function Order() {
   const handleRowClick = async (index: number, orderId: string) => {
     console.log("Pressed handleRowClick");
 
-    setExpandedRow(expandedRow === index ? null : index);
+    if (expandedRow === index) {
+      setExpandedRow(null);
+      return;
+    }
 
     if (expandedRow !== index) {
       try {
@@ -53,6 +56,7 @@ function Order() {
 
         console.log("Fetched selected order details: ", selectedOrder);
         setSelectedOrder(selectedOrder);
+        setExpandedRow(index);
       } catch (error) {
         console.error("Error fetching order details:", error);
       }
@@ -123,8 +127,8 @@ function Order() {
       receiveTime: new Date().toISOString(),
       createdByEmployeeId: "00000000-0000-0000-0000-000000000000",
       modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000",
-      establishmentProductId: "00000000-0000-0000-0000-000000000000",
-      establishmentServiceId: "00000000-0000-0000-0000-000000000000",
+      establishmentProductId: null,
+      establishmentServiceId: null,
       count: newAddOrderCount,
     };
 

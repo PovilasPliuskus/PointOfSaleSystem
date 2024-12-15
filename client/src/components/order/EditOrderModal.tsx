@@ -41,7 +41,7 @@ const EditOrderModal: React.FC<EditOrderModalProps> = ({
                 <input
                   type="number"
                   className="form-control"
-                  name="tip"
+                  name="count"
                   value={newOrderCount}
                   onChange={handleInputChange}
                 />
