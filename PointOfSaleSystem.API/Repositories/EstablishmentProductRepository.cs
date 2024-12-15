@@ -4,6 +4,7 @@ using PointOfSaleSystem.API.Context;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Models.Entities;
 using PointOfSaleSystem.API.Repositories.Interfaces;
+using PointOfSaleSystem.API.RequestBodies.EstablishmentProduct;
 
 namespace PointOfSaleSystem.API.Repositories
 {
@@ -19,6 +20,15 @@ namespace PointOfSaleSystem.API.Repositories
             _mapper = mapper;
         }
 
+        public void Create(AddEstablishmentProductRequest request)
+        {
+            EstablishmentProductEntity establishmentProductEntity = _mapper.Map<EstablishmentProductEntity>(request);
+
+            _context.EstablishmentProducts.Add(establishmentProductEntity);
+
+            _context.SaveChanges();
+        }
+
         public EstablishmentProduct Get(Guid id)
         {
             EstablishmentProductEntity? establishmentProductEntity = GetEstablishmentProductEntity(id);
@@ -30,11 +40,39 @@ namespace PointOfSaleSystem.API.Repositories
 
         public List<EstablishmentProduct> GetAll()
         {
-            List<EstablishmentProductEntity> establishmentProductEntities = _context.EstablishmentProducts.ToList();
+            List<EstablishmentProductEntity> establishmentProductEntities = _context.EstablishmentProducts
+                .Include(ep => ep.Orders)
+                .ToList();
 
             List<EstablishmentProduct> establishmentProducts = _mapper.Map<List<EstablishmentProduct>>(establishmentProductEntities);
 
             return establishmentProducts;
+        }
+
+        public void Update(UpdateEstablishmentProductRequest request)
+        {
+            EstablishmentProductEntity? establishmentProductEntity = GetEstablishmentProductEntity(request.Id)
+                ?? throw new Exception($"EstablishmentProduct with Id {request.Id} not found.");
+
+            establishmentProductEntity.Name = request.Name;
+            establishmentProductEntity.Price = request.Price;
+            establishmentProductEntity.AmountInStock = request.AmountInStock;
+            establishmentProductEntity.Currency = (Models.Enums.CurrencyEnum)request.Currency;
+            establishmentProductEntity.UpdateTime = request.UpdateTime;
+
+            _context.Update(establishmentProductEntity);
+
+            _context.SaveChanges();
+        }
+
+        public void Delete(Guid id)
+        {
+            EstablishmentProductEntity? establishmentProductEntity = GetEstablishmentProductEntity(id)
+                ?? throw new Exception($"EstablishmentProduct with Id {id} not found.");
+
+            _context.EstablishmentProducts.Remove(establishmentProductEntity);
+
+            _context.SaveChanges();
         }
 
         private EstablishmentProductEntity? GetEstablishmentProductEntity(Guid id)
