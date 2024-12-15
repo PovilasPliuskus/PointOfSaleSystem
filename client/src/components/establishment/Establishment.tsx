@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  CompanyObject,
   CreateEstablishmentRequest,
   EstablishmentObject,
   UpdateEstablishmentRequest,
@@ -16,6 +17,7 @@ import EstablishmentTable from "./EstablishmentTable";
 import Pagination from "../Pagination";
 import EditEstablishmentModal from "./EditEstablishmentModal";
 import AddEstablishmentModal from "./AddEstablishmentModal";
+import { fetchAllCompanies } from "../../scripts/companyFunctions";
 
 function Establishment() {
   // Variables
@@ -28,6 +30,7 @@ function Establishment() {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [selectedEstablishment, setSelectedEstablishment] =
     useState<EstablishmentObject | null>(null);
+  const [companies, setCompanies] = useState<CompanyObject[]>([]);
 
   const paginatedEstablishments = establishments.slice(
     (currentPage - 1) * pageSize,
@@ -43,6 +46,7 @@ function Establishment() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newAddEstablishmentCode, setNewAddEstablishmentCode] = useState("");
   const [newAddEstablishmentName, setNewAddEstablishmentName] = useState("");
+  const [newCompaniesId, setNewCompaniesId] = useState("");
 
   // Functions
   const handleRowClick = async (index: number, establishmentId: string) => {
@@ -89,10 +93,15 @@ function Establishment() {
     if (name === "name") setNewEditEstablishmentName(value);
   };
 
-  const handleAddInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     if (name === "code") setNewAddEstablishmentCode(value);
     if (name === "name") setNewAddEstablishmentName(value);
+    if (name === "companyId") {
+      setNewCompaniesId(value);
+    }
   };
 
   const handleEditSaveEstablishment = async () => {
@@ -133,6 +142,7 @@ function Establishment() {
       employees: [],
       establishmentProducts: [],
       establishmentServices: [],
+      fkCompanyId: newCompaniesId,
     };
 
     console.log("Add Establishment request body: ", newEstablishment);
@@ -150,6 +160,7 @@ function Establishment() {
     loadEstablishments();
     setNewAddEstablishmentCode("");
     setNewAddEstablishmentName("");
+    setNewCompaniesId("");
   };
 
   const handleDeleteClick = async () => {
@@ -181,6 +192,8 @@ function Establishment() {
       const data = await fetchAllEstablishments();
       console.log("Retrieved from function loadEstablishments: ", data);
       setEstablishments(data);
+      const companies = await fetchAllCompanies();
+      setCompanies(companies);
     } catch (error) {
       console.error("Error loading establishments: ", error);
     } finally {
@@ -242,6 +255,7 @@ function Establishment() {
         toggleModal={toggleAddEstablishmentModal}
         newEstablishmentCode={newAddEstablishmentCode}
         newEstablishmentName={newAddEstablishmentName}
+        companies={companies}
         handleInputChange={handleAddInputChange}
         handleSave={handleAddSaveEstablishment}
       />

@@ -17,7 +17,7 @@ namespace PointOfSaleSystem.API.Controllers
         }
 
         [HttpPost("establishment")]
-        public async Task<IActionResult> CreateEstablishment(Establishment establishment)
+        public async Task<IActionResult> CreateEstablishment(AddEstablishmentRequest establishment)
         {
             _establishmentService.CreateEstablishment(establishment);
             return Ok();

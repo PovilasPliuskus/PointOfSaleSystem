@@ -5,7 +5,7 @@ namespace PointOfSaleSystem.API.Repositories.Interfaces
 {
     public interface IEstablishmentRepository
     {
-        public void Create(Establishment establishment);
+        public void Create(AddEstablishmentRequest establishment);
         public Establishment Get(Guid id);
         public List<Establishment> GetAll();
         public void Update(UpdateEstablishmentRequest request);

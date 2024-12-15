@@ -50,7 +50,7 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({
                   name="fullOrderId"
                   onChange={handleInputChange}
                 >
-                  <option value="">Select and order</option>
+                  <option value="">Select an order</option>
                   {fullOrders
                     .filter(
                       (FullOrder) =>

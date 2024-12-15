@@ -1,10 +1,15 @@
+import { CompanyObject } from "../../scripts/interfaces";
+
 interface AddEstablishmentModalProps {
   showModal: boolean;
   newEstablishmentName: string;
   newEstablishmentCode: string;
+  companies: CompanyObject[];
 
   toggleModal: () => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   handleSave: () => void;
 }
 
@@ -12,6 +17,7 @@ const AddEstablishmentModal: React.FC<AddEstablishmentModalProps> = ({
   showModal,
   newEstablishmentName,
   newEstablishmentCode,
+  companies,
   toggleModal,
   handleInputChange,
   handleSave,
@@ -45,6 +51,21 @@ const AddEstablishmentModal: React.FC<AddEstablishmentModalProps> = ({
                   value={newEstablishmentName}
                   onChange={handleInputChange}
                 />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Select Company</label>
+                <select
+                  className="form-select"
+                  name="companyId"
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select company</option>
+                  {companies.map((company) => (
+                    <option key={company.id} value={company.id}>
+                      {company.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </form>
           </div>

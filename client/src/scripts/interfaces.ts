@@ -134,6 +134,7 @@ export interface CreateEstablishmentRequest {
   employees: Employee[] | null;
   establishmentProducts: EstablishmentProduct[] | null;
   establishmentServices: EstablishmentService[] | null;
+  fkCompanyId: string;
 }
 
 export interface UpdateEstablishmentRequest {
