@@ -122,13 +122,13 @@ namespace PointOfSaleSystem.API.Services
                 if (order.EstablishmentProductId is not null)
                 {
                     EstablishmentProduct establishmentProduct = _establishmentProductRepository.Get((Guid)order.EstablishmentProductId);
-                    totalPrice += establishmentProduct.Price;
+                    totalPrice += establishmentProduct.Price * order.Count;
                 }
 
                 if (order.EstablishmentServiceId is not null)
                 {
                     Models.EstablishmentService establishmentService = _establishmentServiceRepository.Get((Guid)order.EstablishmentServiceId);
-                    totalPrice += establishmentService.Price;
+                    totalPrice += establishmentService.Price * order.Count;
                 }
             }
 
