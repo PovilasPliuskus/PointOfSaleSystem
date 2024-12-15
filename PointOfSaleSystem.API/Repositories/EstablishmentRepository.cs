@@ -68,7 +68,11 @@ namespace PointOfSaleSystem.API.Repositories
 
         private EstablishmentEntity? GetEstablishmentEntity(Guid id)
         {
-            return _context.Establishments.FirstOrDefault(e => e.Id == id);
+            return _context.Establishments
+                .Include(e => e.Employees)
+                .Include(e => e.EstablishmentProducts)
+                .Include(e => e.EstablishmentServices)
+                .FirstOrDefault(e => e.Id == id);
         }
     }
 }
