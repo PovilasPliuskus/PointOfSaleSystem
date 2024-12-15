@@ -7,7 +7,7 @@ export interface CompanyObject {
   updateTime: string;
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
-  establishments: Establishment[] | null;
+  establishments: EstablishmentObject[] | null;
   companyProducts: CompanyProduct[] | null;
   companyServices: CompanyService[] | null;
 }
@@ -110,7 +110,7 @@ export interface CompanyProduct {
 }
 
 // Establishment
-export interface Establishment {
+export interface EstablishmentObject {
   id: string;
   name: string;
   receiveTime: string;
@@ -121,6 +121,26 @@ export interface Establishment {
   employees: Employee[] | null;
   establishmentProducts: EstablishmentProduct[] | null;
   establishmentServices: EstablishmentService[] | null;
+}
+
+export interface CreateEstablishmentRequest {
+  id: string;
+  name: string;
+  receiveTime: string;
+  updateTime: string;
+  createdByEmployeeId: string;
+  modifiedByEmployeeId: string;
+  code: string;
+  employees: Employee[] | null;
+  establishmentProducts: EstablishmentProduct[] | null;
+  establishmentServices: EstablishmentService[] | null;
+}
+
+export interface UpdateEstablishmentRequest {
+  id: string;
+  code: string;
+  name: string;
+  updateTime: string;
 }
 
 // Employee
