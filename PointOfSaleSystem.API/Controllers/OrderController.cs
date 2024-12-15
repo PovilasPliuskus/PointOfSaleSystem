@@ -17,7 +17,7 @@ namespace PointOfSaleSystem.API.Controllers
         }
 
         [HttpPost("order")]
-        public async Task<IActionResult> CreateOrder(Order order)
+        public async Task<IActionResult> CreateOrder(AddOrderRequest order)
         {
             _orderService.CreateOrder(order);
             return Ok();

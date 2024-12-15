@@ -24,7 +24,7 @@ namespace PointOfSaleSystem.API.Services
             _mapper = mapper;
         }
 
-        public void CreateOrder(Order order)
+        public void CreateOrder(AddOrderRequest order)
         {
             _orderRepository.Create(order);
         }

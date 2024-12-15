@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   CreateOrderRequest,
+  FullOrderObject,
   OrderObject,
   UpdateOrderRequest,
 } from "../../scripts/interfaces";
@@ -16,6 +17,7 @@ import Pagination from "../Pagination";
 import OrderTable from "./OrderTable";
 import EditOrderModal from "./EditOrderModal";
 import AddOrderModal from "./AddOrderModal";
+import { fetchAllFullOrders } from "../../scripts/fullOrderFunctions";
 
 function Order() {
   // Variables
@@ -25,6 +27,7 @@ function Order() {
   const [orders, setOrders] = useState<OrderObject[]>([]);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<OrderObject | null>(null);
+  const [fullOrders, setFullOrders] = useState<FullOrderObject[]>([]);
 
   const paginatedOrders = orders.slice(
     (currentPage - 1) * pageSize,
@@ -40,6 +43,7 @@ function Order() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newAddOrderCount, setNewAddOrderCount] = useState(0);
   const [newAddOrderName, setNewAddOrderName] = useState("");
+  const [newFullOrdersId, setNewFullOrdersId] = useState("");
 
   // Functions
   const handleRowClick = async (index: number, orderId: string) => {
@@ -87,10 +91,16 @@ function Order() {
     if (name === "name") setNewEditOrderName(value);
   };
 
-  const handleAddInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     if (name === "count") setNewAddOrderCount(parseFloat(value));
     if (name === "name") setNewAddOrderName(value);
+    if (name === "fullOrderId") {
+      setNewFullOrdersId(value);
+      console.log(`VALUE = ${newFullOrdersId}`);
+    }
   };
 
   const handleEditSaveOrder = async () => {
@@ -130,6 +140,7 @@ function Order() {
       establishmentProductId: null,
       establishmentServiceId: null,
       count: newAddOrderCount,
+      fkFullOrderId: newFullOrdersId,
     };
 
     console.log("Add Order request body: ", newOrder);
@@ -147,6 +158,7 @@ function Order() {
     loadOrders();
     setNewAddOrderCount(0);
     setNewAddOrderName("");
+    setNewFullOrdersId("");
   };
 
   const handleDeleteClick = async () => {
@@ -178,6 +190,8 @@ function Order() {
       const data = await fetchAllOrders();
       console.log("Retrieved from function loadOrders: ", data);
       setOrders(data);
+      const fullOrders = await fetchAllFullOrders();
+      setFullOrders(fullOrders);
     } catch (error) {
       console.error("Error loading orders: ", error);
     } finally {
@@ -239,6 +253,7 @@ function Order() {
         toggleModal={toggleAddOrderModal}
         newOrderCount={newAddOrderCount}
         newOrderName={newAddOrderName}
+        fullOrders={fullOrders}
         handleInputChange={handleAddInputChange}
         handleSave={handleAddSaveOrder}
       />

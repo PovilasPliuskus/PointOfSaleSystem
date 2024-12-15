@@ -6,7 +6,7 @@ namespace PointOfSaleSystem.API.Services.Interfaces
 {
     public interface IOrderService
     {
-        public void CreateOrder(Order order);
+        public void CreateOrder(AddOrderRequest order);
         public GetOrderResponse GetOrder(Guid id);
         public List<GetOrderResponse> GetAllOrders();
         public void UpdateOrder(UpdateOrderRequest request);

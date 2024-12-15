@@ -20,7 +20,7 @@ namespace PointOfSaleSystem.API.Repositories
             _mapper = mapper;
         }
 
-        public void Create(Order order)
+        public void Create(AddOrderRequest order)
         {
             OrderEntity orderEntity = _mapper.Map<OrderEntity>(order);
 

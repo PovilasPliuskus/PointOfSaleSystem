@@ -78,6 +78,7 @@ export interface CreateOrderRequest {
   establishmentProductId: string | null;
   establishmentServiceId: string | null;
   count: number;
+  fkFullOrderId: string;
 }
 
 export interface UpdateOrderRequest {

@@ -1,10 +1,15 @@
+import { FullOrderObject } from "../../scripts/interfaces";
+
 interface AddOrderModalProps {
   showModal: boolean;
   newOrderName: string;
   newOrderCount: number;
+  fullOrders: FullOrderObject[];
 
   toggleModal: () => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   handleSave: () => void;
 }
 
@@ -12,6 +17,7 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({
   showModal,
   newOrderName,
   newOrderCount,
+  fullOrders,
   toggleModal,
   handleInputChange,
   handleSave,
@@ -35,6 +41,21 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({
                   value={newOrderName}
                   onChange={handleInputChange}
                 />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Select Full Order</label>
+                <select
+                  className="form-select"
+                  name="fullOrderId"
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select and order</option>
+                  {fullOrders.map((fullOrder) => (
+                    <option key={fullOrder.id} value={fullOrder.id}>
+                      {fullOrder.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="mb-3">
                 <label className="form-label">Count</label>
