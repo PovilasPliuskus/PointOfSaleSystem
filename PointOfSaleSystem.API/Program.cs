@@ -44,8 +44,8 @@ var mapperConfig = new MapperConfiguration(cfg =>
     cfg.CreateMap<EstablishmentProductEntity, EstablishmentProduct>();
     cfg.CreateMap<EstablishmentProduct, EstablishmentProductEntity>();
 
-    cfg.CreateMap<EstablishmentServiceEntity, EstablishmentService>();
-    cfg.CreateMap<EstablishmentService, EstablishmentServiceEntity>();
+    cfg.CreateMap<EstablishmentServiceEntity, PointOfSaleSystem.API.Models.EstablishmentService>();
+    cfg.CreateMap<PointOfSaleSystem.API.Models.EstablishmentService, EstablishmentServiceEntity>();
 
     cfg.CreateMap<OrderEntity, Order>()
         .ForMember(dest => dest.EstablishmentProductId, opt => opt.MapFrom(src => src.fkEstablishmentProduct))
@@ -65,6 +65,8 @@ builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 builder.Services.AddTransient<ICompanyService, PointOfSaleSystem.API.Services.CompanyService>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IEstablishmentRepository, EstablishmentRepository>();
+builder.Services.AddTransient<IEstablishmentService, PointOfSaleSystem.API.Services.EstablishmentService>();
 
 var app = builder.Build();
 
