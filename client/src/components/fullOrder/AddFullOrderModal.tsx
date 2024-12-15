@@ -13,7 +13,7 @@ interface AddFullOrderModalProps {
   handleSave: () => void;
 }
 
-const EditFullOrderModal: React.FC<AddFullOrderModalProps> = ({
+const AddFullOrderModal: React.FC<AddFullOrderModalProps> = ({
   showModal,
   newFullOrderTip,
   newFullOrderStatus,
@@ -93,4 +93,4 @@ const EditFullOrderModal: React.FC<AddFullOrderModalProps> = ({
   );
 };
 
-export default EditFullOrderModal;
+export default AddFullOrderModal;

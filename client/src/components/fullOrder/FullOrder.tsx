@@ -106,13 +106,13 @@ function FullOrder() {
 
     if (type === "select-one") {
       if (name === "status") {
-        setNewEditFullOrderStatus(Number(value));
+        setNewAddFullOrderStatus(Number(value));
       }
     } else if (type === "text" || type === "number") {
       if (name === "name") {
-        setNewEditFullOrderName(value);
+        setNewAddFullOrderName(value);
       } else if (name === "tip") {
-        setNewEditFullOrderTip(parseFloat(value));
+        setNewAddFullOrderTip(parseFloat(value));
       }
     }
   };
