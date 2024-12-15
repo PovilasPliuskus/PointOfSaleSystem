@@ -10,6 +10,7 @@ using PointOfSaleSystem.API.Services;
 using PointOfSaleSystem.API.ResponseBodies.FullOrder;
 using PointOfSaleSystem.API.ResponseBodies.Order;
 using PointOfSaleSystem.API.RequestBodies.Order;
+using PointOfSaleSystem.API.RequestBodies.Establishment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +70,9 @@ var mapperConfig = new MapperConfiguration(cfg =>
 
     cfg.CreateMap<AddOrderRequest, OrderEntity>();
     cfg.CreateMap<OrderEntity, AddOrderRequest>();
+
+    cfg.CreateMap<AddEstablishmentRequest, EstablishmentEntity>();
+    cfg.CreateMap<EstablishmentEntity, AddEstablishmentRequest>();
 });
 
 builder.Services.AddSingleton(mapperConfig.CreateMapper());

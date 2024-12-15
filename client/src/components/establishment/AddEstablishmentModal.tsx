@@ -1,11 +1,10 @@
-import { FullOrderStatusEnum } from "../../scripts/enums/FullOrderStatusEnum";
-import { FullOrderObject } from "../../scripts/interfaces";
+import { CompanyObject } from "../../scripts/interfaces";
 
-interface AddOrderModalProps {
+interface AddEstablishmentModalProps {
   showModal: boolean;
-  newOrderName: string;
-  newOrderCount: number;
-  fullOrders: FullOrderObject[];
+  newEstablishmentName: string;
+  newEstablishmentCode: string;
+  companies: CompanyObject[];
 
   toggleModal: () => void;
   handleInputChange: (
@@ -14,11 +13,11 @@ interface AddOrderModalProps {
   handleSave: () => void;
 }
 
-const AddOrderModal: React.FC<AddOrderModalProps> = ({
+const AddEstablishmentModal: React.FC<AddEstablishmentModalProps> = ({
   showModal,
-  newOrderName,
-  newOrderCount,
-  fullOrders,
+  newEstablishmentName,
+  newEstablishmentCode,
+  companies,
   toggleModal,
   handleInputChange,
   handleSave,
@@ -29,49 +28,44 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Add New Order</h5>
+            <h5 className="modal-title">Add New Establishment</h5>
           </div>
           <div className="modal-body">
             <form>
               <div className="mb-3">
-                <label className="form-label">Name</label>
+                <label className="form-label">Establishment Code</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="code"
+                  value={newEstablishmentCode}
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Establishment Name</label>
                 <input
                   type="text"
                   className="form-control"
                   name="name"
-                  value={newOrderName}
+                  value={newEstablishmentName}
                   onChange={handleInputChange}
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">Select Full Order</label>
+                <label className="form-label">Select Company</label>
                 <select
                   className="form-select"
-                  name="fullOrderId"
+                  name="companyId"
                   onChange={handleInputChange}
                 >
-                  <option value="">Select an order</option>
-                  {fullOrders
-                    .filter(
-                      (FullOrder) =>
-                        FullOrder.status === FullOrderStatusEnum.Open
-                    )
-                    .map((fullOrder) => (
-                      <option key={fullOrder.id} value={fullOrder.id}>
-                        {fullOrder.name}
-                      </option>
-                    ))}
+                  <option value="">Select company</option>
+                  {companies.map((company) => (
+                    <option key={company.id} value={company.id}>
+                      {company.name}
+                    </option>
+                  ))}
                 </select>
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Count</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  name="count"
-                  value={newOrderCount}
-                  onChange={handleInputChange}
-                />
               </div>
             </form>
           </div>
@@ -97,4 +91,4 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({
   );
 };
 
-export default AddOrderModal;
+export default AddEstablishmentModal;

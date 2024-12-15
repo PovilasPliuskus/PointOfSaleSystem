@@ -13,7 +13,7 @@ namespace PointOfSaleSystem.API.Services
             _establishmentRepository = establishmentRepository;
         }
 
-        public void CreateEstablishment(Establishment establishment)
+        public void CreateEstablishment(AddEstablishmentRequest establishment)
         {
             _establishmentRepository.Create(establishment);
         }

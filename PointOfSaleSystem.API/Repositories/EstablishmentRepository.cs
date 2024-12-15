@@ -19,7 +19,7 @@ namespace PointOfSaleSystem.API.Repositories
             _mapper = mapper;
         }
 
-        public void Create(Establishment establishment)
+        public void Create(AddEstablishmentRequest establishment)
         {
             EstablishmentEntity establishmentEntity = _mapper.Map<EstablishmentEntity>(establishment);
             _context.Establishments.Add(establishmentEntity);
