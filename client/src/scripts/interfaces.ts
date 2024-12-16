@@ -9,7 +9,7 @@ export interface CompanyObject {
   modifiedByEmployeeId: string;
   establishments: EstablishmentObject[] | null;
   companyProducts: CompanyProductObject[] | null;
-  companyServices: CompanyService[] | null;
+  companyServices: CompanyServiceObject[] | null;
 }
 
 export interface UpdateCompanyRequest {
@@ -89,13 +89,29 @@ export interface UpdateOrderRequest {
 }
 
 // CompanyService
-export interface CompanyService {
+export interface CompanyServiceObject {
   id: string;
   name: string;
   receiveTime: string;
   updateTime: string;
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
+}
+
+export interface UpdateCompanyServiceRequest {
+  id: string;
+  name: string;
+  updateTime: string;
+}
+
+export interface CreateCompanyServiceRequest {
+  id: string;
+  name: string;
+  receiveTime: string;
+  updateTime: string;
+  createdByEmployeeId: string;
+  modifiedByEmployeeId: string;
+  fkCompanyId: string;
 }
 
 // CompanyProduct
