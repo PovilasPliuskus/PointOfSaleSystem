@@ -12,6 +12,7 @@ using PointOfSaleSystem.API.ResponseBodies.Order;
 using PointOfSaleSystem.API.RequestBodies.Order;
 using PointOfSaleSystem.API.RequestBodies.Establishment;
 using PointOfSaleSystem.API.RequestBodies.EstablishmentProduct;
+using PointOfSaleSystem.API.RequestBodies.EstablishmentService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,6 +78,9 @@ var mapperConfig = new MapperConfiguration(cfg =>
 
     cfg.CreateMap<AddEstablishmentProductRequest, EstablishmentProductEntity>();
     cfg.CreateMap<EstablishmentProductEntity, AddEstablishmentProductRequest>();
+
+    cfg.CreateMap<AddEstablishmentServiceRequest, EstablishmentServiceEntity>();
+    cfg.CreateMap<EstablishmentServiceEntity, AddEstablishmentServiceRequest>();
 });
 
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
@@ -95,6 +99,7 @@ builder.Services.AddTransient<IEstablishmentServiceRepository, EstablishmentServ
 builder.Services.AddTransient<IEstablishmentRepository, EstablishmentRepository>();
 builder.Services.AddTransient<IEstablishmentService, PointOfSaleSystem.API.Services.EstablishmentService>();
 builder.Services.AddTransient<IEstablishmentProductService, EstablishmentProductService>();
+builder.Services.AddTransient<IEstablishmentServiceService, EstablishmentServiceService>();
 
 var app = builder.Build();
 

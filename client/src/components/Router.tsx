@@ -6,6 +6,7 @@ import Company from "./company/Company";
 import FullOrder from "./fullOrder/FullOrder";
 import Establishment from "./establishment/Establishment";
 import EstablishmentProduct from "./establishmentProduct/EstablishmentProduct";
+import EstablishmentService from "./establishmentService/EstablishmentService";
 
 const RouterComponent: React.FC = () => {
   return (
@@ -17,6 +18,10 @@ const RouterComponent: React.FC = () => {
         <Route
           path="/EstablishmentProducts"
           element={<EstablishmentProduct />}
+        />
+        <Route
+          path="/EstablishmentServices"
+          element={<EstablishmentService />}
         />
         <Route path="/Orders" element={<Orders />} />
         <Route path="/FullOrders" element={<FullOrder />} />
