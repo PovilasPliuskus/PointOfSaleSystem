@@ -8,7 +8,7 @@ export interface CompanyObject {
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
   establishments: EstablishmentObject[] | null;
-  companyProducts: CompanyProduct[] | null;
+  companyProducts: CompanyProductObject[] | null;
   companyServices: CompanyService[] | null;
 }
 
@@ -99,7 +99,7 @@ export interface CompanyService {
 }
 
 // CompanyProduct
-export interface CompanyProduct {
+export interface CompanyProductObject {
   id: string;
   name: string;
   receiveTime: string;
@@ -107,6 +107,24 @@ export interface CompanyProduct {
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
   alcoholicBeverage: boolean;
+}
+
+export interface UpdateCompanyProductRequest {
+  id: string;
+  name: string;
+  alcoholicBeverage: boolean;
+  updateTime: string;
+}
+
+export interface CreateCompanyProductRequest {
+  id: string;
+  name: string;
+  receiveTime: string;
+  updateTime: string;
+  createdByEmployeeId: string;
+  modifiedByEmployeeId: string;
+  alcoholicBeverage: boolean;
+  fkCompanyId: string;
 }
 
 // Establishment
