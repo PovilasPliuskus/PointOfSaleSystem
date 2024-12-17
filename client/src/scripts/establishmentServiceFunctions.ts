@@ -1,3 +1,4 @@
+import { addAuthHeader } from "./authorizationFunctions";
 import {
   EstablishmentServiceObject,
   UpdateEstablishmentServiceRequest,
@@ -10,6 +11,9 @@ export const fetchAllEstablishmentServices = async (): Promise<any> => {
       {
         method: "GET",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -38,6 +42,9 @@ export const fetchEstablishmentService = async (
       {
         method: "GET",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -66,6 +73,9 @@ export const DeleteEstablishmentService = async (
       {
         method: "DELETE",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -94,6 +104,7 @@ export const UpdateEstablishmentService = async (
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          ...addAuthHeader(),
         },
         body: JSON.stringify(updateEstablishmentServiceRequest),
       }
@@ -125,6 +136,7 @@ export const AddEstablishmentService = async (
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          ...addAuthHeader(),
         },
         body: JSON.stringify(newEstablishmentService),
       }

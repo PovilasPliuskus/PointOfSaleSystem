@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.RequestBodies.Order;
 using PointOfSaleSystem.API.ResponseBodies.Order;
@@ -8,6 +9,7 @@ namespace PointOfSaleSystem.API.Controllers
 {
     [ApiController]
     [Route("api/")]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;

@@ -2,11 +2,13 @@
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Services.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.Employees;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PointOfSaleSystem.API.Controllers
 {
     [ApiController]
     [Route("api/")]
+    [Authorize]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;

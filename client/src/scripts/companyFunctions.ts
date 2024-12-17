@@ -1,10 +1,15 @@
+import Cookies from "js-cookie";
 import { CompanyObject, UpdateCompanyRequest } from "./interfaces";
+import { addAuthHeader } from "./authorizationFunctions";
 
 export const fetchAllCompanies = async (): Promise<any> => {
   try {
     const response = await fetch("https://localhost:44309/api/company", {
       method: "GET",
       credentials: "include",
+      headers: {
+        ...addAuthHeader(),
+      },
     });
 
     if (!response.ok) {
@@ -27,6 +32,9 @@ export const fetchCompany = async (companyId: string): Promise<any> => {
       {
         method: "GET",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -50,6 +58,9 @@ export const DeleteCompany = async (companyId: string): Promise<any> => {
       {
         method: "DELETE",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -76,6 +87,7 @@ export const UpdateCompany = async (
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          ...addAuthHeader(),
         },
         body: JSON.stringify(updateCompanyRequest),
       }
@@ -101,6 +113,7 @@ export const AddCompany = async (newCompany: CompanyObject): Promise<any> => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        ...addAuthHeader(),
       },
       body: JSON.stringify(newCompany),
     });

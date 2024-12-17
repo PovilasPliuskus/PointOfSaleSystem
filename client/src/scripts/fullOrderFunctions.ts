@@ -1,3 +1,4 @@
+import { addAuthHeader } from "./authorizationFunctions";
 import { CreateFullOrderRequest, UpdateFullOrderRequest } from "./interfaces";
 
 export const fetchAllFullOrders = async (): Promise<any> => {
@@ -5,6 +6,9 @@ export const fetchAllFullOrders = async (): Promise<any> => {
     const response = await fetch("https://localhost:44309/api/fullOrder", {
       method: "GET",
       credentials: "include",
+      headers: {
+        ...addAuthHeader(),
+      },
     });
 
     if (!response.ok) {
@@ -27,6 +31,9 @@ export const fetchFullOrder = async (fullOrderId: string): Promise<any> => {
       {
         method: "GET",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -50,6 +57,9 @@ export const DeleteFullOrder = async (fullOrderId: string): Promise<any> => {
       {
         method: "DELETE",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -76,6 +86,7 @@ export const UpdateFullOrder = async (
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          ...addAuthHeader(),
         },
         body: JSON.stringify(updateFullOrderRequest),
       }
@@ -103,6 +114,7 @@ export const AddFullOrder = async (
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        ...addAuthHeader(),
       },
       body: JSON.stringify(newFullOrder),
     });

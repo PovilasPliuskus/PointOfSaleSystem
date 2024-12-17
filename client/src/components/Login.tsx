@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { validateEmployeeCredentials } from "../scripts/loginFunctions";
+import Cookies from "js-cookie";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -13,8 +13,25 @@ const Login: React.FC = () => {
     }
 
     try {
-      const isValid = await validateEmployeeCredentials(username, password);
-      if (isValid) {
+      const response = await fetch("https://localhost:44309/api/login", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const token = data.token;
+
+        Cookies.set("authToken", token, { expires: 1 });
+        Cookies.set("employeeId", data.employeeId, { expires: 1 });
+
         setError("");
         console.log("Login successful!");
         window.location.href = "/MainPage";

@@ -1,3 +1,4 @@
+import { addAuthHeader } from "./authorizationFunctions";
 import {
   EstablishmentProductObject,
   UpdateEstablishmentProductRequest,
@@ -10,6 +11,9 @@ export const fetchAllEstablishmentProducts = async (): Promise<any> => {
       {
         method: "GET",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -38,6 +42,9 @@ export const fetchEstablishmentProduct = async (
       {
         method: "GET",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -66,6 +73,9 @@ export const DeleteEstablishmentProduct = async (
       {
         method: "DELETE",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -94,6 +104,7 @@ export const UpdateEstablishmentProduct = async (
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          ...addAuthHeader(),
         },
         body: JSON.stringify(updateEstablishmentProductRequest),
       }
@@ -125,6 +136,7 @@ export const AddEstablishmentProduct = async (
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          ...addAuthHeader(),
         },
         body: JSON.stringify(newEstablishmentProduct),
       }
