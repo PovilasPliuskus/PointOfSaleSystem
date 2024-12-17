@@ -3,9 +3,9 @@
     public enum EmployeeStatusEnum
     {
         None = 0,
-        Waiter = 1,
-        Chef = 2,
+        Admin = 1,
+        CompanyOwner = 2,
         Manager = 3,
-        MassageTherapist = 4
+        Worker = 4
     }
 }

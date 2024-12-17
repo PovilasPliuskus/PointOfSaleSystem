@@ -10,6 +10,8 @@ function Login() {
       <br />
       <a href="/Establishments">Establishments</a>
       <br />
+      <a href="/Employees">Employees</a>
+      <br />
       <a href="/EstablishmentProducts">EstablishmentProducts</a>
       <br />
       <a href="/EstablishmentServices">EstablishmentServices</a>
