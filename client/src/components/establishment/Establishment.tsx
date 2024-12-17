@@ -18,6 +18,7 @@ import Pagination from "../Pagination";
 import EditEstablishmentModal from "./EditEstablishmentModal";
 import AddEstablishmentModal from "./AddEstablishmentModal";
 import { fetchAllCompanies } from "../../scripts/companyFunctions";
+import Navbar from "../Navbar";
 
 function Establishment() {
   // Variables
@@ -208,6 +209,7 @@ function Establishment() {
 
   return (
     <>
+      <Navbar />
       <h1 className="text-center mb-4">Establishments</h1>
       <div className="container mt-4">
         {loading ? (

@@ -18,6 +18,7 @@ import CompanyServiceTable from "./CompanyServiceTable";
 import Pagination from "../Pagination";
 import EditCompanyServiceModal from "./EditCompanyServiceModal";
 import AddCompanyServiceModal from "./AddCompanyServiceModal";
+import Navbar from "../Navbar";
 
 function CompanyService() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -214,6 +215,7 @@ function CompanyService() {
 
   return (
     <>
+      <Navbar />
       <h1 className="text-center mb-4">Company Services</h1>
       <div className="container mt-4">
         {loading ? (

@@ -20,6 +20,7 @@ import EmployeeTable from "./EmployeeTable";
 import Pagination from "../Pagination";
 import EditEmployeeModal from "./EditEmployeeModal";
 import AddEmployeeModal from "./AddEmployeeModal";
+import Navbar from "../Navbar";
 
 function Employee() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -275,6 +276,7 @@ function Employee() {
 
   return (
     <>
+      <Navbar />
       <h1 className="text-center mb-4">Employees</h1>
       <div className="container mt-4">
         {loading ? (

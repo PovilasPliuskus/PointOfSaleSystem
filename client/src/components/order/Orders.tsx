@@ -18,6 +18,7 @@ import OrderTable from "./OrderTable";
 import EditOrderModal from "./EditOrderModal";
 import AddOrderModal from "./AddOrderModal";
 import { fetchAllFullOrders } from "../../scripts/fullOrderFunctions";
+import Navbar from "../Navbar";
 
 function Order() {
   // Variables
@@ -206,6 +207,7 @@ function Order() {
 
   return (
     <>
+      <Navbar />
       <h1 className="text-center mb-4">Orders</h1>
       <div className="container mt-4">
         {loading ? (
