@@ -152,7 +152,7 @@ export interface EstablishmentObject {
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
   code: string;
-  employees: Employee[] | null;
+  employees: EmployeeObject[] | null;
   establishmentProducts: EstablishmentProductObject[] | null;
   establishmentServices: EstablishmentServiceObject[] | null;
 }
@@ -165,7 +165,7 @@ export interface CreateEstablishmentRequest {
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
   code: string;
-  employees: Employee[] | null;
+  employees: EmployeeObject[] | null;
   establishmentProducts: EstablishmentProductObject[] | null;
   establishmentServices: EstablishmentServiceObject[] | null;
   fkCompanyId: string;
@@ -179,7 +179,7 @@ export interface UpdateEstablishmentRequest {
 }
 
 // Employee
-export interface Employee {
+export interface EmployeeObject {
   id: string;
   name: string;
   receiveTime: string;
@@ -190,7 +190,33 @@ export interface Employee {
   salary: number;
   status: number;
   loginUsername: string;
-  LoginPasswordHashed: string;
+  loginPasswordHashed: string;
+}
+
+export interface UpdateEmployeeRequest {
+  id: string;
+  name: string;
+  surname: string;
+  salary: number;
+  status: number;
+  loginUsername: string;
+  loginPasswordHashed: string;
+  updateTime: string;
+}
+
+export interface CreateEmployeeRequest {
+  id: string;
+  name: string;
+  receiveTime: string;
+  updateTime: string;
+  createdByEmployeeId: string;
+  modifiedByEmployeeId: string;
+  surname: string;
+  salary: number;
+  status: number;
+  loginUsername: string;
+  loginPasswordHashed: string;
+  fkEstablishmentId: string;
 }
 
 // EstablishmentProduct
