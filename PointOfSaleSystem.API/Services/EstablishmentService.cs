@@ -40,6 +40,10 @@ namespace PointOfSaleSystem.API.Services
             {
                 return _establishmentRepository.Get(id);
             }
+            else if (userInfo.Status == EmployeeStatusEnum.Manager.ToString())
+            {
+                return _establishmentRepository.Get(id);
+            }
 
             return null;
         }
@@ -51,6 +55,10 @@ namespace PointOfSaleSystem.API.Services
                 return _establishmentRepository.GetAll();
             }
             else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                return _establishmentRepository.GetAll();
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.Manager.ToString())
             {
                 return _establishmentRepository.GetAll();
             }
