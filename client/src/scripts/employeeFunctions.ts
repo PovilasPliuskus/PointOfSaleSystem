@@ -1,3 +1,4 @@
+import { addAuthHeader } from "./authorizationFunctions";
 import { CreateEmployeeRequest, UpdateEmployeeRequest } from "./interfaces";
 
 export const fetchAllEmployees = async (): Promise<any> => {
@@ -5,6 +6,9 @@ export const fetchAllEmployees = async (): Promise<any> => {
     const response = await fetch("https://localhost:44309/api/employee", {
       method: "GET",
       credentials: "include",
+      headers: {
+        ...addAuthHeader(),
+      },
     });
 
     if (!response.ok) {
@@ -27,6 +31,9 @@ export const fetchEmployee = async (employeeId: string): Promise<any> => {
       {
         method: "GET",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -50,6 +57,9 @@ export const DeleteEmployee = async (employeeId: string): Promise<any> => {
       {
         method: "DELETE",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -76,6 +86,7 @@ export const UpdateEmployee = async (
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          ...addAuthHeader(),
         },
         body: JSON.stringify(updateEmployeeRequest),
       }
@@ -103,6 +114,7 @@ export const AddEmployee = async (
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        ...addAuthHeader(),
       },
       body: JSON.stringify(newEmployee),
     });

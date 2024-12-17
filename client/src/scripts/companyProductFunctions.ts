@@ -1,3 +1,4 @@
+import { addAuthHeader } from "./authorizationFunctions";
 import {
   CompanyProductObject,
   UpdateCompanyProductRequest,
@@ -8,6 +9,9 @@ export const fetchAllCompanyProducts = async (): Promise<any> => {
     const response = await fetch("https://localhost:44309/api/companyProduct", {
       method: "GET",
       credentials: "include",
+      headers: {
+        ...addAuthHeader(),
+      },
     });
 
     if (!response.ok) {
@@ -35,6 +39,9 @@ export const fetchCompanyProduct = async (
       {
         method: "GET",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -60,6 +67,9 @@ export const DeleteCompanyProduct = async (
       {
         method: "DELETE",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -86,6 +96,7 @@ export const UpdateCompanyProduct = async (
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          ...addAuthHeader(),
         },
         body: JSON.stringify(updateCompanyProductRequest),
       }
@@ -113,6 +124,7 @@ export const AddCompanyProduct = async (
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        ...addAuthHeader(),
       },
       body: JSON.stringify(newCompanyProduct),
     });

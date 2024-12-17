@@ -32,7 +32,9 @@ namespace PointOfSaleSystem.API.Services
             var token = new JwtSecurityToken(
                 expires: DateTime.Now.AddMinutes(expiryDurationMinutes),
                 signingCredentials: credentials,
-                claims: claims
+                claims: claims,
+                issuer: null,
+                audience: null
             );
 
             var tokenHandler = new JwtSecurityTokenHandler();

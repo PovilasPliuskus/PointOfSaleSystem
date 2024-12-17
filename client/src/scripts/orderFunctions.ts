@@ -1,3 +1,4 @@
+import { addAuthHeader } from "./authorizationFunctions";
 import { CreateOrderRequest, UpdateOrderRequest } from "./interfaces";
 
 export const fetchAllOrders = async (): Promise<any> => {
@@ -5,6 +6,9 @@ export const fetchAllOrders = async (): Promise<any> => {
     const response = await fetch("https://localhost:44309/api/order", {
       method: "GET",
       credentials: "include",
+      headers: {
+        ...addAuthHeader(),
+      },
     });
 
     if (!response.ok) {
@@ -27,6 +31,9 @@ export const fetchOrder = async (orderId: string): Promise<any> => {
       {
         method: "GET",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -50,6 +57,9 @@ export const DeleteOrder = async (orderId: string): Promise<any> => {
       {
         method: "DELETE",
         credentials: "include",
+        headers: {
+          ...addAuthHeader(),
+        },
       }
     );
 
@@ -76,6 +86,7 @@ export const UpdateOrder = async (
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          ...addAuthHeader(),
         },
         body: JSON.stringify(updateOrderRequest),
       }
@@ -101,6 +112,7 @@ export const AddOrder = async (newOrder: CreateOrderRequest): Promise<any> => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        ...addAuthHeader(),
       },
       body: JSON.stringify(newOrder),
     });
