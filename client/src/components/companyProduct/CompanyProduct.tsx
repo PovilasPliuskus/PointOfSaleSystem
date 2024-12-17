@@ -18,6 +18,7 @@ import CompanyProductTable from "./CompanyProductTable";
 import Pagination from "../Pagination";
 import EditCompanyProductModal from "./EditCompanyProductModal";
 import AddCompanyProductModal from "./AddCompanyProductModal";
+import Navbar from "../Navbar";
 
 function CompanyProduct() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -233,6 +234,7 @@ function CompanyProduct() {
 
   return (
     <>
+      <Navbar />
       <h1 className="text-center mb-4">Company Products</h1>
       <div className="container mt-4">
         {loading ? (

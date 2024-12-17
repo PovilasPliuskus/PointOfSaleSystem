@@ -12,6 +12,7 @@ import {
 import EditCompanyModal from "./EditCompanyModal";
 import AddCompanyModal from "./AddCompanyModal";
 import { v4 as uuidv4 } from "uuid";
+import Navbar from "../Navbar";
 
 function Company() {
   // Variables
@@ -187,6 +188,7 @@ function Company() {
 
   return (
     <>
+      <Navbar />
       <h1 className="text-center mb-4">Companies</h1>
       <div className="container mt-4">
         {loading ? (

@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import Pagination from "../Pagination";
 import EditFullOrderModal from "./EditFullOrderModal";
 import AddFullOrderModal from "./AddFullOrderModal";
+import Navbar from "../Navbar";
 
 function FullOrder() {
   // Variables
@@ -218,6 +219,7 @@ function FullOrder() {
 
   return (
     <>
+      <Navbar />
       <h1 className="text-center mb-4">Full Orders</h1>
       <div className="container mt-4">
         {loading ? (

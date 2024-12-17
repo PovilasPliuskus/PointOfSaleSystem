@@ -18,6 +18,7 @@ import EstablishmentServiceTable from "./EstablishmentServiceTable";
 import Pagination from "../Pagination";
 import EditEstablishmentServiceModal from "./EditEstablishmentServiceModal";
 import AddEstablishmentServiceModal from "./AddEstablishmentServiceModal";
+import Navbar from "../Navbar";
 
 function EstablishmentService() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -263,6 +264,7 @@ function EstablishmentService() {
 
   return (
     <>
+      <Navbar />
       <h1 className="text-center mb-4">Establishment Products</h1>
       <div className="container mt-4">
         {loading ? (
