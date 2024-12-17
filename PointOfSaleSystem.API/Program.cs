@@ -124,6 +124,7 @@ builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IJWTService, JWTService>();
+builder.Services.AddTransient<IUserInfoService, UserInfoService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

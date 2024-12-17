@@ -1,6 +1,10 @@
+using Azure.Core;
 using PointOfSaleSystem.API.Models;
+using PointOfSaleSystem.API.Models.Enums;
+using PointOfSaleSystem.API.Repositories;
 using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.Establishment;
+using PointOfSaleSystem.API.RequestBodies.UserInfo;
 
 namespace PointOfSaleSystem.API.Services
 {
@@ -13,29 +17,71 @@ namespace PointOfSaleSystem.API.Services
             _establishmentRepository = establishmentRepository;
         }
 
-        public void CreateEstablishment(AddEstablishmentRequest establishment)
+        public void CreateEstablishment(AddEstablishmentRequest establishment, UserInfo userInfo)
         {
-            _establishmentRepository.Create(establishment);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _establishmentRepository.Create(establishment);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                _establishmentRepository.Create(establishment);
+            }
+
         }
 
-        public Establishment GetEstablishment(Guid id)
+        public Establishment GetEstablishment(Guid id, UserInfo userInfo)
         {
-            return _establishmentRepository.Get(id);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                return _establishmentRepository.Get(id);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                return _establishmentRepository.Get(id);
+            }
+
+            return null;
         }
 
-        public List<Establishment> GetAllEstablishments()
+        public List<Establishment> GetAllEstablishments(UserInfo userInfo)
         {
-            return _establishmentRepository.GetAll();
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                return _establishmentRepository.GetAll();
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                return _establishmentRepository.GetAll();
+            }
+
+            return [];
         }
 
-        public void UpdateEstablishment(UpdateEstablishmentRequest request)
+        public void UpdateEstablishment(UpdateEstablishmentRequest request, UserInfo userInfo)
         {
-            _establishmentRepository.Update(request);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _establishmentRepository.Update(request);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                _establishmentRepository.Update(request);
+            }
+
         }
 
-        public void DeleteEstablishment(Guid id)
+        public void DeleteEstablishment(Guid id, UserInfo userInfo)
         {
-            _establishmentRepository.Delete(id);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _establishmentRepository.Delete(id);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                _establishmentRepository.Delete(id);
+            }
+
         }
     }
 }
