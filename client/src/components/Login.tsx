@@ -30,6 +30,7 @@ const Login: React.FC = () => {
         const token = data.token;
 
         Cookies.set("authToken", token, { expires: 1 });
+        Cookies.set("employeeId", data.employeeId, { expires: 1 });
 
         setError("");
         console.log("Login successful!");

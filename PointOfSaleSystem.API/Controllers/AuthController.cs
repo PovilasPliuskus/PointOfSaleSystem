@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PointOfSaleSystem.API.RequestBodies.JWT;
 using PointOfSaleSystem.API.Services.Interfaces;
 using System.Net;
 
@@ -25,10 +26,16 @@ namespace PointOfSaleSystem.API.Controllers
         public async Task<IActionResult> Login(RequestBodies.Login.LoginRequest request)
         {
             var response = _authService.Login(request);
-            if (response == HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                var token = _jwtService.GenerateToken(request.Username);
-                return Ok(new { token });
+                var jwtRequest = new JWTRequest
+                {
+                    Username = request.Username,
+                    Status = response.Status
+                };
+
+                var token = _jwtService.GenerateToken(jwtRequest);
+                return Ok(new { token, response.EmployeeId });
             }
             else
             {

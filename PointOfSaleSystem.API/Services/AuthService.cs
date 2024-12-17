@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
 using PointOfSaleSystem.API.Models;
+using PointOfSaleSystem.API.ResponseBodies.Login;
 using PointOfSaleSystem.API.Services.Interfaces;
 using System.Net;
 
@@ -14,7 +15,7 @@ namespace PointOfSaleSystem.API.Services
             _employeeService = employeeService;
         }
 
-        public HttpStatusCode Login(RequestBodies.Login.LoginRequest request)
+        public LoginResponse Login(RequestBodies.Login.LoginRequest request)
         {
             List<Employee> employees = _employeeService.GetAllEmployees();
 
@@ -24,7 +25,14 @@ namespace PointOfSaleSystem.API.Services
                 {
                     if (BCrypt.Net.BCrypt.Verify(request.Password, employee.LoginPasswordHashed))
                     {
-                        return HttpStatusCode.OK;
+                        LoginResponse response = new LoginResponse
+                        {
+                            StatusCode = HttpStatusCode.OK,
+                            EmployeeId = employee.Id,
+                            Status = employee.Status
+                        };
+
+                        return response;
                     }
                     else
                     {
@@ -33,7 +41,12 @@ namespace PointOfSaleSystem.API.Services
                 }
             }
 
-            return HttpStatusCode.Unauthorized;
+            LoginResponse badResponse = new LoginResponse
+            {
+                StatusCode = HttpStatusCode.Unauthorized
+            };
+
+            return badResponse;
         }
     }
 }
