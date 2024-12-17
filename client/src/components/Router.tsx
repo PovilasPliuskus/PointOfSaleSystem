@@ -33,7 +33,9 @@ const RouterComponent: React.FC = () => {
         <Route path="/Employees" element={<Employee />} />
         <Route path="/Orders" element={<Orders />} />
         <Route path="/FullOrders" element={<FullOrder />} />
+        <Route path="/Taxes" element={<Tax />} />
         <Route path="/MainPage" element={<MainPage />} />
+
       </Routes>
     </Router>
   );
