@@ -70,6 +70,33 @@ namespace PointOfSaleSystem.API.Services
             return fullResponse;
         }
 
+        public void RefundFullOrder(Guid id)
+        {
+            FullOrder fullOrder = _fullOrderRepository.Get(id);
+            if (fullOrder == null)
+            {
+                throw new Exception($"FullOrder with Id {id} not found.");
+            }
+
+            foreach (var order in fullOrder.Orders)
+            {
+                order.Status = OrderStatusEnum.Refunded;
+            }
+
+            fullOrder.Status = (OrderStatusEnum)FullOrderStatusEnum.Refunded;
+
+            var updateRequest = new UpdateFullOrderRequest
+            {
+                Id = fullOrder.Id,
+                Tip = fullOrder.Tip,
+                Status = (int)fullOrder.Status,
+                Name = fullOrder.Name,
+                UpdateTime = DateTime.UtcNow
+            };
+
+            _fullOrderRepository.Update(updateRequest);
+        }
+
         public void UpdateFullOrder(UpdateFullOrderRequest request)
         {
             _fullOrderRepository.Update(request);

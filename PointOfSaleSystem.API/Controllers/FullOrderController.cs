@@ -51,5 +51,12 @@ namespace PointOfSaleSystem.API.Controllers
             _fullOrderService.DeleteFullOrder(fullOrderId);
             return Ok();
         }
+
+        [HttpPost("fullOrder/{fullOrderId}/refund")]
+        public async Task<IActionResult> RefundFullOrder(Guid fullOrderId)
+        {
+            _fullOrderService.RefundFullOrder(fullOrderId);
+            return Ok();
+        }
     }
 }

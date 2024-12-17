@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PointOfSaleSystem.API.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PointOfSaleSystem.API.Models.Entities
@@ -24,5 +25,7 @@ namespace PointOfSaleSystem.API.Models.Entities
 
         [ForeignKey(nameof(fkFullOrderId))]
         public FullOrderEntity FullOrder { get; set; }
+        [Required]
+        public OrderStatusEnum Status { get; set; }
     }
 }
