@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.RequestBodies.CompanyService;
 using PointOfSaleSystem.API.Services.Interfaces;
@@ -7,6 +8,7 @@ namespace PointOfSaleSystem.API.Controllers
 {
     [ApiController]
     [Route("api/")]
+    [Authorize]
     public class CompanyServiceController : ControllerBase
     {
         private readonly ICompanyServiceService _companyServiceService;

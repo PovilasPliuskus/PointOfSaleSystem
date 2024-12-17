@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.RequestBodies.Establishment;
@@ -7,6 +8,7 @@ namespace PointOfSaleSystem.API.Controllers
 {
     [ApiController]
     [Route("api/")]
+    [Authorize]
     public class EstablishmentController : ControllerBase
     {
         private readonly IEstablishmentService _establishmentService;
