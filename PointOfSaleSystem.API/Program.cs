@@ -123,6 +123,8 @@ builder.Services.AddTransient<ICompanyServiceService, CompanyServiceService>();
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<ITaxService, TaxService>();
+builder.Services.AddTransient<ITaxRepository, TaxRepository>();
+builder.Services.AddTransient<IGiftCardRepository, GiftCardRepository>();
 builder.Services.AddTransient<IGiftCardService, GiftCardService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IJWTService, JWTService>();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Models.Entities;
 
 namespace PointOfSaleSystem.API.Context
@@ -20,6 +21,9 @@ namespace PointOfSaleSystem.API.Context
         public DbSet<EstablishmentServiceEntity> EstablishmentServices { get; set; }
         public DbSet<FullOrderEntity> FullOrders { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
+
+        public DbSet<TaxEntity> Taxes { get; set; }
+        public DbSet<GiftCardEntity> GiftCards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

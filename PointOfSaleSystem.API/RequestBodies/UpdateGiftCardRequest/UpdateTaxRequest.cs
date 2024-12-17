@@ -6,7 +6,7 @@ namespace PointOfSaleSystem.API.RequestBodies.GiftCard
     {
         public required Guid Id { get; set; }
         public required CurrencyEnum Currency { get; set; }
-        public required float amount { get; set; }
+        public required decimal amount { get; set; }
         public required DateTime UpdateTime { get; set; }
     }
 }

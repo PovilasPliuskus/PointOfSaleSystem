@@ -10,7 +10,5 @@ namespace PointOfSaleSystem.API.Models.Entities
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal amount { get; set; }
-
-        public ICollection<OrderEntity>? Orders { get; set; }
     }
 }

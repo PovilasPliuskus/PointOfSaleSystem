@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PointOfSaleSystem.API.Models.Entities
 {
-    [Table("Tax")]
+    [Table("GiftCard")]
     public class GiftCardEntity : BaseModelEntity
     {
         [Required]
@@ -12,7 +12,5 @@ namespace PointOfSaleSystem.API.Models.Entities
         public decimal amount { get; set; }
         [Required]
         public CurrencyEnum currency { get; set; }
-
-        public ICollection<OrderEntity>? Orders { get; set; }
     }
 }
