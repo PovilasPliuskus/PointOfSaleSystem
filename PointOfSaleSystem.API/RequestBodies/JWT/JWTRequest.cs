@@ -6,5 +6,6 @@ namespace PointOfSaleSystem.API.RequestBodies.JWT
     {
         public required string Username { get; set; }
         public required EmployeeStatusEnum Status { get; set; }
+        public required Guid EmployeeId { get; set; }
     }
 }

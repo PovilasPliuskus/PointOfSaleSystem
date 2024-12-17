@@ -31,7 +31,8 @@ namespace PointOfSaleSystem.API.Controllers
                 var jwtRequest = new JWTRequest
                 {
                     Username = request.Username,
-                    Status = response.Status
+                    Status = response.Status,
+                    EmployeeId = response.EmployeeId,
                 };
 
                 var token = _jwtService.GenerateToken(jwtRequest);
