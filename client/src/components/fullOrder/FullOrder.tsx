@@ -45,6 +45,10 @@ function FullOrder() {
   const [newAddFullOrderStatus, setNewAddFullOrderStatus] = useState(1);
   const [newAddFullOrderName, setNewAddFullOrderName] = useState("");
 
+  // Used for Refunding Full Order
+  const [showRefundModal, setShowRefundModal] = useState(false);
+  const [refundReason, setRefundReason] = useState("");
+
   // Functions
   const handleRowClick = async (index: number, fullOrderId: string) => {
     console.log("Pressed handleRowClick");
@@ -82,6 +86,10 @@ function FullOrder() {
     setShowAddModal(!showAddModal);
   };
 
+  const toggleRefundModal = () => {
+    setShowRefundModal(!showRefundModal);
+  };
+
   const handleEditInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -115,6 +123,15 @@ function FullOrder() {
       } else if (name === "tip") {
         setNewAddFullOrderTip(parseFloat(value));
       }
+    }
+  };
+
+  const handleRefundInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    if (name === "refundReason") {
+      setRefundReason(value);
     }
   };
 
@@ -199,6 +216,32 @@ function FullOrder() {
     }
   };
 
+  const handleRefundClick = async () => {
+    console.log("Pressed handleRefundClick");
+    if (selectedFullOrder) {
+      const refundFullOrder: UpdateFullOrderRequest = {
+        id: selectedFullOrder.id,
+        tip: selectedFullOrder.tip,
+        status: 4,
+        name: selectedFullOrder.name,
+        updateTime: new Date().toISOString(),
+      };
+
+      const success = await UpdateFullOrder(refundFullOrder);
+
+      if (!success) {
+        alert("Failed to process refund");
+        return;
+      }
+
+      alert("Refund processed successfully");
+
+      toggleRefundModal();
+      setExpandedRow(null);
+      loadFullOrders();
+    }
+  };
+
   const loadFullOrders = async () => {
     try {
       setLoading(true);
@@ -206,13 +249,13 @@ function FullOrder() {
       console.log("Retrieved from function loadFullOrders: ", data);
       setFullOrders(data);
     } catch (error) {
-      console.error("Error loading full olders: ", error);
+      console.error("Error loading full orders: ", error);
     } finally {
       setLoading(false);
     }
   };
 
-  //Calls when component is fully loaded
+  // Calls when component is fully loaded
   useEffect(() => {
     loadFullOrders();
   }, []);
@@ -272,6 +315,41 @@ function FullOrder() {
         handleInputChange={handleAddInputChange}
         handleSave={handleAddSaveFullOrder}
       />
+      {/* Refund Modal */}
+      <div className={`modal ${showRefundModal ? 'show' : ''}`} style={{ display: showRefundModal ? 'block' : 'none' }}>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Refund Full Order</h5>
+              <button type="button" className="close" onClick={toggleRefundModal}>
+                <span>&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <form>
+                <div className="form-group">
+                  <label htmlFor="refundReason">Refund Reason</label>
+                  <textarea
+                    className="form-control"
+                    id="refundReason"
+                    name="refundReason"
+                    value={refundReason}
+                    onChange={handleRefundInputChange}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" onClick={toggleRefundModal}>
+                Close
+              </button>
+              <button type="button" className="btn btn-primary" onClick={handleRefundClick}>
+                Process Refund
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
