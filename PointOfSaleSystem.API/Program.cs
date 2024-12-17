@@ -118,6 +118,7 @@ builder.Services.AddTransient<ICompanyServiceRepository, CompanyServiceRepositor
 builder.Services.AddTransient<ICompanyServiceService, CompanyServiceService>();
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+builder.Services.AddTransient<IAuthService, AuthService>();
 
 var app = builder.Build();
 
