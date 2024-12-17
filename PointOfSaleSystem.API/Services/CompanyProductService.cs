@@ -1,6 +1,9 @@
-﻿using PointOfSaleSystem.API.Models;
+﻿using Azure.Core;
+using PointOfSaleSystem.API.Models;
+using PointOfSaleSystem.API.Models.Enums;
 using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.CompanyProduct;
+using PointOfSaleSystem.API.RequestBodies.UserInfo;
 using PointOfSaleSystem.API.Services.Interfaces;
 
 namespace PointOfSaleSystem.API.Services
@@ -14,29 +17,68 @@ namespace PointOfSaleSystem.API.Services
             _companyProductRepository = companyProductRepository;
         }
 
-        public void CreateCompanyProduct(AddCompanyProductRequest request)
+        public void CreateCompanyProduct(AddCompanyProductRequest request, UserInfo userInfo)
         {
-            _companyProductRepository.Create(request);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _companyProductRepository.Create(request);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                _companyProductRepository.Create(request);
+            }
         }
 
-        public CompanyProduct GetCompanyProduct(Guid id)
+        public CompanyProduct GetCompanyProduct(Guid id, UserInfo userInfo)
         {
-            return _companyProductRepository.Get(id);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                return _companyProductRepository.Get(id);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                return _companyProductRepository.Get(id);
+            }
+
+            return null;
         }
 
-        public List<CompanyProduct> GetCompanyProducts()
+        public List<CompanyProduct> GetCompanyProducts(UserInfo userInfo)
         {
-            return _companyProductRepository.GetAll();
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                return _companyProductRepository.GetAll();
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                return _companyProductRepository.GetAll();
+            }
+
+            return [];
         }
 
-        public void UpdateCompanyProduct(UpdateCompanyProductRequest request)
+        public void UpdateCompanyProduct(UpdateCompanyProductRequest request, UserInfo userInfo)
         {
-            _companyProductRepository.Update(request);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _companyProductRepository.Update(request);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                _companyProductRepository.Update(request);
+            }
         }
 
-        public void DeleteCompanyProduct(Guid id)
+        public void DeleteCompanyProduct(Guid id, UserInfo userInfo)
         {
-            _companyProductRepository.Delete(id);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _companyProductRepository.Delete(id);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                _companyProductRepository.Delete(id);
+            }
         }
     }
 }

@@ -26,7 +26,8 @@ namespace PointOfSaleSystem.API.Services
 
             var claims = new[]
             {
-                new Claim("status", request.Status.ToString())
+                new Claim("status", request.Status.ToString()),
+                new Claim("employeeId", request.EmployeeId.ToString())
             };
 
             var token = new JwtSecurityToken(

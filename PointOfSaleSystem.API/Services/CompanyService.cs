@@ -1,6 +1,8 @@
 ﻿using PointOfSaleSystem.API.Models;
+using PointOfSaleSystem.API.Models.Enums;
 using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.Company;
+using PointOfSaleSystem.API.RequestBodies.UserInfo;
 using PointOfSaleSystem.API.Services.Interfaces;
 
 namespace PointOfSaleSystem.API.Services
@@ -14,30 +16,50 @@ namespace PointOfSaleSystem.API.Services
             _companyRepository = companyRepository;
         }
 
-        public void CreateCompany(Company company)
+        public void CreateCompany(Company company, UserInfo userInfo)
         {
-            _companyRepository.Create(company);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _companyRepository.Create(company);
+            }
         }
 
-        public Company GetCompany(Guid id)
+        public Company GetCompany(Guid id, UserInfo userInfo)
         {
-            return _companyRepository.Get(id);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                return _companyRepository.Get(id);
+            }
+
+            return null;
         }
 
-        public List<Company> GetAllCompanies()
+        public List<Company> GetAllCompanies(UserInfo userInfo)
         {
-            return _companyRepository.GetAll();
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                return _companyRepository.GetAll();
+            }
+            else
+            {
+                return [];
+            }
         }
 
-        public void UpdateCompany(UpdateCompanyRequest request)
+        public void UpdateCompany(UpdateCompanyRequest request, UserInfo userInfo)
         {
-            _companyRepository.Update(request);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _companyRepository.Update(request);
+            }
         }
         
-        public void DeleteCompany(Guid id)
+        public void DeleteCompany(Guid id, UserInfo userInfo)
         {
-            _companyRepository.Delete(id);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _companyRepository.Delete(id);
+            }
         }
-
     }
 }

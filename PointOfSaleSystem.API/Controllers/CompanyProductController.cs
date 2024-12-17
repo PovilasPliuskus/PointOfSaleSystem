@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.RequestBodies.CompanyProduct;
+using PointOfSaleSystem.API.RequestBodies.UserInfo;
 using PointOfSaleSystem.API.Services.Interfaces;
 
 namespace PointOfSaleSystem.API.Controllers
@@ -12,44 +13,92 @@ namespace PointOfSaleSystem.API.Controllers
     public class CompanyProductController : ControllerBase
     {
         private readonly ICompanyProductService _companyProductService;
+        private readonly IUserInfoService _userInfoService;
 
-        public CompanyProductController(ICompanyProductService companyProductService)
+        public CompanyProductController(ICompanyProductService companyProductService,
+            IUserInfoService userInfoService)
         {
             _companyProductService = companyProductService;
+            _userInfoService = userInfoService;
         }
 
         [HttpPost("companyProduct")]
         public async Task<IActionResult> CreateCompanyProduct(AddCompanyProductRequest request)
         {
-            _companyProductService.CreateCompanyProduct(request);
+            string status = _userInfoService.GetEmployeeStatus(User);
+            string employeeId = _userInfoService.GetEmployeeId(User);
+
+            var userInfo = new UserInfo
+            {
+                Status = status,
+                Id = employeeId
+            };
+
+            _companyProductService.CreateCompanyProduct(request, userInfo);
             return Ok();
         }
 
         [HttpGet("companyProduct")]
         public async Task<IActionResult> GetCompanyProducts()
         {
-            List<CompanyProduct> companyProducts = _companyProductService.GetCompanyProducts();
+            string status = _userInfoService.GetEmployeeStatus(User);
+            string employeeId = _userInfoService.GetEmployeeId(User);
+
+            var userInfo = new UserInfo
+            {
+                Status = status,
+                Id = employeeId
+            };
+
+            List<CompanyProduct> companyProducts = _companyProductService.GetCompanyProducts(userInfo);
             return Ok(companyProducts);
         }
 
         [HttpGet("companyProduct/{companyProductId}")]
         public async Task<IActionResult> GetCompanyProduct(Guid companyProductId)
         {
-            CompanyProduct companyProduct = _companyProductService.GetCompanyProduct(companyProductId);
+            string status = _userInfoService.GetEmployeeStatus(User);
+            string employeeId = _userInfoService.GetEmployeeId(User);
+
+            var userInfo = new UserInfo
+            {
+                Status = status,
+                Id = employeeId
+            };
+
+            CompanyProduct companyProduct = _companyProductService.GetCompanyProduct(companyProductId, userInfo);
             return Ok(companyProduct);
         }
 
         [HttpPut("companyProduct/{companyProductId}")]
         public async Task<IActionResult> UpdateCompanyProduct(UpdateCompanyProductRequest request)
         {
-            _companyProductService.UpdateCompanyProduct(request);
+            string status = _userInfoService.GetEmployeeStatus(User);
+            string employeeId = _userInfoService.GetEmployeeId(User);
+
+            var userInfo = new UserInfo
+            {
+                Status = status,
+                Id = employeeId
+            };
+
+            _companyProductService.UpdateCompanyProduct(request, userInfo);
             return Ok();
         }
 
         [HttpDelete("companyProduct/{companyProductId}")]
         public async Task<IActionResult> DeleteCompanyProduct(Guid companyProductId)
         {
-            _companyProductService.DeleteCompanyProduct(companyProductId);
+            string status = _userInfoService.GetEmployeeStatus(User);
+            string employeeId = _userInfoService.GetEmployeeId(User);
+
+            var userInfo = new UserInfo
+            {
+                Status = status,
+                Id = employeeId
+            };
+
+            _companyProductService.DeleteCompanyProduct(companyProductId, userInfo);
             return Ok();
         }
     }

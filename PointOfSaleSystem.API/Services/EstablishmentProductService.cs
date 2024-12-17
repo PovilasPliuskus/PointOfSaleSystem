@@ -1,6 +1,10 @@
-﻿using PointOfSaleSystem.API.Models;
+﻿using Azure.Core;
+using PointOfSaleSystem.API.Models;
+using PointOfSaleSystem.API.Models.Enums;
+using PointOfSaleSystem.API.Repositories;
 using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.EstablishmentProduct;
+using PointOfSaleSystem.API.RequestBodies.UserInfo;
 using PointOfSaleSystem.API.Services.Interfaces;
 
 namespace PointOfSaleSystem.API.Services
@@ -14,29 +18,92 @@ namespace PointOfSaleSystem.API.Services
             _establishmentProductRepository = establishmentProductRepository;
         }
 
-        public void CreateEstablishmentProduct(AddEstablishmentProductRequest request)
+        public void CreateEstablishmentProduct(AddEstablishmentProductRequest request, UserInfo userInfo)
         {
-            _establishmentProductRepository.Create(request);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _establishmentProductRepository.Create(request);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                _establishmentProductRepository.Create(request);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.Manager.ToString())
+            {
+                _establishmentProductRepository.Create(request);
+            }
+
         }
 
-        public EstablishmentProduct GetEstablishmentProduct(Guid id)
+        public EstablishmentProduct GetEstablishmentProduct(Guid id, UserInfo userInfo)
         {
-            return _establishmentProductRepository.Get(id);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                return _establishmentProductRepository.Get(id);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                return _establishmentProductRepository.Get(id);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.Manager.ToString())
+            {
+                return _establishmentProductRepository.Get(id);
+            }
+
+            return null;
         }
 
-        public List<EstablishmentProduct> GetAllEstablishmentProducts()
+        public List<EstablishmentProduct> GetAllEstablishmentProducts(UserInfo userInfo)
         {
-            return _establishmentProductRepository.GetAll();
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                return _establishmentProductRepository.GetAll();
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                return _establishmentProductRepository.GetAll();
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.Manager.ToString())
+            {
+                return _establishmentProductRepository.GetAll();
+            }
+
+            return [];
+
         }
 
-        public void UpdateEstablishmentProduct(UpdateEstablishmentProductRequest request)
+        public void UpdateEstablishmentProduct(UpdateEstablishmentProductRequest request, UserInfo userInfo)
         {
-            _establishmentProductRepository.Update(request);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _establishmentProductRepository.Update(request);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                _establishmentProductRepository.Update(request);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.Manager.ToString())
+            {
+                _establishmentProductRepository.Update(request);
+            }
+
         }
 
-        public void DeleteEstablishmentProduct(Guid id)
+        public void DeleteEstablishmentProduct(Guid id, UserInfo userInfo)
         {
-            _establishmentProductRepository.Delete(id);
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                _establishmentProductRepository.Delete(id);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                _establishmentProductRepository.Delete(id);
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.Manager.ToString())
+            {
+                _establishmentProductRepository.Delete(id);
+            }
+
         }
     }
 }

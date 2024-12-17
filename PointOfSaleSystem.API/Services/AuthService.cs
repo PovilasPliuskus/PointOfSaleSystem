@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
 using PointOfSaleSystem.API.Models;
+using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.ResponseBodies.Login;
 using PointOfSaleSystem.API.Services.Interfaces;
 using System.Net;
@@ -8,16 +9,16 @@ namespace PointOfSaleSystem.API.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public AuthService(IEmployeeService employeeService)
+        public AuthService(IEmployeeRepository employeeRepository)
         {
-            _employeeService = employeeService;
+            _employeeRepository = employeeRepository;
         }
 
         public LoginResponse Login(RequestBodies.Login.LoginRequest request)
         {
-            List<Employee> employees = _employeeService.GetAllEmployees();
+            List<Employee> employees = _employeeRepository.GetAll();
 
             foreach (Employee employee in employees)
             {
