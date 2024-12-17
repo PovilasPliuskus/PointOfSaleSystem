@@ -65,6 +65,11 @@ const Navbar: React.FC = () => {
                 Full Orders
               </a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/Taxes">
+                Taxes
+              </a>
+            </li>
           </ul>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import Orders from "./order/Orders";
 import Company from "./company/Company";
+import Tax from "./tax/Tax";
 import FullOrder from "./fullOrder/FullOrder";
 import Establishment from "./establishment/Establishment";
 import EstablishmentProduct from "./establishmentProduct/EstablishmentProduct";

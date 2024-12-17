@@ -12,10 +12,27 @@ export interface CompanyObject {
   companyServices: CompanyServiceObject[] | null;
 }
 
+export interface TaxObject {
+  id: string;
+  name: string,
+  amount: number,
+  receiveTime: string;
+  updateTime: string;
+  createdByEmployeeId: string;
+  modifiedByEmployeeId: string;
+}
+
 export interface UpdateCompanyRequest {
   id: string;
   code: string;
   name: string;
+  updateTime: string;
+}
+
+export interface UpdateTaxRequest {
+  id: string;
+  amount: number,
+  name: string,
   updateTime: string;
 }
 
