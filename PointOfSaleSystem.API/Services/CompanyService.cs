@@ -30,6 +30,10 @@ namespace PointOfSaleSystem.API.Services
             {
                 return _companyRepository.Get(id);
             }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                return _companyRepository.Get(id);
+            }
 
             return null;
         }
@@ -40,10 +44,12 @@ namespace PointOfSaleSystem.API.Services
             {
                 return _companyRepository.GetAll();
             }
-            else
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
             {
-                return [];
+                return _companyRepository.GetAll();
             }
+
+            return [];
         }
 
         public void UpdateCompany(UpdateCompanyRequest request, UserInfo userInfo)
