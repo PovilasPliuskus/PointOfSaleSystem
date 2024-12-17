@@ -1,9 +1,76 @@
-function Login() {
+import React, { useState } from "react";
+import { validateEmployeeCredentials } from "../scripts/loginFunctions";
+
+const Login: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    if (!username || !password) {
+      setError("Both fields are required!");
+      return;
+    }
+
+    try {
+      const isValid = await validateEmployeeCredentials(username, password);
+      if (isValid) {
+        setError("");
+        console.log("Login successful!");
+        window.location.href = "/MainPage";
+      } else {
+        setError("Invalid username or password. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during login: ", error);
+      setError("An error occurred during login. Please try again later.");
+    }
+  };
+
   return (
-    <>
-      <h1>This will be the login page to enter credentials</h1>
-      <a href="/MainPage"> mainPage</a>
-    </>
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div className="card p-4" style={{ width: "24rem" }}>
+        <h2 className="text-center mb-4">Login</h2>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
+        >
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              className="form-control"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
   );
-}
+};
+
 export default Login;
