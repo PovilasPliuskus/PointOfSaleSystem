@@ -16,6 +16,10 @@ using PointOfSaleSystem.API.RequestBodies.EstablishmentService;
 using PointOfSaleSystem.API.RequestBodies.CompanyProduct;
 using PointOfSaleSystem.API.RequestBodies.CompanyService;
 using PointOfSaleSystem.API.RequestBodies.Employees;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -119,6 +123,20 @@ builder.Services.AddTransient<ICompanyServiceService, CompanyServiceService>();
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IJWTService, JWTService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]))
+        };
+    });
 
 var app = builder.Build();
 
@@ -128,6 +146,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors("AllowReactApp");

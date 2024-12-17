@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -14,6 +15,7 @@ const Login: React.FC = () => {
     try {
       const response = await fetch("https://localhost:44309/api/login", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -24,6 +26,11 @@ const Login: React.FC = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        const token = data.token;
+
+        Cookies.set("authToken", token, { expires: 1 });
+
         setError("");
         console.log("Login successful!");
         window.location.href = "/MainPage";

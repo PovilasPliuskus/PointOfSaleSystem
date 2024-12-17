@@ -10,12 +10,15 @@ namespace PointOfSaleSystem.API.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IAuthService _authService;
+        private readonly IJWTService _jwtService;
 
         public AuthController(IConfiguration configuration,
-            IAuthService authService)
+            IAuthService authService,
+            IJWTService jwtService)
         {
             _configuration = configuration;
             _authService = authService;
+            _jwtService = jwtService;
         }
 
         [HttpPost("login")]
@@ -24,7 +27,8 @@ namespace PointOfSaleSystem.API.Controllers
             var response = _authService.Login(request);
             if (response == HttpStatusCode.OK)
             {
-                return Ok();
+                var token = _jwtService.GenerateToken(request.Username);
+                return Ok(new { token });
             }
             else
             {
