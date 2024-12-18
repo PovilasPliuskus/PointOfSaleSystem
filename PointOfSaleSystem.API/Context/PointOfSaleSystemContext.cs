@@ -76,6 +76,12 @@ namespace PointOfSaleSystem.API.Context
                 .WithMany(fo => fo.Orders)
                 .HasForeignKey(o => o.fkFullOrderId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<FullOrderEntity>()
+                .HasOne(fo => fo.Establishment)
+                .WithMany(e => e.FullOrders)
+                .HasForeignKey(fo => fo.fkEstablishmentId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -29,6 +29,8 @@ namespace PointOfSaleSystem.API.Repositories
         public void Create(AddOrderRequest order)
         {
             OrderEntity orderEntity = _mapper.Map<OrderEntity>(order);
+            orderEntity.fkEstablishmentProduct = order.EstablishmentProductId;
+            orderEntity.fkEstablishmentService = order.EstablishmentServiceId;
 
             _context.Orders.Add(orderEntity);
 

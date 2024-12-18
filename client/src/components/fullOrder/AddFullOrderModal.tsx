@@ -1,10 +1,12 @@
 import { FullOrderStatusDisplay } from "../../scripts/enums/FullOrderStatusEnum";
+import { EstablishmentObject } from "../../scripts/interfaces";
 
 interface AddFullOrderModalProps {
   showModal: boolean;
   newFullOrderTip: number;
   newFullOrderStatus: number;
   newFullOrderName: string;
+  establishments: EstablishmentObject[];
 
   toggleModal: () => void;
   handleInputChange: (
@@ -18,6 +20,7 @@ const AddFullOrderModal: React.FC<AddFullOrderModalProps> = ({
   newFullOrderTip,
   newFullOrderStatus,
   newFullOrderName,
+  establishments,
   toggleModal,
   handleInputChange,
   handleSave,
@@ -41,6 +44,21 @@ const AddFullOrderModal: React.FC<AddFullOrderModalProps> = ({
                   value={newFullOrderName}
                   onChange={handleInputChange}
                 ></input>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Select Establishment</label>
+                <select
+                  className="form-select"
+                  name="establishmentId"
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select establishment</option>
+                  {establishments.map((establishment) => (
+                    <option key={establishment.id} value={establishment.id}>
+                      {establishment.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="mb-3">
                 <label className="form-label">Full Order Status</label>

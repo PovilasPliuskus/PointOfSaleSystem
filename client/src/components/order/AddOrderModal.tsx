@@ -1,11 +1,18 @@
 import { FullOrderStatusEnum } from "../../scripts/enums/FullOrderStatusEnum";
-import { FullOrderObject } from "../../scripts/interfaces";
+import {
+  EstablishmentProductObject,
+  EstablishmentServiceObject,
+  FullOrderObject,
+} from "../../scripts/interfaces";
+import { useState } from "react";
 
 interface AddOrderModalProps {
   showModal: boolean;
   newOrderName: string;
   newOrderCount: number;
   fullOrders: FullOrderObject[];
+  establishmentProducts: EstablishmentProductObject[];
+  establishmentServices: EstablishmentServiceObject[];
 
   toggleModal: () => void;
   handleInputChange: (
@@ -19,11 +26,20 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({
   newOrderName,
   newOrderCount,
   fullOrders,
+  establishmentProducts,
+  establishmentServices,
   toggleModal,
   handleInputChange,
   handleSave,
 }) => {
+  const [selectionType, setSelectionType] = useState("");
+
   if (!showModal) return null;
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectionType(event.target.value);
+  };
+
   return (
     <div className="modal fade show" style={{ display: "block" }}>
       <div className="modal-dialog">
@@ -43,6 +59,69 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({
                   onChange={handleInputChange}
                 />
               </div>
+
+              <div className="mb-3">
+                <label className="form-label">Choose Type</label>
+                <div>
+                  <input
+                    type="radio"
+                    id="product"
+                    name="selectionType"
+                    value="product"
+                    onChange={handleRadioChange}
+                  />
+                  <label htmlFor="product" className="form-label ms-2">
+                    Product
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="service"
+                    name="selectionType"
+                    value="service"
+                    onChange={handleRadioChange}
+                  />
+                  <label htmlFor="service" className="form-label ms-2">
+                    Service
+                  </label>
+                </div>
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label">Select Product</label>
+                <select
+                  className="form-select"
+                  name="establishmentProductId"
+                  onChange={handleInputChange}
+                  disabled={selectionType !== "product"}
+                >
+                  <option value="">Select product</option>
+                  {establishmentProducts.map((product) => (
+                    <option key={product.id} value={product.id}>
+                      {product.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label">Select Service</label>
+                <select
+                  className="form-select"
+                  name="establishmentServiceId"
+                  onChange={handleInputChange}
+                  disabled={selectionType !== "service"}
+                >
+                  <option value="">Select service</option>
+                  {establishmentServices.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div className="mb-3">
                 <label className="form-label">Select Full Order</label>
                 <select
@@ -53,8 +132,8 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({
                   <option value="">Select an order</option>
                   {fullOrders
                     .filter(
-                      (FullOrder) =>
-                        FullOrder.status === FullOrderStatusEnum.Open
+                      (fullOrder) =>
+                        fullOrder.status === FullOrderStatusEnum.Open
                     )
                     .map((fullOrder) => (
                       <option key={fullOrder.id} value={fullOrder.id}>
@@ -63,6 +142,7 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({
                     ))}
                 </select>
               </div>
+
               <div className="mb-3">
                 <label className="form-label">Count</label>
                 <input

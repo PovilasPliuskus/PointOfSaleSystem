@@ -72,11 +72,11 @@ VALUES
     ('45f2f79d-28ec-4149-a5d0-30a87f3c6265', '15.14', '1', 'b045ecea-f3bb-4ffb-a4cc-9bcfa08c4957', 'Public Pool', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
     ('ca86f3fe-e4a4-41dc-b602-83f5a025a5a0', '12.99', '1', '9cfee38e-0229-49f9-85ef-c98441ce721e', 'Haircut', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
 
-INSERT INTO public."FullOrder" ("Id", "Tip", "Status", "Name", "ReceiveTime", "UpdateTime", "fkCreatedByEmployee", "fkModifiedByEmployee")
+INSERT INTO public."FullOrder" ("Id", "Tip", "Status", "Name", "ReceiveTime", "UpdateTime", "fkCreatedByEmployee", "fkModifiedByEmployee", "fkEstablishmentId")
 VALUES
-    ('a53fab32-85b9-4e37-b91d-9d72b3118f55', '10.00', '1', 'Table1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
-    ('250c7f3b-ec47-4416-b075-3d3987ca7d4b', '7.50', '1', 'Pool', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
-    ('46332d6c-ecfc-4c41-a189-7555adb32bd1', '2.00', '2', 'Hairdressing Chair', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+    ('a53fab32-85b9-4e37-b91d-9d72b3118f55', '10.00', '1', 'Table1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL, 'd3beb5bf-a20a-43b4-be2b-d185a54104ef'),
+    ('250c7f3b-ec47-4416-b075-3d3987ca7d4b', '7.50', '1', 'Pool', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL, 'b045ecea-f3bb-4ffb-a4cc-9bcfa08c4957'),
+    ('46332d6c-ecfc-4c41-a189-7555adb32bd1', '2.00', '2', 'Hairdressing Chair', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL, '9cfee38e-0229-49f9-85ef-c98441ce721e');
 
 INSERT INTO public."Order" ("Id", "fkEstablishmentProduct", "fkEstablishmentService", "Count", "Name", "ReceiveTime", "UpdateTime", "fkCreatedByEmployee", "fkModifiedByEmployee", "fkFullOrderId")
 VALUES

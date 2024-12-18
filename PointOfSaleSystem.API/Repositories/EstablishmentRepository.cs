@@ -47,6 +47,7 @@ namespace PointOfSaleSystem.API.Repositories
                     .ThenInclude(ep => ep.Orders)
                 .Include(e => e.EstablishmentServices)
                     .ThenInclude(es => es.Orders)
+                .Include(e => e.FullOrders)
                 .ToList();
 
             List<Establishment> establishments = _mapper.Map<List<Establishment>>(establishmentEntities);
