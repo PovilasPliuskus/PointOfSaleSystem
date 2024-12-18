@@ -12,12 +12,15 @@ namespace PointOfSaleSystem.API.Repositories
     {
         private readonly PointOfSaleSystemContext _context;
         private readonly IMapper _mapper;
+        private readonly IEstablishmentRepository _establishmentRepository;
 
         public EstablishmentProductRepository(PointOfSaleSystemContext context,
-            IMapper mapper)
+            IMapper mapper,
+            IEstablishmentRepository establishmentRepository)
         {
             _context = context;
             _mapper = mapper;
+            _establishmentRepository = establishmentRepository;
         }
 
         public void Create(AddEstablishmentProductRequest request)
@@ -73,6 +76,38 @@ namespace PointOfSaleSystem.API.Repositories
             _context.EstablishmentProducts.Remove(establishmentProductEntity);
 
             _context.SaveChanges();
+        }
+
+        public List<EstablishmentProduct> GetAllByEmployeeId(Guid id)
+        {
+            List<Establishment> allEstablishments = _establishmentRepository.GetAllByEmployeeId(id);
+            List<EstablishmentProduct> establishmentProducts = [];
+
+            foreach(var establishment in allEstablishments)
+            {
+                foreach(var product in establishment.EstablishmentProducts)
+                {
+                    establishmentProducts.Add(product);
+                }
+            }
+
+            return establishmentProducts;
+        }
+
+        public List<EstablishmentProduct> GetEstablishmentProductsByEmployeeId(Guid id)
+        {
+            List<Establishment> allEstablishments = _establishmentRepository.GetByEmployeeId(id);
+            List<EstablishmentProduct> establishmentProducts = [];
+
+            foreach (var establishment in allEstablishments)
+            {
+                foreach (var product in establishment.EstablishmentProducts)
+                {
+                    establishmentProducts.Add(product);
+                }
+            }
+
+            return establishmentProducts;
         }
 
         private EstablishmentProductEntity? GetEstablishmentProductEntity(Guid id)

@@ -56,11 +56,11 @@ namespace PointOfSaleSystem.API.Services
             }
             else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
             {
-                return _establishmentRepository.GetAll();
+                return _establishmentRepository.GetAllByEmployeeId(Guid.Parse(userInfo.Id));
             }
             else if (userInfo.Status == EmployeeStatusEnum.Manager.ToString())
             {
-                return _establishmentRepository.GetAll();
+                return _establishmentRepository.GetByEmployeeId(Guid.Parse(userInfo.Id));
             }
 
             return [];

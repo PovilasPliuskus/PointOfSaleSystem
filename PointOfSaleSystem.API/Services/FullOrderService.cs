@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Models.Enums;
+using PointOfSaleSystem.API.Repositories;
 using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.FullOrder;
+using PointOfSaleSystem.API.RequestBodies.UserInfo;
 using PointOfSaleSystem.API.ResponseBodies.FullOrder;
 using PointOfSaleSystem.API.Services.Interfaces;
 
@@ -26,12 +28,12 @@ namespace PointOfSaleSystem.API.Services
             _mapper = mapper;
         }
 
-        public void CreateFullOrder(FullOrder fullOrder)
+        public void CreateFullOrder(FullOrder fullOrder, UserInfo userInfo)
         {
             _fullOrderRepository.Create(fullOrder);
         }
 
-        public GetFullOrderResponse GetFullOrder(Guid id)
+        public GetFullOrderResponse GetFullOrder(Guid id, UserInfo userInfo)
         {
             FullOrder fullOrder = _fullOrderRepository.Get(id);
 
@@ -47,9 +49,22 @@ namespace PointOfSaleSystem.API.Services
             return response;
         }
 
-        public List<GetFullOrderResponse> GetAllFullOrders()
+        public List<GetFullOrderResponse> GetAllFullOrders(UserInfo userInfo)
         {
-            List<FullOrder> fullOrders = _fullOrderRepository.GetAll();
+            List<FullOrder> fullOrders = [];
+
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                fullOrders = _fullOrderRepository.GetAll();
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                fullOrders = _fullOrderRepository.GetAllByEmployeeId(Guid.Parse(userInfo.Id));
+            }
+            else
+            {
+                fullOrders = _fullOrderRepository.GetFullOrderByEmployeeId(Guid.Parse(userInfo.Id));
+            }
 
             List<GetFullOrderResponse> fullResponse = [];
 
@@ -70,12 +85,12 @@ namespace PointOfSaleSystem.API.Services
             return fullResponse;
         }
 
-        public void UpdateFullOrder(UpdateFullOrderRequest request)
+        public void UpdateFullOrder(UpdateFullOrderRequest request, UserInfo userInfo)
         {
             _fullOrderRepository.Update(request);
         }
 
-        public void DeleteFullOrder(Guid id)
+        public void DeleteFullOrder(Guid id, UserInfo userInfo)
         {
             _fullOrderRepository.Delete(id);
         }

@@ -13,12 +13,15 @@ namespace PointOfSaleSystem.API.Repositories
     {
         private readonly PointOfSaleSystemContext _context;
         private readonly IMapper _mapper;
+        private readonly IEstablishmentRepository _establishmentRepository;
 
         public EstablishmentServiceRepository(PointOfSaleSystemContext context,
-            IMapper mapper)
+            IMapper mapper,
+            IEstablishmentRepository establishmentRepository)
         {
             _context = context;
             _mapper = mapper;
+            _establishmentRepository = establishmentRepository;
         }
 
         public void Create(AddEstablishmentServiceRequest request)
@@ -73,6 +76,38 @@ namespace PointOfSaleSystem.API.Repositories
             _context.EstablishmentServices.Remove(establishmentServiceEntity);
 
             _context.SaveChanges();
+        }
+
+        public List<EstablishmentService> GetAllByEmployeeId(Guid employeeId)
+        {
+            List<Establishment> allEstablishments = _establishmentRepository.GetAllByEmployeeId(employeeId);
+            List<EstablishmentService> selectedServices = [];
+
+            foreach(var establishment in allEstablishments)
+            {
+                foreach(var service in establishment.EstablishmentServices)
+                {
+                    selectedServices.Add(service);
+                }
+            }
+
+            return selectedServices;
+        }
+
+        public List<EstablishmentService> GetEstablishmentServiceByEmployeeId(Guid employeeId)
+        {
+            List<Establishment> allEstablishments = _establishmentRepository.GetByEmployeeId(employeeId);
+            List<EstablishmentService> selectedServices = [];
+
+            foreach (var establishment in allEstablishments)
+            {
+                foreach (var service in establishment.EstablishmentServices)
+                {
+                    selectedServices.Add(service);
+                }
+            }
+
+            return selectedServices;
         }
 
         private EstablishmentServiceEntity? GetEstablishmentServiceEntity(Guid id)

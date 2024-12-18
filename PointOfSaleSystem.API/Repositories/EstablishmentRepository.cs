@@ -12,11 +12,15 @@ namespace PointOfSaleSystem.API.Repositories
     {
         private readonly PointOfSaleSystemContext _context;
         private readonly IMapper _mapper;
+        private readonly ICompanyRepository _companyRepository;
 
-        public EstablishmentRepository(PointOfSaleSystemContext context, IMapper mapper)
+        public EstablishmentRepository(PointOfSaleSystemContext context,
+            IMapper mapper,
+            ICompanyRepository companyRepository)
         {
             _context = context;
             _mapper = mapper;
+            _companyRepository = companyRepository;
         }
 
         public void Create(AddEstablishmentRequest establishment)
@@ -40,7 +44,9 @@ namespace PointOfSaleSystem.API.Repositories
             List<EstablishmentEntity> establishmentEntities = _context.Establishments
                 .Include(e => e.Employees)
                 .Include(e => e.EstablishmentProducts)
+                    .ThenInclude(ep => ep.Orders)
                 .Include(e => e.EstablishmentServices)
+                    .ThenInclude(es => es.Orders)
                 .ToList();
 
             List<Establishment> establishments = _mapper.Map<List<Establishment>>(establishmentEntities);
@@ -64,6 +70,41 @@ namespace PointOfSaleSystem.API.Repositories
                 ?? throw new Exception($"Establishment with Id {id} not found.");
             _context.Establishments.Remove(establishmentEntity);
             _context.SaveChanges();
+        }
+
+        public List<Establishment> GetAllByEmployeeId(Guid employeeId)
+        {
+            List<Company> allCompanies = _companyRepository.GetAllByEmployeeId(employeeId);
+            List<Establishment> selectedEstablishments = [];
+
+            foreach (Company company in allCompanies)
+            {
+                foreach (var establishment in company.Establishments)
+                {
+                    selectedEstablishments.Add(establishment);
+                }
+            }
+
+            return selectedEstablishments;
+        }
+
+        public List<Establishment> GetByEmployeeId(Guid employeeId)
+        {
+            List<Establishment> allEstablishments = GetAll();
+            Establishment selectedEstablishment;
+
+            foreach(var establishment in allEstablishments)
+            {
+                if (establishment.Employees.Any(employee =>
+                employee.Id == employeeId))
+                {
+                    selectedEstablishment = establishment;
+                    return [selectedEstablishment];
+
+                }
+            }
+
+            return null;
         }
 
         private EstablishmentEntity? GetEstablishmentEntity(Guid id)
