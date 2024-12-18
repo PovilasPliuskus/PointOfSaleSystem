@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using PointOfSaleSystem.API.Models;
+using PointOfSaleSystem.API.Models.Enums;
 using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.Order;
+using PointOfSaleSystem.API.RequestBodies.UserInfo;
 using PointOfSaleSystem.API.ResponseBodies.FullOrder;
 using PointOfSaleSystem.API.ResponseBodies.Order;
 using PointOfSaleSystem.API.Services.Interfaces;
@@ -24,12 +26,12 @@ namespace PointOfSaleSystem.API.Services
             _mapper = mapper;
         }
 
-        public void CreateOrder(AddOrderRequest order)
+        public void CreateOrder(AddOrderRequest order, UserInfo userInfo)
         {
             _orderRepository.Create(order);
         }
 
-        public GetOrderResponse GetOrder(Guid id)
+        public GetOrderResponse GetOrder(Guid id, UserInfo userInfo)
         {
             Order order =  _orderRepository.Get(id);
 
@@ -42,9 +44,22 @@ namespace PointOfSaleSystem.API.Services
             return response;
         }
 
-        public List<GetOrderResponse> GetAllOrders()
+        public List<GetOrderResponse> GetAllOrders(UserInfo userInfo)
         {
-            List<Order> orders = _orderRepository.GetAll();
+            List<Order> orders = [];
+
+            if (userInfo.Status == EmployeeStatusEnum.Admin.ToString())
+            {
+                orders = _orderRepository.GetAll();
+            }
+            else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
+            {
+                orders = _orderRepository.GetAllByEmployeeId(Guid.Parse(userInfo.Id));
+            }
+            else
+            {
+                orders = _orderRepository.GetOrdersByEmployeeId(Guid.Parse(userInfo.Id));
+            }
 
             List<GetOrderResponse> fullResponse = [];
 
@@ -62,12 +77,12 @@ namespace PointOfSaleSystem.API.Services
             return fullResponse;
         }
 
-        public void UpdateOrder(UpdateOrderRequest request)
+        public void UpdateOrder(UpdateOrderRequest request, UserInfo userInfo)
         {
             _orderRepository.Update(request);
         }
 
-        public void DeleteOrder(Guid id)
+        public void DeleteOrder(Guid id, UserInfo userInfo)
         {
             _orderRepository.Delete(id);
         }

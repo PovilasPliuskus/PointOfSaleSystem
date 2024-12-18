@@ -51,7 +51,7 @@ namespace PointOfSaleSystem.API.Services
             }
             else if (userInfo.Status == EmployeeStatusEnum.CompanyOwner.ToString())
             {
-                return _companyServiceRepository.GetAll();
+                return _companyServiceRepository.GetAllByEmployeeId(Guid.Parse(userInfo.Id));
             }
 
             return [];

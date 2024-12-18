@@ -10,5 +10,6 @@ namespace PointOfSaleSystem.API.Repositories.Interfaces
         public List<Company> GetAll();
         public void Update(UpdateCompanyRequest request);
         public void Delete(Guid id);
+        public List<Company> GetAllByEmployeeId(Guid employeeId);
     }
 }

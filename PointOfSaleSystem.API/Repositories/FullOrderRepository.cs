@@ -12,12 +12,15 @@ namespace PointOfSaleSystem.API.Repositories
     {
         private readonly PointOfSaleSystemContext _context;
         private readonly IMapper _mapper;
+        private readonly IOrderRepository _orderRepository;
 
         public FullOrderRepository(PointOfSaleSystemContext context,
-            IMapper mapper)
+            IMapper mapper,
+            IOrderRepository orderRepository)
         {
             _context = context;
             _mapper = mapper;
+            _orderRepository = orderRepository;
         }
 
         public void Create(FullOrder fullOrder)
@@ -72,6 +75,42 @@ namespace PointOfSaleSystem.API.Repositories
             _context.FullOrders.Remove(fullOrderEntity);
 
             _context.SaveChanges();
+        }
+
+        public List<FullOrder> GetAllByEmployeeId(Guid employeeId)
+        {
+            List<Order> allOrders = _orderRepository.GetAllByEmployeeId(employeeId);
+            List<FullOrder> allFullOrders = GetAll();
+            List<FullOrder> selectedFullOrders = [];
+
+            foreach (var fullOrder in allFullOrders)
+            {
+                if (fullOrder.Orders.Any(order =>
+                allOrders.Any(o => o.Id == order.Id)))
+                {
+                    selectedFullOrders.Add(fullOrder);
+                }
+            }
+
+            return selectedFullOrders;
+        }
+
+        public List<FullOrder> GetFullOrderByEmployeeId(Guid employeeId)
+        {
+            List<Order> allOrders = _orderRepository.GetOrdersByEmployeeId(employeeId);
+            List<FullOrder> allFullOrders = GetAll();
+            List<FullOrder> selectedFullOrders = [];
+
+            foreach (var fullOrder in allFullOrders)
+            {
+                if (fullOrder.Orders.Any(order =>
+                allOrders.Any(o => o.Id == order.Id)))
+                {
+                    selectedFullOrders.Add(fullOrder);
+                }
+            }
+
+            return selectedFullOrders;
         }
 
         private FullOrderEntity? GetFullOrderEntity(Guid id)

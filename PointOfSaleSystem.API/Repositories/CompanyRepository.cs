@@ -41,7 +41,16 @@ namespace PointOfSaleSystem.API.Repositories
 
         public List<Company> GetAll()
         {
-            List<CompanyEntity> companyEntities = _context.Companies.ToList();
+            List<CompanyEntity> companyEntities = _context.Companies
+                .Include(c => c.Establishments)
+                    .ThenInclude(e => e.Employees)
+                .Include(c => c.Establishments)
+                    .ThenInclude(e => e.EstablishmentProducts)
+                .Include(c => c.Establishments)
+                    .ThenInclude(e => e.EstablishmentServices)
+                .Include(c => c.CompanyProducts)
+                .Include(c => c.CompanyServices)
+                .ToList();
 
             List<Company> companies = _mapper.Map<List<Company>>(companyEntities);
 
@@ -102,6 +111,24 @@ namespace PointOfSaleSystem.API.Repositories
             _context.Companies.Remove(companyEntity);
 
             _context.SaveChanges();
+        }
+
+        public List<Company> GetAllByEmployeeId(Guid employeeId)
+        {
+            List<Company> allCompanies = GetAll();
+            List<Company> selectedCompanies = [];
+
+            foreach (var company in allCompanies)
+            {
+                if (company.Establishments.Any(establishment =>
+                establishment.Employees.Any(employee =>
+                employee.Id == employeeId)))
+                {
+                    selectedCompanies.Add(company);
+                }
+            }
+
+            return selectedCompanies;
         }
 
         private CompanyEntity? GetCompanyEntity(Guid id)

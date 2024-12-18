@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PointOfSaleSystem.API.Context;
+using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.Models.Entities;
 using PointOfSaleSystem.API.Repositories.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.CompanyService;
@@ -10,12 +11,15 @@ namespace PointOfSaleSystem.API.Repositories
     {
         private readonly PointOfSaleSystemContext _context;
         private readonly IMapper _mapper;
+        private readonly ICompanyRepository _companyRepository;
 
         public CompanyServiceRepository(PointOfSaleSystemContext context,
-            IMapper mapper)
+            IMapper mapper,
+            ICompanyRepository companyRepository)
         {
             _context = context;
             _mapper = mapper;
+            _companyRepository = companyRepository;
         }
 
         public void Create(AddCompanyServiceRequest request)
@@ -66,6 +70,22 @@ namespace PointOfSaleSystem.API.Repositories
             _context.CompanyServices.Remove(companyServiceEntity);
 
             _context.SaveChanges();
+        }
+
+        public List<CompanyService> GetAllByEmployeeId(Guid employeeId)
+        {
+            List<Company> companies = _companyRepository.GetAllByEmployeeId(employeeId);
+            List<CompanyService> selectedServices = [];
+
+            foreach (var company in companies)
+            {
+                foreach (var service in company.CompanyServices)
+                {
+                    selectedServices.Add(service);
+                }
+            }
+
+            return selectedServices;
         }
 
         private CompanyServiceEntity? GetCompanyServiceEntity(Guid id)

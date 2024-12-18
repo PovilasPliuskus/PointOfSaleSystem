@@ -12,12 +12,15 @@ namespace PointOfSaleSystem.API.Repositories
     {
         private readonly PointOfSaleSystemContext _context;
         private readonly IMapper _mapper;
+        private readonly ICompanyRepository _companyRepository;
 
         public CompanyProductRepository(PointOfSaleSystemContext context,
-            IMapper mapper)
+            IMapper mapper,
+            ICompanyRepository companyRepository)
         {
             _context = context;
             _mapper = mapper;
+            _companyRepository = companyRepository;
         }
 
         public void Create(AddCompanyProductRequest request)
@@ -69,6 +72,22 @@ namespace PointOfSaleSystem.API.Repositories
             _context.CompanyProducts.Remove(companyProductEntity);
 
             _context.SaveChanges();
+        }
+
+        public List<CompanyProduct> GetAllByEmployeeId(Guid employeeId)
+        {
+            List<Company> companies = _companyRepository.GetAllByEmployeeId(employeeId);
+            List<CompanyProduct> selectedProducts = [];
+
+            foreach (var company in companies)
+            {
+                foreach (var product in company.CompanyProducts)
+                {
+                    selectedProducts.Add(product);
+                }
+            }
+
+            return selectedProducts;
         }
 
         private CompanyProductEntity? GetCompanyProductEntity(Guid id)

@@ -158,7 +158,7 @@ function Employee() {
   const handleEditSaveEmployee = async () => {
     const hashedPassword = await bcrypt.hash(
       newEditEmployeeLoginPasswordHashed,
-      10
+      0
     );
     console.log("Pressed Edit Save");
     if (selectedEmployee) {
@@ -191,7 +191,7 @@ function Employee() {
   const handleAddSaveEmployees = async () => {
     const hashedPassword = await bcrypt.hash(
       newEditEmployeeLoginPasswordHashed,
-      10
+      0
     );
     console.log("Pressed Edit Save");
     const newEmployee: CreateEmployeeRequest = {

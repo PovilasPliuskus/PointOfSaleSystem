@@ -13,13 +13,16 @@ namespace PointOfSaleSystem.API.Repositories
     {
         private readonly PointOfSaleSystemContext _context;
         private readonly IMapper _mapper;
+        private readonly IEstablishmentRepository _establishmentRepository;
 
         public EmployeeRepository(
             PointOfSaleSystemContext context,
-            IMapper mapper)
+            IMapper mapper,
+            IEstablishmentRepository establishmentRepository)
         {
             _context = context;
             _mapper = mapper;
+            _establishmentRepository = establishmentRepository;
         }
 
         public void Create(AddEmployeeRequest request)
@@ -75,6 +78,38 @@ namespace PointOfSaleSystem.API.Repositories
             _context.Employees.Remove(employeeEntity);
 
             _context.SaveChanges();
+        }
+
+        public List<Employee> GetAllByEmployeeId(Guid employeeId)
+        {
+            List<Establishment> allEstablishments = _establishmentRepository.GetAllByEmployeeId(employeeId);
+            List<Employee> selectedEmployees = [];
+            
+            foreach (var establishment in allEstablishments)
+            {
+                foreach (var employee in establishment.Employees)
+                {
+                    selectedEmployees.Add(employee);
+                }
+            }
+
+            return selectedEmployees;
+        }
+
+        public List<Employee> GetEstablishmentEmployeesByEmployeeId(Guid employeeId)
+        {
+            List<Establishment> establishments = _establishmentRepository.GetByEmployeeId(employeeId);
+            List<Employee> selectedEmployees = [];
+
+            foreach (var establishment in establishments)
+            {
+                foreach(var employee in establishment.Employees)
+                {
+                    selectedEmployees.Add(employee);
+                }
+            }
+
+            return selectedEmployees;
         }
 
         private EmployeeEntity? GetEmployeeEntity(Guid id)

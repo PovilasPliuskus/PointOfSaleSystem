@@ -30,7 +30,9 @@ VALUES
     ('2ed63766-17e8-4d52-9715-aef236f03d62', 'Blevins', '1000.00', '1', 'd3beb5bf-a20a-43b4-be2b-d185a54104ef', 'ColinBlevins', '$2a$10$5pCMrgQ/9or.vlfP4QwAuO8OiIUelu/yHHaSnkld1zr.ATZzIKG6W', 'Colin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
     ('56d7f844-ae96-4978-b356-f274d4e21f64', 'Barton', '2000.00', '4', 'd3beb5bf-a20a-43b4-be2b-d185a54104ef', 'KhadijaBarton', '$2a$10$5pCMrgQ/9or.vlfP4QwAuO8OiIUelu/yHHaSnkld1zr.ATZzIKG6W', 'Khadija', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
     ('0e7d011a-e3ab-4c54-9658-8627784fdf31', 'Jennings', '1750.00', '3', '90a9c4d6-c3d9-4e76-a81e-40f9f752c3b7', 'SalmaJennings', '$2a$10$5pCMrgQ/9or.vlfP4QwAuO8OiIUelu/yHHaSnkld1zr.ATZzIKG6W', 'Salma', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
-    ('6df12961-e946-44b2-9ffc-5d225763b12a', 'Garrett', '1000.00', '2', 'b045ecea-f3bb-4ffb-a4cc-9bcfa08c4957', 'KeeyanGarret', '$2a$10$5pCMrgQ/9or.vlfP4QwAuO8OiIUelu/yHHaSnkld1zr.ATZzIKG6W', 'Keeyan', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+    ('6df12961-e946-44b2-9ffc-5d225763b12a', 'Garrett', '1000.00', '2', 'b045ecea-f3bb-4ffb-a4cc-9bcfa08c4957', 'KeeyanGarret', '$2a$10$5pCMrgQ/9or.vlfP4QwAuO8OiIUelu/yHHaSnkld1zr.ATZzIKG6W', 'Keeyan', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL),
+    ('257f97b8-73bd-41cf-9874-b17dbe8490af', 'Smith', '2000.00', '3', 'd3beb5bf-a20a-43b4-be2b-d185a54104ef', 'TomSmith', '$2a$10$5pCMrgQ/9or.vlfP4QwAuO8OiIUelu/yHHaSnkld1zr.ATZzIKG6W', 'Tom', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+
 
 INSERT INTO public."CompanyProduct" ("Id", "AlcoholicBeverage", "fkCompanyId", "Name", "ReceiveTime", "UpdateTime", "fkCreatedByEmployee", "fkModifiedByEmployee")
 VALUES

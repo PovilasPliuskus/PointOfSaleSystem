@@ -11,13 +11,19 @@ namespace PointOfSaleSystem.API.Repositories
     {
         private readonly PointOfSaleSystemContext _context;
         private readonly IMapper _mapper;
+        private readonly IEstablishmentProductRepository _productRepository;
+        private readonly IEstablishmentServiceRepository _serviceRepository;
 
         public OrderRepository(
             PointOfSaleSystemContext context,
-            IMapper mapper)
+            IMapper mapper,
+            IEstablishmentProductRepository productRepository,
+            IEstablishmentServiceRepository serviceRepository)
         {
             _context = context;
             _mapper = mapper;
+            _productRepository = productRepository;
+            _serviceRepository = serviceRepository;
         }
 
         public void Create(AddOrderRequest order)
@@ -69,6 +75,56 @@ namespace PointOfSaleSystem.API.Repositories
             _context.Orders.Remove(orderEntity);
 
             _context.SaveChanges();
+        }
+
+        public List<Order> GetAllByEmployeeId(Guid employeeId)
+        {
+            List<EstablishmentProduct> allProducts = _productRepository.GetAllByEmployeeId(employeeId);
+            List<EstablishmentService> allServices = _serviceRepository.GetAllByEmployeeId(employeeId);
+            List<Order> selectedOrders = [];
+
+            foreach (var product in allProducts)
+            {
+                foreach (var order in product.Orders)
+                {
+                    selectedOrders.Add(order);
+                }
+            }
+
+            foreach (var service in allServices)
+            {
+                foreach (var order in service.Orders)
+                {
+                    selectedOrders.Add(order);
+                }
+            }
+
+            return selectedOrders;
+        }
+
+        public List<Order> GetOrdersByEmployeeId(Guid employeeId)
+        {
+            List<EstablishmentProduct> allProducts = _productRepository.GetEstablishmentProductsByEmployeeId(employeeId);
+            List<EstablishmentService> allServices = _serviceRepository.GetEstablishmentServiceByEmployeeId(employeeId);
+            List<Order> selectedOrders = [];
+
+            foreach (var product in allProducts)
+            {
+                foreach (var order in product.Orders)
+                {
+                    selectedOrders.Add(order);
+                }
+            }
+
+            foreach (var service in allServices)
+            {
+                foreach (var order in service.Orders)
+                {
+                    selectedOrders.Add(order);
+                }
+            }
+
+            return selectedOrders;
         }
 
         private OrderEntity? GetOrderEntity(Guid id)
