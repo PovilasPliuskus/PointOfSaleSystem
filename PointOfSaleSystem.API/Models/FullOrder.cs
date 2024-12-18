@@ -7,5 +7,8 @@ namespace PointOfSaleSystem.API.Models
         public required ICollection<Order>? Orders { get; set; }
         public required decimal Tip { get; set; }
         public required OrderStatusEnum Status { get; set; }
+
+        public required ICollection<Tax>? Taxes { get; set; }
+        public required ICollection<GiftCard>? GiftCards { get; set; }
     }
 }

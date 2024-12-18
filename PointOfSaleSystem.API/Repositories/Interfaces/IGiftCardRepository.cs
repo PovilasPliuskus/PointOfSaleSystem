@@ -1,16 +1,15 @@
 ﻿using PointOfSaleSystem.API.Models;
-using PointOfSaleSystem.API.RequestBodies.FullOrder;
+using PointOfSaleSystem.API.RequestBodies.GiftCard;
 using PointOfSaleSystem.API.RequestBodies.Order;
-using PointOfSaleSystem.API.RequestBodies.Tax;
 
 namespace PointOfSaleSystem.API.Repositories.Interfaces
 {
-    public interface ITaxRepository
+    public interface IGiftCardRepository
     {
-        public void Create(Tax tax);
-        public Tax Get(Guid id);
-        public List<Tax> GetAll();
-        public void Update(UpdateTaxRequest request);
+        public void Create(AddGiftCardRequest giftcard);
+        public GiftCard Get(Guid id);
+        public List<GiftCard> GetAll();
+        public void Update(UpdateGiftCardRequest request);
         public void Delete(Guid id);
     }
 }

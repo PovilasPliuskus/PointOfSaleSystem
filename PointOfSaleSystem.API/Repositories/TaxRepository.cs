@@ -22,7 +22,7 @@ namespace PointOfSaleSystem.API.Repositories
             _mapper = mapper;
         }
 
-        public void Create(Tax request)
+        public void Create(AddTaxRequest request)
         {
             TaxEntity taxEntity = _mapper.Map<TaxEntity>(request);
 

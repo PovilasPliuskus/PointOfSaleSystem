@@ -15,7 +15,7 @@ namespace PointOfSaleSystem.API.Services
             _taxRepository = taxRepository;
         }
 
-        public void CreateTax(Tax request)
+        public void CreateTax(AddTaxRequest request)
         {
             _taxRepository.Create(request);
         }

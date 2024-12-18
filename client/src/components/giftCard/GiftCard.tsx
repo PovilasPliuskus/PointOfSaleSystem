@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GiftCardObject, UpdateGiftCardRequest } from "../../scripts/interfaces";
+import { FullOrderObject, GiftCardObject, UpdateGiftCardRequest } from "../../scripts/interfaces";
 import GiftCardTable from "./GiftCardTable";
 import Pagination from "../Pagination";
 import {
@@ -13,6 +13,7 @@ import EditGiftCardModal from "./EditGiftCardModal";
 import AddGiftCardModal from "./AddGiftCardModal";
 import { v4 as uuidv4 } from "uuid";
 import Navbar from "../Navbar";
+import { fetchAllFullOrders } from "../../scripts/fullOrderFunctions";
 
 function GiftCard() {
   // Variables
@@ -24,6 +25,7 @@ function GiftCard() {
   const [selectedGiftCard, setSelectedGiftCard] = useState<GiftCardObject | null>(
     null
   );
+  const [fullOrders, setFullOrders] = useState<FullOrderObject[]>([]);
 
   const paginatedGiftCards = giftcards.slice(
     (currentPage - 1) * pageSize,
@@ -192,6 +194,8 @@ function GiftCard() {
       const data = await fetchAllGiftCards();
       console.log("Retrieved from function loadGiftCards: ", data);
       setGiftCards(data);
+      const fullOrders = await fetchAllFullOrders();
+      setFullOrders(fullOrders);
     } catch (error) {
       console.error("Error loading giftcards: ", error);
     } finally {
@@ -256,6 +260,7 @@ function GiftCard() {
         newGiftCardAmount={newAddGiftCardAmount}
         newGiftCardName={newAddGiftCardName}
         newGiftCardCurrency={newAddGiftCardCurrency}
+        fullOrders={fullOrders}
         handleInputChange={handleAddInputChange}
         handleSave={handleAddSaveGiftCard}
       />

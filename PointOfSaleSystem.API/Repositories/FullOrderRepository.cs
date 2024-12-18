@@ -42,6 +42,8 @@ namespace PointOfSaleSystem.API.Repositories
         {
             List<FullOrderEntity> fullOrderEntity = _context.FullOrders
                 .Include(fo => fo.Orders)
+                .Include(fo => fo.Taxes)
+                .Include(fo => fo.GiftCards)
                 .ToList();
 
             List<FullOrder> fullOrders = _mapper.Map<List<FullOrder>>(fullOrderEntity);
@@ -78,6 +80,8 @@ namespace PointOfSaleSystem.API.Repositories
         {
             return _context.FullOrders
                 .Include(fo => fo.Orders)
+                .Include(fo => fo.Taxes)
+                .Include(fo => fo.GiftCards)
                 .FirstOrDefault(fo => fo.Id == id);
         }
     }

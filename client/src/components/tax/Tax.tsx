@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TaxObject, UpdateTaxRequest } from "../../scripts/interfaces";
+import { FullOrderObject, TaxObject, UpdateTaxRequest } from "../../scripts/interfaces";
 import TaxTable from "./TaxTable";
 import Pagination from "../Pagination";
 import {
@@ -13,6 +13,7 @@ import EditTaxModal from "./EditTaxModal";
 import AddTaxModal from "./AddTaxModal";
 import { v4 as uuidv4 } from "uuid";
 import Navbar from "../Navbar";
+import { fetchAllFullOrders } from "../../scripts/fullOrderFunctions";
 
 function Tax() {
   // Variables
@@ -24,6 +25,7 @@ function Tax() {
   const [selectedTax, setSelectedTax] = useState<TaxObject | null>(
     null
   );
+  const [fullOrders, setFullOrders] = useState<FullOrderObject[]>([]);
 
   const paginatedTaxes = taxes.slice(
     (currentPage - 1) * pageSize,
@@ -82,7 +84,9 @@ function Tax() {
     if (name === "name") setNewEditTaxName(value);
   };
 
-  const handleAddInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     if (name === "code") setnewAddTaxAmount(parseFloat(value));
     if (name === "name") setNewAddTaxName(value);
@@ -171,6 +175,8 @@ function Tax() {
       const data = await fetchAllTaxes();
       console.log("Retrieved from function loadTaxes: ", data);
       setTaxes(data);
+      const fullOrders = await fetchAllFullOrders();
+      setFullOrders(fullOrders);
     } catch (error) {
       console.error("Error loading taxes: ", error);
     } finally {
@@ -233,6 +239,7 @@ function Tax() {
         toggleModal={toggleAddTaxModal}
         newTaxAmount={newAddTaxAmount}
         newTaxName={newAddTaxName}
+        fullOrders={fullOrders}
         handleInputChange={handleAddInputChange}
         handleSave={handleAddSaveTax}
       />

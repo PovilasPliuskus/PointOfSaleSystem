@@ -80,6 +80,19 @@ namespace PointOfSaleSystem.API.Context
                 .WithMany(fo => fo.Orders)
                 .HasForeignKey(o => o.fkFullOrderId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<TaxEntity>()
+                .HasOne(o => o.FullOrder)
+                .WithMany(fo => fo.Taxes)
+                .HasForeignKey(o => o.fkTaxFullOrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<GiftCardEntity>()
+                .HasOne(o => o.FullOrder)
+                .WithMany(fo => fo.GiftCards)
+                .HasForeignKey(o => o.fkGiftFullOrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

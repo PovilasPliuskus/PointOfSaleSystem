@@ -15,7 +15,7 @@ namespace PointOfSaleSystem.API.Services
             _giftCardRepository = giftCardRepository;
         }
 
-        public void CreateGiftCard(GiftCard request)
+        public void CreateGiftCard(AddGiftCardRequest request)
         {
             _giftCardRepository.Create(request);
         }

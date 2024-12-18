@@ -10,5 +10,11 @@ namespace PointOfSaleSystem.API.Models.Entities
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal amount { get; set; }
+
+        [Required]
+        public Guid fkTaxFullOrderId { get; set; }
+
+        [ForeignKey(nameof(fkTaxFullOrderId))]
+        public FullOrderEntity FullOrder { get; set; }
     }
 }

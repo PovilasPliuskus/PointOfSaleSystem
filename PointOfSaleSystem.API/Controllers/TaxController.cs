@@ -19,7 +19,7 @@ namespace PointOfSaleSystem.API.Controllers
         }
 
         [HttpPost("tax")]
-        public async Task<IActionResult> CreateTax(Tax request)
+        public async Task<IActionResult> CreateTax(AddTaxRequest request)
         {
             _taxService.CreateTax(request);
             return Ok();

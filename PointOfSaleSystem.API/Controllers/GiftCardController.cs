@@ -19,7 +19,7 @@ namespace PointOfSaleSystem.API.Controllers
         }
 
         [HttpPost("giftCard")]
-        public async Task<IActionResult> CreateGiftCard(GiftCard request)
+        public async Task<IActionResult> CreateGiftCard(AddGiftCardRequest request)
         {
             _giftCardService.CreateGiftCard(request);
             return Ok();

@@ -7,7 +7,7 @@ namespace PointOfSaleSystem.API.Services.Interfaces
 {
     public interface ITaxService
     {
-        public void CreateTax(Tax fullOrder);
+        public void CreateTax(AddTaxRequest fullOrder);
         public Tax GetTax(Guid id);
         public List<Tax> GetAllTaxes();
         public void UpdateTax(UpdateTaxRequest request);

@@ -4,6 +4,6 @@ namespace PointOfSaleSystem.API.Models
 {
     public class Tax : BaseModel
     {
-        public float amount { get; set; } // fraction, not percentage
+        public decimal amount { get; set; } // fraction, not percentage
     }
 }

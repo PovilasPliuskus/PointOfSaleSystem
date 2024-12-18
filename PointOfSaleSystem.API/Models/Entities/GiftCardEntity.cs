@@ -12,5 +12,11 @@ namespace PointOfSaleSystem.API.Models.Entities
         public decimal amount { get; set; }
         [Required]
         public CurrencyEnum currency { get; set; }
+
+        [Required]
+        public Guid fkGiftFullOrderId { get; set; }
+
+        [ForeignKey(nameof(fkGiftFullOrderId))]
+        public FullOrderEntity FullOrder { get; set; }
     }
 }

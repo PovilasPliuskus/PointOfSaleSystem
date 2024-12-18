@@ -15,5 +15,9 @@ namespace PointOfSaleSystem.API.Models.Entities
         public OrderStatusEnum Status { get; set; }
 
         public ICollection<OrderEntity>? Orders { get; set; }
+
+        public ICollection<TaxEntity>? Taxes { get; set; }
+
+        public ICollection<GiftCardEntity>? GiftCards { get; set; }
     }
 }

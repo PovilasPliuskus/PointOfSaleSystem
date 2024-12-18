@@ -1,10 +1,16 @@
+import { FullOrderStatusEnum } from "../../scripts/enums/FullOrderStatusEnum";
+import { FullOrderObject } from "../../scripts/interfaces";
+
 interface AddTaxModalProps {
   showModal: boolean;
   newTaxName: string;
   newTaxAmount: number;
+  fullOrders: FullOrderObject[];
 
   toggleModal: () => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   handleSave: () => void;
 }
 
@@ -12,6 +18,7 @@ const AddTaxModal: React.FC<AddTaxModalProps> = ({
   showModal,
   newTaxName,
   newTaxAmount,
+  fullOrders,
   toggleModal,
   handleInputChange,
   handleSave,
@@ -47,6 +54,26 @@ const AddTaxModal: React.FC<AddTaxModalProps> = ({
                 />
               </div>
             </form>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Select Full Order</label>
+            <select
+              className="form-select"
+              name="fullOrderId"
+              onChange={handleInputChange}
+            >
+              <option value="">Select an order</option>
+              {fullOrders
+                .filter(
+                  (FullOrder) =>
+                    FullOrder.status === FullOrderStatusEnum.Open
+                )
+                .map((fullOrder) => (
+                  <option key={fullOrder.id} value={fullOrder.id}>
+                    {fullOrder.name}
+                  </option>
+                ))}
+            </select>
           </div>
           <div className="modal-footer">
             <button

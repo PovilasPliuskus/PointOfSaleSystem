@@ -1,10 +1,13 @@
 import { CurrencyDisplay } from "../../scripts/enums/CurrencyEnum";
+import { FullOrderStatusEnum } from "../../scripts/enums/FullOrderStatusEnum";
+import { FullOrderObject } from "../../scripts/interfaces";
 
 interface AddGiftCardModalProps {
   showModal: boolean;
   newGiftCardName: string;
   newGiftCardAmount: number;
   newGiftCardCurrency: number;
+  fullOrders: FullOrderObject[];
 
   toggleModal: () => void;
   handleInputChange: (
@@ -18,6 +21,7 @@ const AddGiftCardModal: React.FC<AddGiftCardModalProps> = ({
   newGiftCardName,
   newGiftCardAmount,
   newGiftCardCurrency,
+  fullOrders,
   toggleModal,
   handleInputChange,
   handleSave,
@@ -68,6 +72,26 @@ const AddGiftCardModal: React.FC<AddGiftCardModalProps> = ({
                 </select>
                 </div>
             </form>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Select Full Order</label>
+            <select
+              className="form-select"
+              name="fullOrderId"
+              onChange={handleInputChange}
+            >
+              <option value="">Select an order</option>
+              {fullOrders
+                .filter(
+                  (FullOrder) =>
+                    FullOrder.status === FullOrderStatusEnum.Open
+                )
+                .map((fullOrder) => (
+                  <option key={fullOrder.id} value={fullOrder.id}>
+                    {fullOrder.name}
+                  </option>
+                ))}
+            </select>
           </div>
           <div className="modal-footer">
             <button

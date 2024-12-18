@@ -19,6 +19,8 @@ using PointOfSaleSystem.API.RequestBodies.Employees;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using PointOfSaleSystem.API.RequestBodies.Tax;
+using PointOfSaleSystem.API.RequestBodies.GiftCard;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,11 +41,7 @@ builder.Services.AddCors(options =>
 
 var mapperConfig = new MapperConfiguration(cfg =>
 {
-    cfg.CreateMap<TaxEntity, Tax>();
-    cfg.CreateMap<Tax, TaxEntity>();
-
-    cfg.CreateMap<GiftCardEntity, GiftCard>();
-    cfg.CreateMap<GiftCard, GiftCardEntity>();
+    
 
     cfg.CreateMap<CompanyEntity, Company>();
     cfg.CreateMap<Company, CompanyEntity>();
@@ -86,6 +84,12 @@ var mapperConfig = new MapperConfiguration(cfg =>
     cfg.CreateMap<AddOrderRequest, OrderEntity>();
     cfg.CreateMap<OrderEntity, AddOrderRequest>();
 
+    cfg.CreateMap<AddTaxRequest, TaxEntity>();
+    cfg.CreateMap<TaxEntity, AddTaxRequest>();
+
+    cfg.CreateMap<AddGiftCardRequest, GiftCardEntity>();
+    cfg.CreateMap<GiftCardEntity, AddGiftCardRequest>();
+
     cfg.CreateMap<AddEstablishmentRequest, EstablishmentEntity>();
     cfg.CreateMap<EstablishmentEntity, AddEstablishmentRequest>();
 
@@ -103,6 +107,12 @@ var mapperConfig = new MapperConfiguration(cfg =>
 
     cfg.CreateMap<AddEmployeeRequest, EmployeeEntity>();
     cfg.CreateMap<EmployeeEntity, AddEmployeeRequest>();
+
+    cfg.CreateMap<TaxEntity, Tax>();
+    cfg.CreateMap<Tax, TaxEntity>();
+
+    cfg.CreateMap<GiftCardEntity, GiftCard>();
+    cfg.CreateMap<GiftCard, GiftCardEntity>();
 });
 
 builder.Services.AddSingleton(mapperConfig.CreateMapper());

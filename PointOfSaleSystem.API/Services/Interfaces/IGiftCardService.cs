@@ -8,7 +8,7 @@ namespace PointOfSaleSystem.API.Services.Interfaces
 {
     public interface IGiftCardService
     {
-        public void CreateGiftCard(GiftCard fullOrder);
+        public void CreateGiftCard(AddGiftCardRequest fullOrder);
         public GiftCard GetGiftCard(Guid id);
         public List<GiftCard> GetAllGiftCards();
         public void UpdateGiftCard(UpdateGiftCardRequest request);

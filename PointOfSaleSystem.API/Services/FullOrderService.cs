@@ -132,6 +132,21 @@ namespace PointOfSaleSystem.API.Services
                 }
             }
 
+            decimal totalGiftCards = 0;
+            foreach (GiftCard card in fullOrder.GiftCards)
+                totalGiftCards += card.amount;
+
+            totalPrice -= totalGiftCards;
+
+            if(totalPrice > 0) {
+                decimal totalTax = 0;
+                foreach (Tax tax in fullOrder.Taxes) {
+                    totalTax += tax.amount;
+                }
+                totalPrice -= totalPrice * totalTax / 100;
+            }
+            
+
             return totalPrice;
         }
     }

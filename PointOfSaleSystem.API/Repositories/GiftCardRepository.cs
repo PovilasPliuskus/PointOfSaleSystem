@@ -22,7 +22,7 @@ namespace PointOfSaleSystem.API.Repositories
             _mapper = mapper;
         }
 
-        public void Create(GiftCard request)
+        public void Create(AddGiftCardRequest request)
         {
             GiftCardEntity giftCardEntity = _mapper.Map<GiftCardEntity>(request);
 
