@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import {
   CreateOrderRequest,
+  EstablishmentProductObject,
+  EstablishmentServiceObject,
   FullOrderObject,
   OrderObject,
   UpdateOrderRequest,
@@ -19,6 +21,8 @@ import EditOrderModal from "./EditOrderModal";
 import AddOrderModal from "./AddOrderModal";
 import { fetchAllFullOrders } from "../../scripts/fullOrderFunctions";
 import Navbar from "../Navbar";
+import { fetchAllEstablishmentProducts } from "../../scripts/establishmentProductFunctions";
+import { fetchAllEstablishmentServices } from "../../scripts/establishmentServiceFunctions";
 
 function Order() {
   // Variables
@@ -29,6 +33,12 @@ function Order() {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<OrderObject | null>(null);
   const [fullOrders, setFullOrders] = useState<FullOrderObject[]>([]);
+  const [establishmentProducts, setEstablishmentProducts] = useState<
+    EstablishmentProductObject[]
+  >([]);
+  const [establishmentServices, setEstablishmentServices] = useState<
+    EstablishmentServiceObject[]
+  >([]);
 
   const paginatedOrders = orders.slice(
     (currentPage - 1) * pageSize,
@@ -45,6 +55,10 @@ function Order() {
   const [newAddOrderCount, setNewAddOrderCount] = useState(0);
   const [newAddOrderName, setNewAddOrderName] = useState("");
   const [newFullOrdersId, setNewFullOrdersId] = useState("");
+  const [newEstablishmentProductsId, setNewEstablishmentProductsId] =
+    useState("");
+  const [newEstablishmentServiceId, setNewEstablishmentServiceId] =
+    useState("");
 
   // Functions
   const handleRowClick = async (index: number, orderId: string) => {
@@ -102,6 +116,12 @@ function Order() {
       setNewFullOrdersId(value);
       console.log(`VALUE = ${newFullOrdersId}`);
     }
+    if (name === "establishmentProductId") {
+      setNewEstablishmentProductsId(value);
+    }
+    if (name === "establishmentServiceId") {
+      setNewEstablishmentServiceId(value);
+    }
   };
 
   const handleEditSaveOrder = async () => {
@@ -138,8 +158,8 @@ function Order() {
       receiveTime: new Date().toISOString(),
       createdByEmployeeId: "00000000-0000-0000-0000-000000000000",
       modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000",
-      establishmentProductId: null,
-      establishmentServiceId: null,
+      establishmentProductId: newEstablishmentProductsId,
+      establishmentServiceId: newEstablishmentServiceId,
       count: newAddOrderCount,
       fkFullOrderId: newFullOrdersId,
     };
@@ -160,6 +180,8 @@ function Order() {
     setNewAddOrderCount(0);
     setNewAddOrderName("");
     setNewFullOrdersId("");
+    setNewEstablishmentProductsId("");
+    setNewEstablishmentServiceId("");
   };
 
   const handleDeleteClick = async () => {
@@ -193,6 +215,10 @@ function Order() {
       setOrders(data);
       const fullOrders = await fetchAllFullOrders();
       setFullOrders(fullOrders);
+      const establishmentProducts = await fetchAllEstablishmentProducts();
+      setEstablishmentProducts(establishmentProducts);
+      const establishmentServices = await fetchAllEstablishmentServices();
+      setEstablishmentServices(establishmentServices);
     } catch (error) {
       console.error("Error loading orders: ", error);
     } finally {
@@ -256,6 +282,8 @@ function Order() {
         newOrderCount={newAddOrderCount}
         newOrderName={newAddOrderName}
         fullOrders={fullOrders}
+        establishmentProducts={establishmentProducts}
+        establishmentServices={establishmentServices}
         handleInputChange={handleAddInputChange}
         handleSave={handleAddSaveOrder}
       />
