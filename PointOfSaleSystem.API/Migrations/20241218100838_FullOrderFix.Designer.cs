@@ -12,8 +12,8 @@ using PointOfSaleSystem.API.Context;
 namespace PointOfSaleSystem.API.Migrations
 {
     [DbContext(typeof(PointOfSaleSystemContext))]
-    [Migration("20241214111321_FixOrderRelationships")]
-    partial class FixOrderRelationships
+    [Migration("20241218100838_FullOrderFix")]
+    partial class FullOrderFix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -354,12 +354,17 @@ namespace PointOfSaleSystem.API.Migrations
                     b.Property<Guid?>("fkCreatedByEmployee")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("fkEstablishmentId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("fkModifiedByEmployee")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("fkCreatedByEmployee");
+
+                    b.HasIndex("fkEstablishmentId");
 
                     b.HasIndex("fkModifiedByEmployee");
 
@@ -575,11 +580,19 @@ namespace PointOfSaleSystem.API.Migrations
                         .WithMany()
                         .HasForeignKey("fkCreatedByEmployee");
 
+                    b.HasOne("PointOfSaleSystem.API.Models.Entities.EstablishmentEntity", "Establishment")
+                        .WithMany("FullOrders")
+                        .HasForeignKey("fkEstablishmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "UpdatedByEmployee")
                         .WithMany()
                         .HasForeignKey("fkModifiedByEmployee");
 
                     b.Navigation("CreatedByEmployee");
+
+                    b.Navigation("Establishment");
 
                     b.Navigation("UpdatedByEmployee");
                 });
@@ -637,6 +650,8 @@ namespace PointOfSaleSystem.API.Migrations
                     b.Navigation("EstablishmentProducts");
 
                     b.Navigation("EstablishmentServices");
+
+                    b.Navigation("FullOrders");
                 });
 
             modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.EstablishmentProductEntity", b =>

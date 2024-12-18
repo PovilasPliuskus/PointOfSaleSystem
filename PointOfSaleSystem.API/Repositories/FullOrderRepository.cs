@@ -13,19 +13,23 @@ namespace PointOfSaleSystem.API.Repositories
         private readonly PointOfSaleSystemContext _context;
         private readonly IMapper _mapper;
         private readonly IOrderRepository _orderRepository;
+        private readonly IEstablishmentRepository _establishmentRepository;
 
         public FullOrderRepository(PointOfSaleSystemContext context,
             IMapper mapper,
-            IOrderRepository orderRepository)
+            IOrderRepository orderRepository,
+            IEstablishmentRepository establishmentRepository)
         {
             _context = context;
             _mapper = mapper;
             _orderRepository = orderRepository;
+            _establishmentRepository =establishmentRepository;
         }
 
         public void Create(FullOrder fullOrder)
         {
             FullOrderEntity fullOrderEntity = _mapper.Map<FullOrderEntity>(fullOrder);
+            fullOrderEntity.fkEstablishmentId = fullOrder.EstablishmentId;
 
             _context.FullOrders.Add(fullOrderEntity);
 
@@ -79,14 +83,12 @@ namespace PointOfSaleSystem.API.Repositories
 
         public List<FullOrder> GetAllByEmployeeId(Guid employeeId)
         {
-            List<Order> allOrders = _orderRepository.GetAllByEmployeeId(employeeId);
-            List<FullOrder> allFullOrders = GetAll();
+            List<Establishment> allEstablishments = _establishmentRepository.GetAllByEmployeeId(employeeId);
             List<FullOrder> selectedFullOrders = [];
 
-            foreach (var fullOrder in allFullOrders)
+            foreach (var establishment in allEstablishments)
             {
-                if (fullOrder.Orders.Any(order =>
-                allOrders.Any(o => o.Id == order.Id)))
+                foreach (var fullOrder in establishment.FullOrders)
                 {
                     selectedFullOrders.Add(fullOrder);
                 }
@@ -97,14 +99,12 @@ namespace PointOfSaleSystem.API.Repositories
 
         public List<FullOrder> GetFullOrderByEmployeeId(Guid employeeId)
         {
-            List<Order> allOrders = _orderRepository.GetOrdersByEmployeeId(employeeId);
-            List<FullOrder> allFullOrders = GetAll();
+            List<Establishment> allEstablishments = _establishmentRepository.GetByEmployeeId(employeeId);
             List<FullOrder> selectedFullOrders = [];
 
-            foreach (var fullOrder in allFullOrders)
+            foreach (var establishment in allEstablishments)
             {
-                if (fullOrder.Orders.Any(order =>
-                allOrders.Any(o => o.Id == order.Id)))
+                foreach (var fullOrder in establishment.FullOrders)
                 {
                     selectedFullOrders.Add(fullOrder);
                 }

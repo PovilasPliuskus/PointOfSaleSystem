@@ -158,8 +158,10 @@ function Order() {
       receiveTime: new Date().toISOString(),
       createdByEmployeeId: "00000000-0000-0000-0000-000000000000",
       modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000",
-      establishmentProductId: newEstablishmentProductsId,
-      establishmentServiceId: newEstablishmentServiceId,
+      establishmentProductId:
+        newEstablishmentProductsId === "" ? null : newEstablishmentProductsId,
+      establishmentServiceId:
+        newEstablishmentServiceId === "" ? null : newEstablishmentServiceId,
       count: newAddOrderCount,
       fkFullOrderId: newFullOrdersId,
     };

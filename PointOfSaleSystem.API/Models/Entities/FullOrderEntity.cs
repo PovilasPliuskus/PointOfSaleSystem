@@ -15,5 +15,11 @@ namespace PointOfSaleSystem.API.Models.Entities
         public OrderStatusEnum Status { get; set; }
 
         public ICollection<OrderEntity>? Orders { get; set; }
+
+        [Required]
+        public Guid fkEstablishmentId { get; set; }
+
+        [ForeignKey(nameof(fkEstablishmentId))]
+        public EstablishmentEntity Establishment { get; set; }
     }
 }

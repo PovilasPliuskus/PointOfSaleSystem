@@ -24,5 +24,8 @@ namespace PointOfSaleSystem.API.Models.Entities
 
         [Required]
         public ICollection<EstablishmentServiceEntity>? EstablishmentServices { get; set; }
+
+        [Required]
+        public ICollection<FullOrderEntity>? FullOrders { get; set; }
     }
 }
