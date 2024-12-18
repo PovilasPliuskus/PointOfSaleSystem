@@ -22,6 +22,17 @@ export interface TaxObject {
   modifiedByEmployeeId: string;
 }
 
+export interface GiftCardObject {
+  id: string;
+  name: string,
+  amount: number,
+  currency: number,
+  receiveTime: string;
+  updateTime: string;
+  createdByEmployeeId: string;
+  modifiedByEmployeeId: string;
+}
+
 export interface UpdateCompanyRequest {
   id: string;
   code: string;
@@ -32,6 +43,14 @@ export interface UpdateCompanyRequest {
 export interface UpdateTaxRequest {
   id: string;
   amount: number,
+  name: string,
+  updateTime: string;
+}
+
+export interface UpdateGiftCardRequest {
+  id: string;
+  amount: number,
+  currency: number,
   name: string,
   updateTime: string;
 }

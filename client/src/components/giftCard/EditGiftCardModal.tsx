@@ -1,17 +1,25 @@
-interface AddTaxModalProps {
+import { CurrencyDisplay } from "../../scripts/enums/CurrencyEnum";
+
+interface EditGiftCardModalProps {
   showModal: boolean;
-  newTaxName: string;
-  newTaxAmount: number;
+  newGiftCardAmount: number;
+  newGiftCardName: string;
+  newGiftCardCurrency: number;
 
   toggleModal: () => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   handleSave: () => void;
 }
 
-const AddTaxModal: React.FC<AddTaxModalProps> = ({
+const EditGiftCardModal: React.FC<
+EditGiftCardModalProps
+> = ({
   showModal,
-  newTaxName,
-  newTaxAmount,
+  newGiftCardAmount,
+  newGiftCardName,
+  newGiftCardCurrency,
   toggleModal,
   handleInputChange,
   handleSave,
@@ -22,30 +30,45 @@ const AddTaxModal: React.FC<AddTaxModalProps> = ({
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Add New Tax</h5>
+            <h5 className="modal-title">Edit GiftCard</h5>
           </div>
           <div className="modal-body">
             <form>
               <div className="mb-3">
-                <label className="form-label">Tax Amount</label>
+                <label className="form-label">GiftCard Amount</label>
                 <input
                   type="number"
                   className="form-control"
                   name="code"
-                  value={newTaxAmount}
+                  value={newGiftCardAmount}
                   onChange={handleInputChange}
                 ></input>
               </div>
               <div className="mb-3">
-                <label className="form-label">Tax Name</label>
+                <label className="form-label">GiftCard Name</label>
                 <input
                   type="text"
                   className="form-control"
                   name="name"
-                  value={newTaxName}
+                  value={newGiftCardName}
                   onChange={handleInputChange}
                 />
               </div>
+              <div className="mb-3">
+                  <label className="form-label">Currency</label>
+                  <select
+                    className="form-select"
+                    name="currency"
+                    value={newGiftCardCurrency}
+                    onChange={handleInputChange}
+                  >
+                    {Object.entries(CurrencyDisplay).map(([key, value]) => (
+                      <option key={key} value={key}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </div>
             </form>
           </div>
           <div className="modal-footer">
@@ -70,4 +93,4 @@ const AddTaxModal: React.FC<AddTaxModalProps> = ({
   );
 };
 
-export default AddTaxModal;
+export default EditGiftCardModal;

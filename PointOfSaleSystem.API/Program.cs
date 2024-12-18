@@ -39,6 +39,12 @@ builder.Services.AddCors(options =>
 
 var mapperConfig = new MapperConfiguration(cfg =>
 {
+    cfg.CreateMap<TaxEntity, Tax>();
+    cfg.CreateMap<Tax, TaxEntity>();
+
+    cfg.CreateMap<GiftCardEntity, GiftCard>();
+    cfg.CreateMap<GiftCard, GiftCardEntity>();
+
     cfg.CreateMap<CompanyEntity, Company>();
     cfg.CreateMap<Company, CompanyEntity>();
 

@@ -3,8 +3,8 @@ import { TaxObject } from "../../scripts/interfaces";
 
 interface TaxExpandedRowDetailsProps {
   selectedTax: TaxObject;
-  onEdit: (compamyId: string) => void;
-  onDelete: (compamyId: string) => void;
+  onEdit: (taxId: string) => void;
+  onDelete: (taxId: string) => void;
 }
 
 const TaxExpendedRowDetails: React.FC<TaxExpandedRowDetailsProps> = ({

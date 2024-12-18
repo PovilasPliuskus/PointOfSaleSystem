@@ -223,7 +223,7 @@ function Tax() {
       <EditTaxModal
         showModal={showEditModal}
         toggleModal={toggleEditTaxModal}
-        newTaxCode={newEditTaxAmount}
+        newTaxAmount={newEditTaxAmount}
         newTaxName={newEditTaxName}
         handleInputChange={handleEditInputChange}
         handleSave={handleEditSaveTax}
@@ -231,7 +231,7 @@ function Tax() {
       <AddTaxModal
         showModal={showAddModal}
         toggleModal={toggleAddTaxModal}
-        newTaxCode={newAddTaxAmount}
+        newTaxAmount={newAddTaxAmount}
         newTaxName={newAddTaxName}
         handleInputChange={handleAddInputChange}
         handleSave={handleAddSaveTax}
