@@ -44,6 +44,7 @@ export interface CreateFullOrderRequest {
   orders: OrderObject[];
   tip: number;
   status: number;
+  establishmentId: string;
 }
 
 export interface UpdateFullOrderRequest {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   CreateFullOrderRequest,
+  EstablishmentObject,
   FullOrderObject,
   UpdateFullOrderRequest,
 } from "../../scripts/interfaces";
@@ -17,6 +18,7 @@ import Pagination from "../Pagination";
 import EditFullOrderModal from "./EditFullOrderModal";
 import AddFullOrderModal from "./AddFullOrderModal";
 import Navbar from "../Navbar";
+import { fetchAllEstablishments } from "../../scripts/establishmentFunctions";
 
 function FullOrder() {
   // Variables
@@ -27,6 +29,9 @@ function FullOrder() {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [selectedFullOrder, setSelectedFullOrder] =
     useState<FullOrderObject | null>(null);
+  const [establishments, setEstablishments] = useState<EstablishmentObject[]>(
+    []
+  );
 
   const paginatedFullOrders = fullOrders.slice(
     (currentPage - 1) * pageSize,
@@ -44,6 +49,7 @@ function FullOrder() {
   const [newAddFullOrderTip, setNewAddFullOrderTip] = useState(0.0);
   const [newAddFullOrderStatus, setNewAddFullOrderStatus] = useState(1);
   const [newAddFullOrderName, setNewAddFullOrderName] = useState("");
+  const [newEstablishmentsId, setNewEstablishmentsId] = useState("");
 
   // Functions
   const handleRowClick = async (index: number, fullOrderId: string) => {
@@ -109,6 +115,9 @@ function FullOrder() {
       if (name === "status") {
         setNewAddFullOrderStatus(Number(value));
       }
+      if (name === "establishmentId") {
+        setNewEstablishmentsId(value);
+      }
     } else if (type === "text" || type === "number") {
       if (name === "name") {
         setNewAddFullOrderName(value);
@@ -153,6 +162,7 @@ function FullOrder() {
       receiveTime: new Date().toISOString(),
       createdByEmployeeId: "00000000-0000-0000-0000-000000000000",
       modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000",
+      establishmentId: newEstablishmentsId,
       orders: [],
       tip: newAddFullOrderTip,
       status: newAddFullOrderStatus,
@@ -174,6 +184,7 @@ function FullOrder() {
     setNewAddFullOrderName("");
     setNewAddFullOrderTip(0.0);
     setNewAddFullOrderStatus(1);
+    setNewEstablishmentsId("");
   };
 
   const handleDeleteClick = async () => {
@@ -205,6 +216,8 @@ function FullOrder() {
       const data = await fetchAllFullOrders();
       console.log("Retrieved from function loadFullOrders: ", data);
       setFullOrders(data);
+      const establishments = await fetchAllEstablishments();
+      setEstablishments(establishments);
     } catch (error) {
       console.error("Error loading full olders: ", error);
     } finally {
@@ -271,6 +284,7 @@ function FullOrder() {
         newFullOrderTip={newAddFullOrderTip}
         handleInputChange={handleAddInputChange}
         handleSave={handleAddSaveFullOrder}
+        establishments={establishments}
       />
     </>
   );
