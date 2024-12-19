@@ -25,6 +25,11 @@ using NpgsqlTypes;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
+    .Enrich.FromLogContext());
+
 builder.Services.AddDbContext<PointOfSaleSystemContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -39,25 +44,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-var columnWriters = new Dictionary<string, ColumnWriterBase>
-{
-    { "message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
-    { "message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
-    { "level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-    { "timestamp", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
-    { "exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
-    { "properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
-    { "props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) }
-};
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .WriteTo.PostgreSQL(connectionString, "logs", columnWriters, needAutoCreateTable: true)
-    .CreateLogger();
-
-builder.Host.UseSerilog();
 
 var mapperConfig = new MapperConfiguration(cfg =>
 {
