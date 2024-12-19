@@ -4,6 +4,7 @@ using PointOfSaleSystem.API.Services.Interfaces;
 using PointOfSaleSystem.API.RequestBodies.Employees;
 using Microsoft.AspNetCore.Authorization;
 using PointOfSaleSystem.API.RequestBodies.UserInfo;
+using Serilog;
 
 namespace PointOfSaleSystem.API.Controllers
 {
@@ -14,12 +15,15 @@ namespace PointOfSaleSystem.API.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly IUserInfoService _userInfoService;
+        private readonly ILogger<EmployeeController> _logger;
 
         public EmployeeController(IEmployeeService employeeService,
-            IUserInfoService userInfoService)
+            IUserInfoService userInfoService,
+            ILogger<EmployeeController> logger)
         {
             _employeeService = employeeService;
             _userInfoService = userInfoService;
+            _logger = logger;
         }
 
         [HttpPost("employee")]
@@ -34,8 +38,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _employeeService.CreateEmployee(request, userInfo);
-            return Ok();
+            try
+            {
+                _employeeService.CreateEmployee(request, userInfo);
+                _logger.LogInformation("Successfully created employee by user {UserId}", userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to create employee by user {UserId}", userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("employee")]
@@ -50,8 +63,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            List<Employee> employees = _employeeService.GetAllEmployees(userInfo);
-            return Ok(employees);
+            try
+            {
+                List<Employee> employees = _employeeService.GetAllEmployees(userInfo);
+                _logger.LogInformation("Successfully retrieved employees by user {UserId}", userInfo.Id);
+                return Ok(employees);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve employees by user {UserId}", userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("employee/{employeeID}")]
@@ -66,8 +88,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            Employee employee = _employeeService.GetEmployee(employeeID, userInfo);
-            return Ok(employee);
+            try
+            {
+                Employee employee = _employeeService.GetEmployee(employeeID, userInfo);
+                _logger.LogInformation("Successfully retrieved employee {EmployeeID} by user {UserId}", employeeID, userInfo.Id);
+                return Ok(employee);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve employee {EmployeeID} by user {UserId}", employeeID, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut("employee/{employeeID}")]
@@ -82,8 +113,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _employeeService.UpdateEmployee(request, userInfo);
-            return Ok();
+            try
+            {
+                _employeeService.UpdateEmployee(request, userInfo);
+                _logger.LogInformation("Successfully updated employee {EmployeeID} by user {UserId}", request.Id, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update employee {EmployeeID} by user {UserId}", request.Id, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete("employee/{employeeID}")]
@@ -98,8 +138,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _employeeService.DeleteEmployee(employeeID, userInfo);
-            return Ok();
+            try
+            {
+                _employeeService.DeleteEmployee(employeeID, userInfo);
+                _logger.LogInformation("Successfully deleted employee {EmployeeID} by user {UserId}", employeeID, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to delete employee {EmployeeID} by user {UserId}", employeeID, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }
