@@ -19,9 +19,16 @@ using PointOfSaleSystem.API.RequestBodies.Employees;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+using Serilog;
+using Serilog.Sinks.PostgreSQL;
+using NpgsqlTypes;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
+    .Enrich.FromLogContext());
 
 builder.Services.AddDbContext<PointOfSaleSystemContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -36,6 +43,7 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
+
 
 var mapperConfig = new MapperConfiguration(cfg =>
 {
