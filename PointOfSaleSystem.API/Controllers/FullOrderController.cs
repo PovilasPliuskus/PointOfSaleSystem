@@ -5,6 +5,7 @@ using PointOfSaleSystem.API.RequestBodies.FullOrder;
 using PointOfSaleSystem.API.RequestBodies.UserInfo;
 using PointOfSaleSystem.API.ResponseBodies.FullOrder;
 using PointOfSaleSystem.API.Services.Interfaces;
+using Serilog;
 
 namespace PointOfSaleSystem.API.Controllers
 {
@@ -15,12 +16,15 @@ namespace PointOfSaleSystem.API.Controllers
     {
         private readonly IFullOrderService _fullOrderService;
         private readonly IUserInfoService _userInfoService;
+        private readonly ILogger<FullOrderController> _logger;
 
         public FullOrderController(IFullOrderService fullOrderService,
-            IUserInfoService userInfoService)
+            IUserInfoService userInfoService,
+            ILogger<FullOrderController> logger)
         {
             _fullOrderService = fullOrderService;
             _userInfoService = userInfoService;
+            _logger = logger;
         }
 
         [HttpPost("fullOrder")]
@@ -35,8 +39,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _fullOrderService.CreateFullOrder(fullOrder, userInfo);
-            return Ok();
+            try
+            {
+                _fullOrderService.CreateFullOrder(fullOrder, userInfo);
+                _logger.LogInformation("Successfully created full order by user {UserId}", userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to create full order by user {UserId}", userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("fullOrder")]
@@ -51,8 +64,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            List<GetFullOrderResponse> fullOrders = _fullOrderService.GetAllFullOrders(userInfo);
-            return Ok(fullOrders);
+            try
+            {
+                List<GetFullOrderResponse> fullOrders = _fullOrderService.GetAllFullOrders(userInfo);
+                _logger.LogInformation("Successfully retrieved full orders by user {UserId}", userInfo.Id);
+                return Ok(fullOrders);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve full orders by user {UserId}", userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("fullOrder/{fullOrderId}")]
@@ -67,8 +89,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            GetFullOrderResponse fullOrder = _fullOrderService.GetFullOrder(fullOrderId, userInfo);
-            return Ok(fullOrder);
+            try
+            {
+                GetFullOrderResponse fullOrder = _fullOrderService.GetFullOrder(fullOrderId, userInfo);
+                _logger.LogInformation("Successfully retrieved full order {FullOrderId} by user {UserId}", fullOrderId, userInfo.Id);
+                return Ok(fullOrder);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve full order {FullOrderId} by user {UserId}", fullOrderId, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut("fullOrder/{fullOrderId}")]
@@ -83,8 +114,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _fullOrderService.UpdateFullOrder(request, userInfo);
-            return Ok();
+            try
+            {
+                _fullOrderService.UpdateFullOrder(request, userInfo);
+                _logger.LogInformation("Successfully updated full order {FullOrderId} by user {UserId}", request.Id, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update full order {FullOrderId} by user {UserId}", request.Id, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete("fullOrder/{fullOrderId}")]
@@ -99,8 +139,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _fullOrderService.DeleteFullOrder(fullOrderId, userInfo);
-            return Ok();
+            try
+            {
+                _fullOrderService.DeleteFullOrder(fullOrderId, userInfo);
+                _logger.LogInformation("Successfully deleted full order {FullOrderId} by user {UserId}", fullOrderId, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to delete full order {FullOrderId} by user {UserId}", fullOrderId, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

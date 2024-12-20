@@ -4,6 +4,7 @@ using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.RequestBodies.CompanyProduct;
 using PointOfSaleSystem.API.RequestBodies.UserInfo;
 using PointOfSaleSystem.API.Services.Interfaces;
+using Serilog;
 
 namespace PointOfSaleSystem.API.Controllers
 {
@@ -14,12 +15,15 @@ namespace PointOfSaleSystem.API.Controllers
     {
         private readonly ICompanyProductService _companyProductService;
         private readonly IUserInfoService _userInfoService;
+        private readonly ILogger<CompanyProductController> _logger;
 
         public CompanyProductController(ICompanyProductService companyProductService,
-            IUserInfoService userInfoService)
+            IUserInfoService userInfoService,
+            ILogger<CompanyProductController> logger)
         {
             _companyProductService = companyProductService;
             _userInfoService = userInfoService;
+            _logger = logger;
         }
 
         [HttpPost("companyProduct")]
@@ -34,8 +38,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _companyProductService.CreateCompanyProduct(request, userInfo);
-            return Ok();
+            try
+            {
+                _companyProductService.CreateCompanyProduct(request, userInfo);
+                _logger.LogInformation("Successfully created company product by user {UserId}", userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to create company product by user {UserId}", userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("companyProduct")]
@@ -50,8 +63,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            List<CompanyProduct> companyProducts = _companyProductService.GetCompanyProducts(userInfo);
-            return Ok(companyProducts);
+            try
+            {
+                List<CompanyProduct> companyProducts = _companyProductService.GetCompanyProducts(userInfo);
+                _logger.LogInformation("Successfully retrieved company products by user {UserId}", userInfo.Id);
+                return Ok(companyProducts);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve company products by user {UserId}", userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("companyProduct/{companyProductId}")]
@@ -66,8 +88,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            CompanyProduct companyProduct = _companyProductService.GetCompanyProduct(companyProductId, userInfo);
-            return Ok(companyProduct);
+            try
+            {
+                CompanyProduct companyProduct = _companyProductService.GetCompanyProduct(companyProductId, userInfo);
+                _logger.LogInformation("Successfully retrieved company product {CompanyProductId} by user {UserId}", companyProductId, userInfo.Id);
+                return Ok(companyProduct);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve company product {CompanyProductId} by user {UserId}", companyProductId, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut("companyProduct/{companyProductId}")]
@@ -82,8 +113,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _companyProductService.UpdateCompanyProduct(request, userInfo);
-            return Ok();
+            try
+            {
+                _companyProductService.UpdateCompanyProduct(request, userInfo);
+                _logger.LogInformation("Successfully updated company product {CompanyProductId} by user {UserId}", request.Id, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update company product {CompanyProductId} by user {UserId}", request.Id, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete("companyProduct/{companyProductId}")]
@@ -98,8 +138,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _companyProductService.DeleteCompanyProduct(companyProductId, userInfo);
-            return Ok();
+            try
+            {
+                _companyProductService.DeleteCompanyProduct(companyProductId, userInfo);
+                _logger.LogInformation("Successfully deleted company product {CompanyProductId} by user {UserId}", companyProductId, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to delete company product {CompanyProductId} by user {UserId}", companyProductId, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

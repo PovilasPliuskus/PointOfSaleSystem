@@ -4,6 +4,7 @@ using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.RequestBodies.Company;
 using PointOfSaleSystem.API.RequestBodies.UserInfo;
 using PointOfSaleSystem.API.Services.Interfaces;
+using Serilog;
 
 namespace PointOfSaleSystem.API.Controllers
 {
@@ -14,12 +15,15 @@ namespace PointOfSaleSystem.API.Controllers
     {
         private readonly ICompanyService _companyService;
         private readonly IUserInfoService _userInfoService;
+        private readonly ILogger<CompanyController> _logger;
 
         public CompanyController(ICompanyService companyService,
-            IUserInfoService userInfoService)
+            IUserInfoService userInfoService,
+            ILogger<CompanyController> logger)
         {
             _companyService = companyService;
             _userInfoService = userInfoService;
+            _logger = logger;
         }
 
         [HttpPost("company")]
@@ -34,8 +38,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _companyService.CreateCompany(company, userInfo);
-            return Ok();
+            try
+            {
+                _companyService.CreateCompany(company, userInfo);
+                _logger.LogInformation("Successfully created company by user {UserId}", userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to create company by user {UserId}", userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("company")]
@@ -50,8 +63,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            List<Company> companies = _companyService.GetAllCompanies(userInfo);
-            return Ok(companies);
+            try
+            {
+                List<Company> companies = _companyService.GetAllCompanies(userInfo);
+                _logger.LogInformation("Successfully retrieved companies by user {UserId}", userInfo.Id);
+                return Ok(companies);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve companies by user {UserId}", userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("company/{companyId}")]
@@ -66,8 +88,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            Company company = _companyService.GetCompany(companyId, userInfo);
-            return Ok(company);
+            try
+            {
+                Company company = _companyService.GetCompany(companyId, userInfo);
+                _logger.LogInformation("Successfully retrieved company {CompanyId} by user {UserId}", companyId, userInfo.Id);
+                return Ok(company);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve company {CompanyId} by user {UserId}", companyId, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut("company/{companyId}")]
@@ -82,8 +113,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _companyService.UpdateCompany(request, userInfo);
-            return Ok();
+            try
+            {
+                _companyService.UpdateCompany(request, userInfo);
+                _logger.LogInformation("Successfully updated company {CompanyId} by user {UserId}", request.Id, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update company {CompanyId} by user {UserId}", request.Id, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete("company/{companyId}")]
@@ -98,8 +138,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _companyService.DeleteCompany(companyId, userInfo);
-            return Ok();
+            try
+            {
+                _companyService.DeleteCompany(companyId, userInfo);
+                _logger.LogInformation("Successfully deleted company {CompanyId} by user {UserId}", companyId, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to delete company {CompanyId} by user {UserId}", companyId, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

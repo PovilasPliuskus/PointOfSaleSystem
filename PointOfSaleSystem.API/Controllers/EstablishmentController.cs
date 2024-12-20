@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using PointOfSaleSystem.API.Models;
 using PointOfSaleSystem.API.RequestBodies.Establishment;
 using PointOfSaleSystem.API.RequestBodies.UserInfo;
-using PointOfSaleSystem.API.Services;
 using PointOfSaleSystem.API.Services.Interfaces;
+using Serilog;
 
 namespace PointOfSaleSystem.API.Controllers
 {
@@ -15,12 +15,15 @@ namespace PointOfSaleSystem.API.Controllers
     {
         private readonly IEstablishmentService _establishmentService;
         private readonly IUserInfoService _userInfoService;
+        private readonly ILogger<EstablishmentController> _logger;
 
         public EstablishmentController(IEstablishmentService establishmentService,
-            IUserInfoService userInfoService)
+            IUserInfoService userInfoService,
+            ILogger<EstablishmentController> logger)
         {
             _establishmentService = establishmentService;
             _userInfoService = userInfoService;
+            _logger = logger;
         }
 
         [HttpPost("establishment")]
@@ -35,8 +38,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _establishmentService.CreateEstablishment(establishment, userInfo);
-            return Ok();
+            try
+            {
+                _establishmentService.CreateEstablishment(establishment, userInfo);
+                _logger.LogInformation("Successfully created establishment by user {UserId}", userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to create establishment by user {UserId}", userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("establishment")]
@@ -51,8 +63,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            List<Establishment> establishments = _establishmentService.GetAllEstablishments(userInfo);
-            return Ok(establishments);
+            try
+            {
+                List<Establishment> establishments = _establishmentService.GetAllEstablishments(userInfo);
+                _logger.LogInformation("Successfully retrieved establishments by user {UserId}", userInfo.Id);
+                return Ok(establishments);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve establishments by user {UserId}", userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("establishment/{establishmentId}")]
@@ -67,8 +88,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            Establishment establishment = _establishmentService.GetEstablishment(establishmentId, userInfo);
-            return Ok(establishment);
+            try
+            {
+                Establishment establishment = _establishmentService.GetEstablishment(establishmentId, userInfo);
+                _logger.LogInformation("Successfully retrieved establishment {EstablishmentId} by user {UserId}", establishmentId, userInfo.Id);
+                return Ok(establishment);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve establishment {EstablishmentId} by user {UserId}", establishmentId, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut("establishment/{establishmentId}")]
@@ -83,8 +113,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _establishmentService.UpdateEstablishment(request, userInfo);
-            return Ok();
+            try
+            {
+                _establishmentService.UpdateEstablishment(request, userInfo);
+                _logger.LogInformation("Successfully updated establishment {EstablishmentId} by user {UserId}", request.Id, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update establishment {EstablishmentId} by user {UserId}", request.Id, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete("establishment/{establishmentId}")]
@@ -99,8 +138,17 @@ namespace PointOfSaleSystem.API.Controllers
                 Id = employeeId
             };
 
-            _establishmentService.DeleteEstablishment(establishmentId, userInfo);
-            return Ok();
+            try
+            {
+                _establishmentService.DeleteEstablishment(establishmentId, userInfo);
+                _logger.LogInformation("Successfully deleted establishment {EstablishmentId} by user {UserId}", establishmentId, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to delete establishment {EstablishmentId} by user {UserId}", establishmentId, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }
