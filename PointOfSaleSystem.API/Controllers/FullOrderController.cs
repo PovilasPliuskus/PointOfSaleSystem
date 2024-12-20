@@ -151,5 +151,30 @@ namespace PointOfSaleSystem.API.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPost("fullOrder/refund/{fullOrderId}")]
+        public async Task<IActionResult> RefundFullOrder(Guid fullOrderId)
+        {
+            string status = _userInfoService.GetEmployeeStatus(User);
+            string employeeId = _userInfoService.GetEmployeeId(User);
+
+            var userInfo = new UserInfo
+            {
+                Status = status,
+                Id = employeeId
+            };
+
+            try
+            {
+                _fullOrderService.RefundFullOrder(fullOrderId, userInfo);
+                _logger.LogInformation("Successfully refunded full order {FullOrderId} by user {UserId}", fullOrderId, userInfo.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to refund full order {FullOrderId} by user {UserId}", fullOrderId, userInfo.Id);
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
