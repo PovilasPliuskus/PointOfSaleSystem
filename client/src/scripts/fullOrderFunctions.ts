@@ -1,3 +1,4 @@
+import FullOrder from "../components/fullOrder/FullOrder";
 import { addAuthHeader } from "./authorizationFunctions";
 import { CreateFullOrderRequest, UpdateFullOrderRequest } from "./interfaces";
 
@@ -42,6 +43,34 @@ export const fetchFullOrder = async (fullOrderId: string): Promise<any> => {
     }
 
     console.log("Retrieved response calling fetchFullOrder: ", response);
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const createCheckoutSession = async (fullOrderId: string): Promise<any> => {
+  try {
+    const response = await fetch(
+      `https://localhost:44309/api/create-checkout-session`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': 'application/json',
+          ...addAuthHeader(),
+        },
+        body: JSON.stringify({FullOrderId: fullOrderId}),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error creating checkout session: ${response.statusText}`);
+    }
+
+    console.log("Retrieved response calling createCheckoutSession: ", response);
 
     return await response.json();
   } catch (error) {
