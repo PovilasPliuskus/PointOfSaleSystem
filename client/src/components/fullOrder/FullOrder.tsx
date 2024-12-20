@@ -88,7 +88,11 @@ function FullOrder() {
     console.log("Pressed handleCheckoutClick");
     var session = await createCheckoutSession(selectedFullOrder!.id);
     console.log(session);
-    // redirect to session.url
+    // redirect to session.sessionId
+
+      const stripe = await stripePromise;
+      stripe!.redirectToCheckout({ sessionId: session.sessionId });
+    
   };
 
   const toggleEditFullOrderModal = () => {
