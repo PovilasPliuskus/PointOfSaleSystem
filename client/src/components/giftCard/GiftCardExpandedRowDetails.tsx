@@ -1,6 +1,7 @@
-import React from "react";
-import { GiftCardObject } from "../../scripts/interfaces";
+import React, { useEffect, useState } from "react";
+import { FullOrderObject, GiftCardObject } from "../../scripts/interfaces";
 import { getCurrencyDisplay } from "../../scripts/enums/CurrencyEnum";
+import { fetchFullOrder } from "../../scripts/fullOrderFunctions";
 
 interface GiftCardExpandedRowDetailsProps {
   selectedGiftCard: GiftCardObject;
@@ -13,6 +14,18 @@ const GiftCardExpendedRowDetails: React.FC<GiftCardExpandedRowDetailsProps> = ({
   onEdit,
   onDelete,
 }) => {
+
+  /*const [fullOrder, setFullOrder] = useState<FullOrderObject | null>(null);
+  
+  useEffect(() => {
+    const fetchOrder = async () => {
+      setFullOrder(null);
+      const result = await fetchFullOrder(selectedGiftCard.fkGiftFullOrderId);
+      setFullOrder(result);
+    };
+    fetchOrder();
+  }, [selectedGiftCard.fkGiftFullOrderId]);*/
+
   return (
     <tr>
       <td colSpan={2}>
@@ -42,6 +55,9 @@ const GiftCardExpendedRowDetails: React.FC<GiftCardExpandedRowDetailsProps> = ({
           <p>
             <strong>Modified By Employee ID:</strong>{" "}
             {selectedGiftCard.modifiedByEmployeeId}
+          </p>
+          <p>
+            <strong>FullOrder gift card is applied to:</strong> {selectedGiftCard?.fkGiftFullOrderId || "Loading..."}
           </p>
           <div className="mt-2">
             <button

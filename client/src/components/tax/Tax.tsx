@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FullOrderObject, TaxObject, UpdateTaxRequest } from "../../scripts/interfaces";
+import { CreateTaxRequest, FullOrderObject, TaxObject, UpdateTaxRequest } from "../../scripts/interfaces";
 import TaxTable from "./TaxTable";
 import Pagination from "../Pagination";
 import {
@@ -41,6 +41,7 @@ function Tax() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newAddTaxAmount, setnewAddTaxAmount] = useState(0.0);
   const [newAddTaxName, setNewAddTaxName] = useState("");
+  const [newFullOrdersId, setNewFullOrdersId] = useState("");
 
   // Functions
   const handleRowClick = async (index: number, taxId: string) => {
@@ -90,6 +91,10 @@ function Tax() {
     const { name, value } = e.target;
     if (name === "code") setnewAddTaxAmount(parseFloat(value));
     if (name === "name") setNewAddTaxName(value);
+    if (name === "fullOrderId") {
+      setNewFullOrdersId(value);
+      console.log(`VALUE = ${newFullOrdersId}`);
+    }
   };
 
   const handleEditSaveTax = async () => {
@@ -119,14 +124,15 @@ function Tax() {
 
   const handleAddSaveTax = async () => {
     console.log("Pressed Edit Save");
-    const newTax: TaxObject = {
+    const newTax: CreateTaxRequest = {
       id: uuidv4(),
       amount: newAddTaxAmount,
       name: newAddTaxName,
       updateTime: new Date().toISOString(),
       receiveTime: new Date().toISOString(),
       createdByEmployeeId: "00000000-0000-0000-0000-000000000000",
-      modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000"
+      modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000",
+      fkTaxFullOrderId: newFullOrdersId
     };
 
     console.log("Add Tax request body: ", newTax);

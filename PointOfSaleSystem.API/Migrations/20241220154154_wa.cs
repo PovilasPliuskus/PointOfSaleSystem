@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PointOfSaleSystem.API.Migrations
 {
     /// <inheritdoc />
-    public partial class FixOrderRelationships : Migration
+    public partial class wa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -241,6 +241,75 @@ namespace PointOfSaleSystem.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GiftCard",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    currency = table.Column<int>(type: "integer", nullable: false),
+                    fkGiftFullOrderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    ReceiveTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    fkCreatedByEmployee = table.Column<Guid>(type: "uuid", nullable: true),
+                    fkModifiedByEmployee = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GiftCard", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GiftCard_Employee_fkCreatedByEmployee",
+                        column: x => x.fkCreatedByEmployee,
+                        principalTable: "Employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_GiftCard_Employee_fkModifiedByEmployee",
+                        column: x => x.fkModifiedByEmployee,
+                        principalTable: "Employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_GiftCard_FullOrder_fkGiftFullOrderId",
+                        column: x => x.fkGiftFullOrderId,
+                        principalTable: "FullOrder",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tax",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    fkTaxFullOrderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    ReceiveTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    fkCreatedByEmployee = table.Column<Guid>(type: "uuid", nullable: true),
+                    fkModifiedByEmployee = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tax", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tax_Employee_fkCreatedByEmployee",
+                        column: x => x.fkCreatedByEmployee,
+                        principalTable: "Employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Tax_Employee_fkModifiedByEmployee",
+                        column: x => x.fkModifiedByEmployee,
+                        principalTable: "Employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Tax_FullOrder_fkTaxFullOrderId",
+                        column: x => x.fkTaxFullOrderId,
+                        principalTable: "FullOrder",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
@@ -399,6 +468,21 @@ namespace PointOfSaleSystem.API.Migrations
                 column: "fkModifiedByEmployee");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GiftCard_fkCreatedByEmployee",
+                table: "GiftCard",
+                column: "fkCreatedByEmployee");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GiftCard_fkGiftFullOrderId",
+                table: "GiftCard",
+                column: "fkGiftFullOrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GiftCard_fkModifiedByEmployee",
+                table: "GiftCard",
+                column: "fkModifiedByEmployee");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Order_fkCreatedByEmployee",
                 table: "Order",
                 column: "fkCreatedByEmployee");
@@ -422,6 +506,21 @@ namespace PointOfSaleSystem.API.Migrations
                 name: "IX_Order_fkModifiedByEmployee",
                 table: "Order",
                 column: "fkModifiedByEmployee");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tax_fkCreatedByEmployee",
+                table: "Tax",
+                column: "fkCreatedByEmployee");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tax_fkModifiedByEmployee",
+                table: "Tax",
+                column: "fkModifiedByEmployee");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tax_fkTaxFullOrderId",
+                table: "Tax",
+                column: "fkTaxFullOrderId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Company_Employee_fkCreatedByEmployee",
@@ -500,7 +599,13 @@ namespace PointOfSaleSystem.API.Migrations
                 name: "CompanyService");
 
             migrationBuilder.DropTable(
+                name: "GiftCard");
+
+            migrationBuilder.DropTable(
                 name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "Tax");
 
             migrationBuilder.DropTable(
                 name: "EstablishmentProduct");

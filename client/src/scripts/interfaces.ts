@@ -12,6 +12,29 @@ export interface CompanyObject {
   companyServices: CompanyServiceObject[] | null;
 }
 
+export interface CreateGiftCardRequest {
+  id: string;
+  name: string;
+  receiveTime: string;
+  updateTime: string;
+  createdByEmployeeId: string;
+  modifiedByEmployeeId: string;
+  amount:number;
+  currency:number;
+  fkGiftFullOrderId: string;
+}
+
+export interface CreateTaxRequest {
+  id: string;
+  name: string;
+  receiveTime: string;
+  updateTime: string;
+  createdByEmployeeId: string;
+  modifiedByEmployeeId: string;
+  amount:number;
+  fkTaxFullOrderId: string;
+}
+
 export interface TaxObject {
   id: string;
   name: string,
@@ -20,6 +43,7 @@ export interface TaxObject {
   updateTime: string;
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
+  fkTaxFullOrderId: string;
 }
 
 export interface GiftCardObject {
@@ -31,6 +55,7 @@ export interface GiftCardObject {
   updateTime: string;
   createdByEmployeeId: string;
   modifiedByEmployeeId: string;
+  fkGiftFullOrderId: string;
 }
 
 export interface UpdateCompanyRequest {

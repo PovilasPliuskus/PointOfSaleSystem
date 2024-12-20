@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FullOrderObject, GiftCardObject, UpdateGiftCardRequest } from "../../scripts/interfaces";
+import { CreateGiftCardRequest, FullOrderObject, GiftCardObject, UpdateGiftCardRequest } from "../../scripts/interfaces";
 import GiftCardTable from "./GiftCardTable";
 import Pagination from "../Pagination";
 import {
@@ -43,6 +43,7 @@ function GiftCard() {
   const [newAddGiftCardAmount, setnewAddGiftCardAmount] = useState(0.0);
   const [newAddGiftCardName, setNewAddGiftCardName] = useState("");
   const [newAddGiftCardCurrency, setNewAddGiftCardCurrency] = useState(0);
+  const [newFullOrdersId, setNewFullOrdersId] = useState("");
 
   // Functions
   const handleRowClick = async (index: number, giftCardId: string) => {
@@ -105,6 +106,10 @@ function GiftCard() {
     }
     if (name === "code") setnewAddGiftCardAmount(parseFloat(value));
     if (name === "name") setNewAddGiftCardName(value);
+    if (name === "fullOrderId") {
+      setNewFullOrdersId(value);
+      console.log(`VALUE = ${newFullOrdersId}`);
+    }
     //if (name === "currency") setNewAddGiftCardCurrency(parseInt(value));
   };
 
@@ -136,7 +141,7 @@ function GiftCard() {
 
   const handleAddSaveGiftCard = async () => {
     console.log("Pressed Edit Save");
-    const newGiftCard: GiftCardObject = {
+    const newGiftCard: CreateGiftCardRequest = {
       id: uuidv4(),
       amount: newAddGiftCardAmount,
       name: newAddGiftCardName,
@@ -144,7 +149,8 @@ function GiftCard() {
       updateTime: new Date().toISOString(),
       receiveTime: new Date().toISOString(),
       createdByEmployeeId: "00000000-0000-0000-0000-000000000000",
-      modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000"
+      modifiedByEmployeeId: "00000000-0000-0000-0000-000000000000",
+      fkGiftFullOrderId: newFullOrdersId
     };
 
     console.log("Add GiftCard request body: ", newGiftCard);

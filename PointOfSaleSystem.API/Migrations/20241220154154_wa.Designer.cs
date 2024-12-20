@@ -12,8 +12,8 @@ using PointOfSaleSystem.API.Context;
 namespace PointOfSaleSystem.API.Migrations
 {
     [DbContext(typeof(PointOfSaleSystemContext))]
-    [Migration("20241218195102_new1")]
-    partial class new1
+    [Migration("20241220154154_wa")]
+    partial class wa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,5 +1,6 @@
-import React from "react";
-import { TaxObject } from "../../scripts/interfaces";
+import React, { useEffect, useState } from "react";
+import { FullOrderObject, TaxObject } from "../../scripts/interfaces";
+import { fetchFullOrder } from "../../scripts/fullOrderFunctions";
 
 interface TaxExpandedRowDetailsProps {
   selectedTax: TaxObject;
@@ -12,6 +13,19 @@ const TaxExpendedRowDetails: React.FC<TaxExpandedRowDetailsProps> = ({
   onEdit,
   onDelete,
 }) => {
+
+  /*const [fullOrder, setFullOrder] = useState<FullOrderObject | null>(null);
+  
+  useEffect(() => {
+    const fetchOrder = async () => {
+      setFullOrder(null);
+      const result = await fetchFullOrder(selectedTax.fkTaxFullOrderId);
+      setFullOrder(result);
+    };
+    fetchOrder();
+  }, [selectedTax.fkTaxFullOrderId]);*/
+
+
   return (
     <tr>
       <td colSpan={2}>
@@ -37,6 +51,9 @@ const TaxExpendedRowDetails: React.FC<TaxExpandedRowDetailsProps> = ({
           <p>
             <strong>Modified By Employee ID:</strong>{" "}
             {selectedTax.modifiedByEmployeeId}
+          </p>
+          <p>
+            <strong>FullOrder tax is applied to:</strong> {selectedTax?.fkTaxFullOrderId || "Loading..."}
           </p>
           <div className="mt-2">
             <button
