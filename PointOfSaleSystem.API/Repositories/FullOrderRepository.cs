@@ -140,7 +140,7 @@ namespace PointOfSaleSystem.API.Repositories
 
             foreach (var establishment in allEstablishments)
             {
-                foreach (var fullOrder in establishment.FullOrders ?? new List<FullOrder>()) // Handle possible null reference
+                foreach (var fullOrder in establishment.FullOrders ?? new List<FullOrder>())
                 {
                     selectedFullOrders.Add(fullOrder);
                 }
@@ -156,7 +156,7 @@ namespace PointOfSaleSystem.API.Repositories
 
             foreach (var establishment in allEstablishments)
             {
-                foreach (var fullOrder in establishment.FullOrders ?? new List<FullOrder>()) // Handle possible null reference
+                foreach (var fullOrder in establishment.FullOrders ?? new List<FullOrder>())
                 {
                     selectedFullOrders.Add(fullOrder);
                 }
