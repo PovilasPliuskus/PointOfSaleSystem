@@ -16,6 +16,7 @@ using PointOfSaleSystem.API.RequestBodies.EstablishmentService;
 using PointOfSaleSystem.API.RequestBodies.CompanyProduct;
 using PointOfSaleSystem.API.RequestBodies.CompanyService;
 using PointOfSaleSystem.API.RequestBodies.Employees;
+using PointOfSaleSystem.API.RequestBodies.Reservation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -71,6 +72,9 @@ var mapperConfig = new MapperConfiguration(cfg =>
     cfg.CreateMap<FullOrderEntity, FullOrder>();
     cfg.CreateMap<FullOrder, FullOrderEntity>();
 
+    cfg.CreateMap<ReservationEntity, Reservation>();
+    cfg.CreateMap<Reservation, ReservationEntity>();
+
     cfg.CreateMap<GetFullOrderResponse, FullOrder>();
     cfg.CreateMap<FullOrder, GetFullOrderResponse>();
 
@@ -97,6 +101,9 @@ var mapperConfig = new MapperConfiguration(cfg =>
 
     cfg.CreateMap<AddEmployeeRequest, EmployeeEntity>();
     cfg.CreateMap<EmployeeEntity, AddEmployeeRequest>();
+
+    cfg.CreateMap<AddReservationRequest, ReservationEntity>();
+    cfg.CreateMap<ReservationEntity, AddReservationRequest>();
 });
 
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
@@ -125,6 +132,7 @@ builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IJWTService, JWTService>();
 builder.Services.AddTransient<IUserInfoService, UserInfoService>();
+builder.Services.AddTransient<IReservationRepository, ReservationRepository>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

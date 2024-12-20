@@ -20,6 +20,7 @@ namespace PointOfSaleSystem.API.Context
         public DbSet<EstablishmentServiceEntity> EstablishmentServices { get; set; }
         public DbSet<FullOrderEntity> FullOrders { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<ReservationEntity> Reservations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

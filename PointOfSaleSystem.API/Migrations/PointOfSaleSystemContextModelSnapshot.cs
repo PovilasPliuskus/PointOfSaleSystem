@@ -418,6 +418,38 @@ namespace PointOfSaleSystem.API.Migrations
                     b.ToTable("Order");
                 });
 
+            modelBuilder.Entity("Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reservations");
+                });
+
             modelBuilder.Entity("PointOfSaleSystem.API.Models.Entities.CompanyEntity", b =>
                 {
                     b.HasOne("PointOfSaleSystem.API.Models.Entities.EmployeeEntity", "CreatedByEmployee")
