@@ -240,6 +240,36 @@ function FullOrder() {
     }
   };
 
+  const refundOrder = async (orderId: string) => {
+    try {
+      // Update the order status in the database
+      const response = await fetch(`/api/orders/${orderId}/refund`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to refund order');
+      }
+  
+      const result = await response.json();
+      console.log(`Order with ID: ${orderId} refunded successfully`, result);
+      alert(`Order with ID: ${orderId} refunded successfully`);
+  
+      // const paymentResponse = await processPaymentRefund(orderId);
+      // if (!paymentResponse.success) {
+      //   throw new Error('Failed to process payment refund');
+      // }
+  
+      loadFullOrders();
+    } catch (error) {
+      console.error(`Error refunding order with ID: ${orderId}`, error);
+      alert(`Failed to refund order with ID: ${orderId}`);
+    }
+  };
+
   //Calls when component is fully loaded
   useEffect(() => {
     loadFullOrders();
@@ -264,6 +294,7 @@ function FullOrder() {
             handleEditClick={handleEditClick}
             handleDeleteClick={handleDeleteClick}
             handleCheckoutClick={handleCheckoutClick}
+            handleRefundClick={refundOrder}
           />
         )}
         <Pagination

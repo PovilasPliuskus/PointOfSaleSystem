@@ -16,6 +16,7 @@ interface FullOrderTableProps {
   handleEditClick: (fullOrderId: string) => void;
   handleDeleteClick: (fullOrderId: string) => void;
   handleCheckoutClick: (fullOrderId: string) => void;
+  handleRefundClick: (fullOrderId: string) => void;
 }
 
 const FullOrderTable: React.FC<FullOrderTableProps> = ({
@@ -29,7 +30,8 @@ const FullOrderTable: React.FC<FullOrderTableProps> = ({
   handleRowClick,
   handleEditClick,
   handleDeleteClick,
-  handleCheckoutClick
+  handleCheckoutClick,
+  handleRefundClick
 }) => {
   return (
     <table className="table table-striped">
@@ -40,6 +42,7 @@ const FullOrderTable: React.FC<FullOrderTableProps> = ({
           <th scope="col">Total Price</th>
           <th scope="col">Currency</th>
           <th scope="col">Status</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
