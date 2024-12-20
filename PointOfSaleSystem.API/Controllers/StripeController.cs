@@ -137,8 +137,8 @@ namespace PointOfSaleSystem.API.Controllers
                 PaymentMethodTypes = new List<string> { "card" },
                 LineItems = lineItems, // Set the dynamically created line items
                 Mode = "payment",
-                SuccessUrl = "https://your-success-url.com",
-                CancelUrl = "https://your-cancel-url.com",
+                SuccessUrl = "http://localhost:3000/PaymentSuccess/" + fullOrderId,
+                CancelUrl = "http://localhost:3000/PaymentCancelled/" + fullOrderId,
             };
 
 
