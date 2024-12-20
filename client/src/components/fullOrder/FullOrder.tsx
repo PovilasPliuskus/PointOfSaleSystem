@@ -12,6 +12,7 @@ import {
   fetchAllFullOrders,
   fetchFullOrder,
   UpdateFullOrder,
+  createCheckoutSession
 } from "../../scripts/fullOrderFunctions";
 import { v4 as uuidv4 } from "uuid";
 import Pagination from "../Pagination";
@@ -19,6 +20,7 @@ import EditFullOrderModal from "./EditFullOrderModal";
 import AddFullOrderModal from "./AddFullOrderModal";
 import Navbar from "../Navbar";
 import { fetchAllEstablishments } from "../../scripts/establishmentFunctions";
+import { loadStripe } from '@stripe/stripe-js';
 
 function FullOrder() {
   // Variables
@@ -78,6 +80,19 @@ function FullOrder() {
       setNewEditFullOrderTip(selectedFullOrder.tip);
       setNewEditFullOrderStatus(selectedFullOrder.status);
     }
+  };
+
+  const stripePromise = loadStripe('pk_test_51QXkdiLNotqjmzonh6Eq93L5S2bUfSPq65hRjvgl8jk8Apna9rzX97Pu2UlzcTrnUt352FNzRs12lZt3e5pZAg3d000iElLPhP');
+
+  const handleCheckoutClick = async () => {
+    console.log("Pressed handleCheckoutClick");
+    var session = await createCheckoutSession(selectedFullOrder!.id);
+    console.log(session);
+    // redirect to session.sessionId
+
+      const stripe = await stripePromise;
+      stripe!.redirectToCheckout({ sessionId: session.sessionId });
+    
   };
 
   const toggleEditFullOrderModal = () => {
@@ -248,6 +263,7 @@ function FullOrder() {
             handleRowClick={handleRowClick}
             handleEditClick={handleEditClick}
             handleDeleteClick={handleDeleteClick}
+            handleCheckoutClick={handleCheckoutClick}
           />
         )}
         <Pagination

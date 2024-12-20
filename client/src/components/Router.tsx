@@ -11,6 +11,8 @@ import CompanyProduct from "./companyProduct/CompanyProduct";
 import CompanyService from "./companyService/CompanyService";
 import Employee from "./employee/Employee";
 import MainPage from "./MainPage";
+import PaymentSuccess from "./cart/PaymentSuccess";
+import PaymentCancelled from "./cart/PaymentCancelled";
 
 const RouterComponent: React.FC = () => {
   return (
@@ -33,6 +35,8 @@ const RouterComponent: React.FC = () => {
         <Route path="/Orders" element={<Orders />} />
         <Route path="/FullOrders" element={<FullOrder />} />
         <Route path="/MainPage" element={<MainPage />} />
+        <Route path="/PaymentSuccess/:id" element={<PaymentSuccess />} />
+        <Route path="/PaymentCancelled/:id" element={<PaymentCancelled />} />
       </Routes>
     </Router>
   );

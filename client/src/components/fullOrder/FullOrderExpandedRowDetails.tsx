@@ -5,11 +5,12 @@ interface FullOrderExpandedRowDetailsProps {
   selectedFullOrder: FullOrderObject;
   onEdit: (fullOrderId: string) => void;
   onDelete: (fullOrderId: string) => void;
+  onCheckout: (fullOrderId: string) => void;
 }
 
 const FullOrderExpandedRowDetails: React.FC<
   FullOrderExpandedRowDetailsProps
-> = ({ selectedFullOrder, onEdit, onDelete }) => {
+> = ({ selectedFullOrder, onEdit, onDelete, onCheckout}) => {
   return (
     <tr>
       <td colSpan={5}>
@@ -60,10 +61,16 @@ const FullOrderExpandedRowDetails: React.FC<
               Edit
             </button>
             <button
-              className="btn btn-danger"
+              className="btn btn-danger me-2"
               onClick={() => onDelete(selectedFullOrder.id)}
             >
               Delete
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => onCheckout(selectedFullOrder.id)}
+            >
+              Checkout
             </button>
           </div>
         </div>
