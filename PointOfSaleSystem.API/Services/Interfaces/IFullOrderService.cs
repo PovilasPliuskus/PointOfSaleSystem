@@ -12,5 +12,6 @@ namespace PointOfSaleSystem.API.Services.Interfaces
         public List<GetFullOrderResponse> GetAllFullOrders(UserInfo userInfo);
         public void UpdateFullOrder(UpdateFullOrderRequest request, UserInfo userInfo);
         public void DeleteFullOrder(Guid id, UserInfo userInfo);
+        public void RefundFullOrder(Guid id, UserInfo userInfo);
     }
 }

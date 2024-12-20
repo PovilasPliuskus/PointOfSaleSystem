@@ -12,5 +12,6 @@ namespace PointOfSaleSystem.API.Repositories.Interfaces
         public void Delete(Guid id);
         public List<FullOrder> GetAllByEmployeeId(Guid employeeId);
         public List<FullOrder> GetFullOrderByEmployeeId(Guid employeeId);
+        public void RefundFullOrder(Guid id);
     }
 }

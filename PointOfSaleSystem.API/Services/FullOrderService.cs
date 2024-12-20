@@ -95,6 +95,11 @@ namespace PointOfSaleSystem.API.Services
             _fullOrderRepository.Delete(id);
         }
 
+        public void RefundFullOrder(Guid id, UserInfo userinfo)
+        {
+            _fullOrderRepository.RefundFullOrder(id);
+        }
+
         private CurrencyEnum GetFullOrderCurrency(FullOrder fullOrder)
         {
             Order? order = fullOrder.Orders.FirstOrDefault();
